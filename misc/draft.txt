@@ -1,0 +1,43 @@
+expr = ls | cat
+
+			|
+		ls		cat
+
+expr = ls | cat | wc
+		
+			|
+		|		wc
+	ls		cat
+
+expr = ls > /dev/null
+
+			>
+		ls		/dev/null
+
+expr = ls >/dev/null | cat
+
+			|
+		>				cat
+	ls		/dev/null
+
+Hirearchy:
+
+1. cmd (i.e ls -laR)
+2. indir ``<''
+3. outdir ``>''
+4. pipes ``|''
+
+		|
+	>				>
+cmd		path	cmd		path
+
+cat -e >/Users/Kelian/Desktop/chkok.txt < /Users/Kelian/Desktop/ok.txt
+										|
+								>			wc -c
+					<				/Users/Kelian/Desktop/chkok.txt
+		cat -e			/Users/Kelian/Desktop/ok.txt
+
+
+ls | lss
+
+ls > p < p2 | yolo
