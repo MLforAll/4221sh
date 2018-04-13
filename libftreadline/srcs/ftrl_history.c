@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_rl_history.c                                    :+:      :+:    :+:   */
+/*   ftrl_history.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/14 07:11:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/10 20:00:54 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/04/13 06:32:18 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "ft_readline.h"
+#include "ftrl_internal.h"
 
 t_history	*ft_histnew(char *line)
 {
@@ -72,7 +72,7 @@ void		ft_histdel(t_history **headref)
 	*headref = NULL;
 }
 
-int			rl_history_keys(t_history **history, char *buff, char **line)
+t_keyact	rl_history_keys(t_history **history, char *buff, char **line)
 {
 	int		ret;
 	int		keys[2];
@@ -80,9 +80,9 @@ int			rl_history_keys(t_history **history, char *buff, char **line)
 	keys[0] = (buff && ft_strcmp("\033[A", buff) == 0);
 	keys[1] = (buff && ft_strcmp("\033[B", buff) == 0);
 	if (!line || !history || (!keys[0] && !keys[1]))
-		return (0);
+		return (kKeyNone);
 	if (!*history)
-		return (-1);
+		return (kKeyFail);
 	ret = -1;
 	if (keys[0] && (*history)->next)
 	{
@@ -95,8 +95,8 @@ int			rl_history_keys(t_history **history, char *buff, char **line)
 		ret = 1;
 	}
 	if (ret == -1)
-		return (-1);
+		return (kKeyFail);
 	ft_strdel(line);
 	*line = ft_strdup((*history)->line);
-	return (1);
+	return (kKeyOK);
 }

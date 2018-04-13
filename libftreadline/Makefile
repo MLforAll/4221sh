@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/04 06:10:18 by kdumarai          #+#    #+#              #
-#    Updated: 2018/04/11 16:59:48 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/04/13 06:45:33 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,10 @@ INCLUDES = $(addprefix $(INCDIR)/, $(INCFILES))
 
 SRCDIR = srcs
 SRCFILES = ft_readline.c \
-	ft_rl_utils.c \
-	ft_rl_csrkeys.c \
-	ft_rl_history.c
+	ftrl_utils.c \
+	ftrl_csrkeys.c \
+	ftrl_term.c \
+	ftrl_history.c
 SRCS = $(addprefix $(SRCDIR)/, $(SRCFILES))
 
 NSRC = $(shell echo "$(SRCS)" | awk '{print NF}')
@@ -59,7 +60,7 @@ endif
 	@ gcc $(CC_FLAGS) $(CC_LIB) -c $< -o $@
 
 clean:
-	@ rm -f $(OBJS)
+	@ rm -rf $(OBJDIR)
 	@ printf "$(PROJTEXT)Removed objects\n"
 
 fclean: clean

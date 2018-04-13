@@ -1,37 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_rl_utils.c                                      :+:      :+:    :+:   */
+/*   ftrl_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/21 19:45:50 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/10 20:00:47 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/04/13 05:55:39 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
-#include <termios.h>
-#include "libft.h"
-#include "ft_readline.h"
-
-int		rl_set_term(int fd, int echo, const char *prompt)
-{
-	struct termios	t;
-
-	if (!prompt || tcgetattr(fd, &t))
-		return (FALSE);
-	if (!echo)
-	{
-		ft_putstr_fd(prompt, fd);
-		t.c_lflag &= ~(ICANON | ECHO | ISIG);
-	}
-	else
-		t.c_lflag |= (ICANON | ECHO | ISIG);
-	tcsetattr(fd, TCSANOW, &t);
-	return (TRUE);
-}
+#include "ftrl_internal.h"
 
 void	rl_line_rm(char **line, size_t len, t_cursor *csr)
 {
@@ -128,4 +109,25 @@ int		rl_input_rm_text(char **line, char *buff, t_cursor *csr)
 		return (1);
 	}
 	return (-1);
+}
+
+size_t	ft_strlen_nocolor(const char *s)
+{
+	size_t			ret;
+	size_t			chk;
+
+	ret = 0;
+	while (*s)
+	{
+		if (*s == '\033')
+		{
+			chk = 0;
+			while (chk++ < 7 && *s != 'm')
+				s++;
+			ret--;
+		}
+		ret++;
+		s++;
+	}
+	return (ret);
 }

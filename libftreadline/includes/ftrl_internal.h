@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_readline.h                                      :+:      :+:    :+:   */
+/*   ftrl_internal.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 17:46:30 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/10 20:00:45 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/04/13 06:50:33 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_READLINE_H
-# define FT_READLINE_H
+#ifndef FTRL_INTERNAL_H
+# define FTRL_INTERNAL_H
 
 # include "libft.h"
+# include "ftrl_data.h"
+# include <termcap.h>
 # include <sys/ioctl.h>
 
 /*
-** ESC Sequences Codes
+** ANSI Sequences Codes
 */
 
 # define ESC_LEFTK	"\033[D"
@@ -30,6 +32,28 @@
 # define ESC_RESTP	"\033[u"
 
 /*
+** structs for termcaps
+*/
+
+typedef struct	s_keys
+{
+	char	*leftk;
+	char	*rightk;
+	char	*upk;
+	char	*downk;
+	char	*homek;
+	char	*endk;
+	char	*delk;
+	char	*clrk;
+}				t_keys;
+
+typedef struct	s_mov
+{
+	char	*leftm;
+	char	*rightm;
+}				t_mov;
+
+/*
 ** struct for cursor mgmt
 */
 
@@ -40,17 +64,6 @@ typedef struct	s_cursor
 }				t_cursor;
 
 /*
-** linked list for history mgmt
-*/
-
-typedef struct	s_history
-{
-	char				*line;
-	struct s_history	*next;
-	struct s_history	*prev;
-}				t_history;
-
-/*
 ** struct for moving around data
 */
 
@@ -59,43 +72,59 @@ typedef struct	s_readline
 	const char	*prompt;
 	size_t		prlen;
 	t_cursor	csr;
-	t_history	*hist;
+	t_keys		keys;
+	t_mov		movs;
+	t_rl_opts	*opts;
 }				t_readline;
 
 /*
-** Functions
+** some enums
 */
 
-char			*ft_readline(const char *prompt, char **env, t_history *hist);
+typedef enum	e_keyact
+{
+	kKeyNone,
+	kKeyOK,
+	kKeyFail
+}				t_keyact;
 
 /*
-** Utilities functions
+** init
 */
 
-int				rl_csr_keys(char *buff, t_readline *rl);
-int				rl_home_end_keys(char *buff, t_readline *rl);
+int				rl_init(t_readline *rl, const char *prompt, t_rl_opts *opts);
+int				rl_set_term(int fd, int echo, const char *prompt);
+
+/*
+** autocompletion
+*/
+
+t_keyact		rl_ac_routine(char **line, t_readline *rl);
+
+/*
+** utilities
+*/
+
+t_keyact		rl_csr_keys(char *buff, t_readline *rl);
+t_keyact		rl_home_end_keys(char *buff, t_readline *rl);
 
 void			rl_line_rm(char **line, size_t len, t_cursor *csr);
 void			rl_line_add(char **line, char *add, t_cursor *csr);
-int				rl_set_term(int fd, int echo, const char *prompt);
 int				rl_input_add_text(char *buff, char **line, t_cursor *csr);
 int				rl_input_rm_text(char **line, char *buff, t_cursor *csr);
 
-/*
-** Autocompletion
-*/
+size_t			ft_strlen_nocolor(const char *s);
 
-void			ac_line(char **line, t_cursor *csr, const char *pr, char **env);
-t_list			*get_ac_result(char *line, char *region, char **env);
+int				outcap(char *name);
 
 /*
-** History
+** history
 */
 
 t_history		*ft_histnew(char *line);
 void			ft_histadd(t_history **headref, char *line);
 void			ft_histdelone(t_history	**hist);
 void			ft_histdel(t_history **headref);
-int				rl_history_keys(t_history **history, char *buff, char **line);
+t_keyact		rl_history_keys(t_history **history, char *buff, char **line);
 
 #endif
