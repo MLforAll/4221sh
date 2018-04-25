@@ -6,14 +6,14 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/04/13 01:41:14 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/04/25 13:53:01 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 21sh
 
 CC_FLAGS = -Wall -Werror -Wextra
-CC_LIB = -I includes -I libft
+CC_LIB = -I includes -I libft/includes
 LD_FLAGS = -L libft -lft
 
 LIBFT = libft/libft.a
