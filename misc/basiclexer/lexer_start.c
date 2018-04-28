@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/28 10:02:07 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/04/28 11:59:50 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,13 @@ static t_charstate	get_charstate(char c)
 void				add_token(t_list **tokens, char *s)
 {
 	t_list	*newtok;
-	size_t	len;
+	t_token	tokdat;
 
-	if (!s || (len = ft_strlen(s)) < 1)
+	if (!s || ft_strlen(s) < 1 || !(tokdat.toks = ft_strdup(s)))
 		return ;
-	newtok = ft_lstnew(NULL, 0);
-	if (!(newtok->content = (void*)ft_strdup(s)))
-	{
-		free(newtok);
+	tokdat.type = kToktypeStr;
+	if (!(newtok = ft_lstnew(&tokdat, sizeof(t_token))))
 		return ;
-	}
-	newtok->content_size = len + 1;
 	ft_lstpush(tokens, newtok);
 }
 

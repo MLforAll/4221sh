@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 19:30:28 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/28 05:18:00 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/04/28 12:00:27 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void		lstdelf(void *data, size_t datsize)
 static void		print_tokens(char *line)
 {
 	t_list		*tokens;
+	t_list		*tokbw;
 
 	if (!(tokens = lex_line(line)))
 	{
@@ -33,7 +34,16 @@ static void		print_tokens(char *line)
 	ft_putendl("------------------------");
 	ft_putendl("|         tokens       |");
 	ft_putendl("------------------------");
-	ft_putlst(tokens);
+	tokbw = tokens;
+	while (tokbw)
+	{
+		ft_putstr("Token: ");
+		ft_putstr(((t_token*)(tokbw->content))->toks);
+		ft_putstr(" | Type: ");
+		ft_putnbr((int)((t_token*)(tokbw->content))->type);
+		ft_putchar('\n');
+		tokbw = tokbw->next;
+	}
 	ft_lstdel(&tokens, &lstdelf);
 }
 
