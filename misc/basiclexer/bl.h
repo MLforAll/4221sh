@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/28 12:13:12 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/04/28 15:23:49 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ typedef enum	e_charstate
 	kCharStateNull,
 	kCharStateGeneral,
 	kCharStateSpace,
-	kCharStateDQuote
+	kCharStateDQuote,
+	kCharStateNum
 }				t_charstate;
 
 typedef struct	s_lexdat

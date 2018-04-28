@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/28 12:14:52 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/04/28 15:24:25 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 static t_charstate	get_charstate(char c)
 {
+	if (ft_isnum(c))
+		return (kCharStateNum);
 	if (c == '"')
 		return (kCharStateDQuote);
 	if (c == ' ')
@@ -44,10 +46,12 @@ static t_lexstate	get_nextstate(t_lexdat *dat)
 	{1000 * kLexStateGeneral + kCharStateGeneral, &add_to_curr, (void*)dat},
 	{1000 * kLexStateGeneral + kCharStateDQuote, &switch_to_dquote, (void*)dat},
 	{1000 * kLexStateGeneral + kCharStateSpace, &add_token_to_ret, (void*)dat},
+	{1000 * kLexStateGeneral + kCharStateNum, &add_token_to_ret, (void*)dat},
 	{1000 * kLexStateDQuote + kCharStateGeneral, &add_to_curr, (void*)dat},
 	{1000 * kLexStateDQuote + kCharStateDQuote, &switch_to_general, (void*)dat},
 	{1000 * kLexStateDQuote + kCharStateSpace, &add_to_curr, (void*)dat},
-	{1000 * kLexStateDQuote + kCharStateSpace, NULL, NULL}};
+	{1000 * kLexStateDQuote + kCharStateNum, &add_to_curr, (void*)dat},
+	{0, NULL, NULL}};
 	const t_charstate	char_state = get_charstate(dat->c);
 	const int			cmpdat = 1000 * dat->curr_state + char_state;
 	int					ret;
