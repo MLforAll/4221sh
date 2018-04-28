@@ -6,47 +6,55 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/28 09:53:53 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/04/28 06:25:07 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "bl.h"
 
-int		add_to_curr(void *data)
+t_lexstate	add_to_curr(t_list **ret,
+								char **currtok,
+								char c,
+								t_lexstate curr_state)
 {
-	const t_lexdat	*cdat = (t_lexdat*)data;
-
-	ft_strnadd(cdat->currtokstr, (char*)&cdat->c, 1);
-	return ((int)cdat->curr_state);
+	(void)ret;
+	ft_strnadd(currtok, &c, 1);
+	return (curr_state);
 }
 
-int		add_token_to_ret(void *data)
+t_lexstate	add_token_to_ret(t_list **ret,
+								char **currtok,
+								char c,
+								t_lexstate curr_state)
 {
-	const t_lexdat	*cdat = (t_lexdat*)data;
-
-	add_token(cdat->ret, *cdat->currtokstr);
-	free(*cdat->currtokstr);
-	*cdat->currtokstr = ft_strnew(0);
-	return ((int)cdat->curr_state);
+	(void)c;
+	add_token(ret, *currtok);
+	free(*currtok);
+	*currtok = ft_strnew(0);
+	return (curr_state);
 }
 
-int		switch_to_dquote(void *data)
+t_lexstate	switch_to_dquote(t_list **ret,
+								char **currtok,
+								char c,
+								t_lexstate curr_state)
 {
-	(void)data;
-	return ((int)kLexStateDQuote);
+	(void)ret;
+	(void)currtok;
+	(void)c;
+	(void)curr_state;
+	return (kLexStateDQuote);
 }
 
-int		switch_to_general(void *data)
+t_lexstate	switch_to_general(t_list **ret,
+								char **currtok,
+								char c,
+								t_lexstate curr_state)
 {
-	(void)data;
-	return ((int)kLexStateGeneral);
-}
-
-int		ft_swcmp(void *p1, void *p2)
-{
-	const int	a = *(int*)p1;
-	const int	b = *(int*)p2;
-
-	return ((a == b));
+	(void)ret;
+	(void)currtok;
+	(void)c;
+	(void)curr_state;
+	return (kLexStateGeneral);
 }

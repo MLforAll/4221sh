@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/28 10:01:17 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/04/28 06:21:24 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,29 +30,25 @@ typedef enum	e_charstate
 	kCharStateDQuote
 }				t_charstate;
 
-typedef struct	s_lexdat
-{
-	t_list		**ret;
-	t_lexstate	curr_state;
-	char		**currtokstr;
-	char		c;
-}				t_lexdat;
+t_list		*lex_line(char *line);
 
-typedef struct	s_equi
-{
-	int		nb;
-	int		(*act)(void *);
-	void	*data;
-}				t_equi;
+void		add_token(t_list **tokens, char *s);
 
-t_list			*lex_line(char *line);
-
-void			add_token(t_list **tokens, char *s);
-
-int				add_to_curr(void *data);
-int				add_token_to_ret(void *data);
-int				switch_to_dquote(void *data);
-int				switch_to_general(void *data);
-int				ft_swcmp(void *p1, void *p2);
+t_lexstate	add_to_curr(t_list **ret,
+								char **currtok,
+								char c,
+								t_lexstate curr_state);
+t_lexstate	add_token_to_ret(t_list **ret,
+								char **currtok,
+								char c,
+								t_lexstate curr_state);
+t_lexstate	switch_to_dquote(t_list **ret,
+								char **currtok,
+								char c,
+								t_lexstate curr_state);
+t_lexstate	switch_to_general(t_list **ret,
+								char **currtok,
+								char c,
+								t_lexstate curr_state);
 
 #endif

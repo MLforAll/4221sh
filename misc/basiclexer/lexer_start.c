@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/28 08:08:57 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/04/28 10:02:07 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,58 +41,22 @@ void				add_token(t_list **tokens, char *s)
 	ft_lstpush(tokens, newtok);
 }
 
-/*static t_lexstate	get_nextstate(t_list **ret,
-								t_lexstate curr_state,
-								char **currtokstr,
-								char c)
+static t_lexstate	get_nextstate(t_lexdat *dat)
 {
-	t_charstate	char_state;
+	const t_equi		eq[7] = {
+	{1000 * kLexStateGeneral + kCharStateGeneral, &add_to_curr, (void*)dat},
+	{1000 * kLexStateGeneral + kCharStateDQuote, &switch_to_dquote, (void*)dat},
+	{1000 * kLexStateGeneral + kCharStateSpace, &add_token_to_ret, (void*)dat},
+	{1000 * kLexStateDQuote + kCharStateGeneral, &add_to_curr, (void*)dat},
+	{1000 * kLexStateDQuote + kCharStateDQuote, &switch_to_general, (void*)dat},
+	{1000 * kLexStateDQuote + kCharStateSpace, &add_to_curr, (void*)dat},
+	{1000 * kLexStateDQuote + kCharStateSpace, NULL, NULL}};
+	const t_charstate	char_state = get_charstate(dat->c);
+	const int			cmpdat = 1000 * dat->curr_state + char_state;
+	int					ret;
 
-	char_state = get_charstate(c);
-	if (curr_state == kLexStateGeneral && char_state == kCharStateSpace)
-	{
-		add_token(ret, *currtokstr);
-		free(*currtokstr);
-		*currtokstr = ft_strnew(0);
-		return (kLexStateGeneral);
-	}
-	if (char_state == kCharStateGeneral || (curr_state == kLexStateDQuote && char_state != kCharStateDQuote))
-	{
-		ft_strnadd(currtokstr, &c, 1);
-		return (kLexStateGeneral);
-	}
-	if (curr_state == kLexStateGeneral && char_state == kCharStateDQuote)
-		return (kLexStateDQuote);
-	if (curr_state == kLexStateDQuote && char_state == kCharStateDQuote)
-		return (kLexStateGeneral);
-	return (kLexStateUndefined);
-}*/
-
-static t_lexstate	get_nextstate(t_list **ret,
-								t_lexstate curr_state,
-								char **currtokstr,
-								char c)
-{
-	const t_charstate	char_state = get_charstate(c);
-	const int			combs[6] = {1000 * kLexStateGeneral + kCharStateGeneral,
-									1000 * kLexStateGeneral + kCharStateDQuote,
-									1000 * kLexStateGeneral + kCharStateSpace,
-									1000 * kLexStateDQuote + kCharStateGeneral,
-									1000 * kLexStateDQuote + kCharStateDQuote,
-									1000 * kLexStateDQuote + kCharStateSpace};
-	static t_lexstate	(*act[6])(t_list**, char**, char, t_lexstate) =
-	{&add_to_curr, &switch_to_dquote, &add_token_to_ret,
-	&add_to_curr, &switch_to_general, &add_to_curr};
-	unsigned int		idx;
-
-	idx = 0;
-	while (idx < sizeof(combs) / sizeof(int))
-	{
-		if (1000 * curr_state + char_state == combs[idx])
-			return ((act[idx])(ret, currtokstr, c, curr_state));
-		idx++;
-	}
-	return (kLexStateUndefined);
+	ret = ft_switch((void*)&cmpdat, (void*)&eq, sizeof(t_equi), &ft_swcmp);
+	return ((ret > 0) ? (t_lexstate)ret : kLexStateUndefined);
 }
 
 t_list				*lex_line(char *line)
@@ -100,6 +64,7 @@ t_list				*lex_line(char *line)
 	t_list		*ret;
 	char		*currtokstr;
 	t_lexstate	curr_state;
+	t_lexdat	dat;
 
 	if (!line)
 		return (NULL);
@@ -108,7 +73,11 @@ t_list				*lex_line(char *line)
 	curr_state = kLexStateGeneral;
 	while (*line)
 	{
-		curr_state = get_nextstate(&ret, curr_state, &currtokstr, *line);
+		dat.ret = &ret;
+		dat.curr_state = curr_state;
+		dat.currtokstr = &currtokstr;
+		dat.c = *line;
+		curr_state = get_nextstate(&dat);
 		line++;
 	}
 	add_token(&ret, currtokstr);
