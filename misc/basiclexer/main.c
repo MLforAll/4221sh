@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 19:30:28 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/27 20:08:21 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/04/28 05:18:00 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,46 @@ static void		print_tokens(char *line)
 	ft_putendl("------------------------");
 	ft_putlst(tokens);
 	ft_lstdel(&tokens, &lstdelf);
-	ft_putchar('\n');
 }
 
-int			main(void)
+static void		read_loop(const char *pr, t_rl_opts *opts, t_rl_hist **hist)
+{
+	char		*line;
+	int			limit;
+
+	limit = 100;
+	while ((line = ft_readline(pr, opts, *hist)))
+	{
+		print_tokens(line);
+		if (--limit)
+		{
+			ft_histadd(hist, line);
+			ft_putendl("------------------------");
+			ft_putstr("Request to lexer: ``");
+			ft_putstr(line);
+			ft_putendl("'' has been added to history!");
+			ft_putchar('\n');
+		}
+		else
+		{
+			ft_putstr("You've hit the limit!\n"
+					"We've cleaned the history!\n");
+			limit = 100;
+		}
+	}
+}
+
+int				main(void)
 {
 	const char	*pr = "\033[1;31mbasiclexer\033[0;39m$ ";
 	t_rl_opts	opts;
-	char		*line;
+	t_rl_hist	*hist;
 
 	ft_bzero(&opts, sizeof(t_rl_opts));
 	opts.bell = YES;
-	while ((line = ft_readline(pr, &opts, NULL)))
-		print_tokens(line);
+	hist = NULL;
+	read_loop(pr, &opts, &hist);
+	ft_putendl("Cleaning all history!");
+	ft_histdel(&hist);
 	return (0);
 }

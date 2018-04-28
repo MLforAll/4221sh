@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/04/26 20:21:03 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/04/28 06:20:14 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LD_FLAGS = -L ../../libft -L ../../libftreadline -lft -lftreadline -ltermcap
 LIBFT = ../../libft/libft.a
 LIBFTREADLINE = ../../libftreadline/libftreadline.a
 
-SRCS = main.c lexer_start.c
+SRCS = main.c lexer_start.c lexer_ptrs.c
 
 NSRC = $(shell echo "$(SRCS)" | awk '{print NF}')
 ifeq ($(shell [ ! -z "`which bc`" ] && [ ! -z "`which awk`" ] && echo true),true)
@@ -41,7 +41,7 @@ $(LIBFT): force
 $(LIBFTREADLINE): force
 	@ make -C $(dir $(LIBFTREADLINE))
 
-$(NAME): $(LIBFT) $(OBJS) $(INCLUDES)
+$(NAME): $(LIBFT) $(LIBFTREADLINE) $(OBJS) $(INCLUDES)
 	@ printf "\033[K$(PROJTEXT)Compiling\n"
 	@ printf "$(PROJTEXT)Linking\n"
 	@ gcc -o $(NAME) $(LD_FLAGS) $(OBJS)
