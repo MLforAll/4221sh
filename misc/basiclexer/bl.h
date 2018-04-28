@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/28 11:55:54 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/04/28 12:13:12 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct	s_token
 
 t_list			*lex_line(char *line);
 
-void			add_token(t_list **tokens, char *s);
+void			add_token(t_list **tokens, char **s);
 
 int				add_to_curr(void *data);
 int				add_token_to_ret(void *data);

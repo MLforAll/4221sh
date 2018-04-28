@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/28 09:53:53 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/04/28 12:15:06 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ int		add_token_to_ret(void *data)
 {
 	const t_lexdat	*cdat = (t_lexdat*)data;
 
-	add_token(cdat->ret, *cdat->currtokstr);
-	free(*cdat->currtokstr);
+	add_token(cdat->ret, cdat->currtokstr);
 	*cdat->currtokstr = ft_strnew(0);
 	return ((int)cdat->curr_state);
 }

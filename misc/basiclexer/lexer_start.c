@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/28 11:59:50 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/04/28 12:14:52 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,18 @@ static t_charstate	get_charstate(char c)
 	return (kCharStateGeneral);
 }
 
-void				add_token(t_list **tokens, char *s)
+void				add_token(t_list **tokens, char **s)
 {
 	t_list	*newtok;
 	t_token	tokdat;
 
-	if (!s || ft_strlen(s) < 1 || !(tokdat.toks = ft_strdup(s)))
+	if (!s || ft_strlen(*s) < 1 || !(tokdat.toks = ft_strdup(*s)))
 		return ;
 	tokdat.type = kToktypeStr;
 	if (!(newtok = ft_lstnew(&tokdat, sizeof(t_token))))
 		return ;
 	ft_lstpush(tokens, newtok);
+	free(*s);
 }
 
 static t_lexstate	get_nextstate(t_lexdat *dat)
@@ -76,6 +77,6 @@ t_list				*lex_line(char *line)
 		curr_state = get_nextstate(&dat);
 		line++;
 	}
-	add_token(&ret, currtokstr);
+	add_token(&ret, &currtokstr);
 	return (ret);
 }

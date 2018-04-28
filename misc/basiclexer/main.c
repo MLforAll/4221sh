@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 19:30:28 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/28 12:00:27 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/04/28 12:39:36 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 static void		lstdelf(void *data, size_t datsize)
 {
 	(void)datsize;
+	free(((t_token*)data)->toks);
 	free(data);
 }
 
@@ -71,6 +72,7 @@ static void		read_loop(const char *pr, t_rl_opts *opts, t_rl_hist **hist)
 					"We've cleaned the history!\n");
 			limit = 100;
 		}
+		free(line);
 	}
 }
 
