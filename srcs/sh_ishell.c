@@ -6,13 +6,13 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/23 16:15:34 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/10 20:00:42 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/05 00:41:48 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
-#include "ft_readline.h"
+#include "libftreadline.h"
 #include "sh.h"
 
 static void	launch_rc(char ***env)
@@ -36,27 +36,29 @@ static char	*ishell_get_prompt(char **env)
 	char		*mshp_entry;
 	char		*pr;
 
-	if ((mshp_entry = get_env_var(env, "MSH_PROMPT")) && *mshp_entry)
+	if ((mshp_entry = get_env_var(env, "SH_PROMPT")) && *mshp_entry)
 		pr = get_prompt_from_str(mshp_entry, env);
 	else
 		pr = get_prompt_from_str("\\u:\\W$ ", env);
-	return ((pr) ? pr : ft_strdup("msh-1.0$ "));
+	return ((pr) ? pr : ft_strdup("21sh-1.0$ "));
 }
 
-static void	do_history(t_history **hist, int *n, char *line)
+static void	do_history(t_rl_hist **hist, char *line)
 {
-	if (!hist || !n)
+	static int	n = 0;
+
+	if (!hist)
 		return ;
-	if (*n >= SH_MAXHIST)
+	if (n >= SH_MAXHIST)
 	{
 		ft_histdel(hist);
-		*n = 0;
+		n = 0;
 		return ;
 	}
 	if (line && *line)
 	{
 		ft_histadd(hist, line);
-		(*n)++;
+		n++;
 	}
 }
 
@@ -65,19 +67,18 @@ int			interactive_shell(char ***env)
 	int			ret;
 	char		*line;
 	char		*prompt;
-	t_history	*history;
-	int			n;
+	t_rl_opts	opts;
+	t_rl_hist	*history;
 
-	prompt = NULL;
 	history = NULL;
-	n = 0;
 	ret = EXIT_SUCCESS;
 	launch_rc(env);
+	ft_bzero(&opts, sizeof(t_rl_opts));
+	opts.bell = YES;
 	while (42)
 	{
-		prompt = ishell_get_prompt(*env);
-		line = ft_readline(prompt, *env, history);
-		do_history(&history, &n, line);
+		line = ft_readline((prompt = ishell_get_prompt(*env)), &opts, history);
+		do_history(&history, line);
 		ft_strdel(&prompt);
 		if (!line)
 			break ;

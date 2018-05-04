@@ -6,46 +6,31 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 19:30:28 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/28 15:24:31 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/01 01:53:03 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include <stdlib.h>
 #include "libftreadline.h"
 #include "bl.h"
+#include "blintern.h"
 
-static void		lstdelf(void *data, size_t datsize)
+static void		add_to_hist(int *limit, char *line, t_rl_hist **hist)
 {
-	(void)datsize;
-	free(((t_token*)data)->toks);
-	free(data);
-}
-
-static void		print_tokens(char *line)
-{
-	t_list		*tokens;
-	t_list		*tokbw;
-
-	if (!(tokens = lex_line(line)))
+	if (--*limit)
 	{
-		ft_putendl_fd("tokens error", STDERR_FILENO);
-		return ;
+		ft_histadd(hist, line);
+		ft_putstr("Request to lexer: ``");
+		ft_putstr(line);
+		ft_putendl("'' has been added to history!");
 	}
-	ft_putendl("------------------------");
-	ft_putendl("|         tokens       |");
-	ft_putendl("------------------------");
-	tokbw = tokens;
-	while (tokbw)
+	else
 	{
-		ft_putstr("Token: ");
-		ft_putstr(((t_token*)(tokbw->content))->toks);
-		ft_putstr(" | Type: ");
-		ft_putnbr((int)((t_token*)(tokbw->content))->type);
-		ft_putchar('\n');
-		tokbw = tokbw->next;
+		ft_histdel(hist);
+		*limit = 100;
+		ft_putstr("You've hit the limit!\n"
+				"We've cleaned the history!\n");
 	}
-	ft_lstdel(&tokens, &lstdelf);
 }
 
 static void		read_loop(const char *pr, t_rl_opts *opts, t_rl_hist **hist)
@@ -57,21 +42,13 @@ static void		read_loop(const char *pr, t_rl_opts *opts, t_rl_hist **hist)
 	while ((line = ft_readline(pr, opts, *hist)))
 	{
 		print_tokens(line);
-		if (--limit)
-		{
-			ft_histadd(hist, line);
-			ft_putendl("------------------------");
-			ft_putstr("Request to lexer: ``");
-			ft_putstr(line);
-			ft_putendl("'' has been added to history!");
-			ft_putchar('\n');
-		}
+		ft_putendl("------------------------");
+		if (*line)
+			add_to_hist(&limit, line, hist);
 		else
-		{
-			ft_putstr("You've hit the limit!\n"
-					"We've cleaned the history!\n");
-			limit = 100;
-		}
+			ft_putendl("Request to lexer: (empty string)"
+						" is not valid for history!");
+		ft_putchar('\n');
 		free(line);
 	}
 }

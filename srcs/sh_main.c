@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/21 19:45:50 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/10 20:00:22 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/05 00:44:16 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include "get_next_line.h"
-#include "ft_readline.h"
 #include "sh.h"
 
 int			exec_shell(const char *path, char ***env)

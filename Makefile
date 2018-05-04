@@ -6,23 +6,23 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/04/25 13:53:01 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/05/05 00:44:52 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 21sh
 
 CC_FLAGS = -Wall -Werror -Wextra
-CC_LIB = -I includes -I libft/includes
-LD_FLAGS = -L libft -lft
+CC_LIB = -I includes -I libft/includes -I libftreadline/includes
+LD_FLAGS = -L libft -L libftreadline -lft -lftreadline -ltermcap
 
 LIBFT = libft/libft.a
+LIBFTREADLINE = libftreadline/libftreadline.a
 
 INCDIR = includes
 INCFILES = sh.h \
 		   sh_data.h \
 		   sh_prompt.h \
-		   ft_readline.h
 INCLUDES = $(addprefix $(INCDIR)/, $(INCFILES))
 
 SRCDIR = srcs
@@ -36,16 +36,10 @@ SRCFILES = sh_main.c \
 	sh_env.c \
 	sh_env_helpers.c \
 	sh_lineparser.c \
+	fsexp_functions.c \
 	bltns/sh_builtins.c \
 	bltns/sh_env_bltncmd.c \
 	bltns/sh_cd_bltncmd.c \
-	fsexp_functions.c \
-	ft_readline/ft_readline.c \
-	ft_readline/ft_rl_utils.c \
-	ft_readline/ft_rl_csrkeys.c \
-	ft_readline/ft_rl_history.c \
-	ft_readline/ft_rl_acroutine.c \
-	ft_readline/ft_rl_autocompletion.c \
 	misc/sh_misc.c \
 	misc/sh_misc_str.c \
 	misc/lst_support.c \
@@ -68,7 +62,10 @@ all: $(NAME)
 $(LIBFT): force
 	@ make -C $(dir $(LIBFT))
 
-$(NAME): $(LIBFT) $(OBJS) $(INCLUDES)
+$(LIBFTREADLINE): force
+	@ make -C $(dir $(LIBFTREADLINE))
+
+$(NAME): $(LIBFT) $(LIBFTREADLINE) $(OBJS) $(INCLUDES)
 	@ printf "\033[K$(PROJTEXT)Compiling\n"
 	@ printf "$(PROJTEXT)Linking\n"
 	@ gcc -o $(NAME) $(LD_FLAGS) $(OBJS)
@@ -99,11 +96,13 @@ endif
 
 clean:
 	@ make clean -C $(dir $(LIBFT))
+	@ make clean -C $(dir $(LIBFTREADLINE))
 	@ rm -rf $(OBJDIR)
 	@ printf "$(PROJTEXT)Removed objects\n"
 
 fclean: clean
 	@ make fclean -C $(dir $(LIBFT))
+	@ make fclean -C $(dir $(LIBFTREADLINE))
 	@ rm -f $(NAME)
 	@ printf "$(PROJTEXT)Removed $(NAME)\n"
 

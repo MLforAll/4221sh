@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/28 15:23:49 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/04/30 15:37:34 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,18 @@ typedef enum	e_charstate
 	kCharStateGeneral,
 	kCharStateSpace,
 	kCharStateDQuote,
-	kCharStateNum
+	kCharStateRedir,
+	kCharStatePipe
 }				t_charstate;
 
-typedef struct	s_lexdat
+typedef enum	e_toktype
 {
-	t_list		**ret;
-	t_lexstate	curr_state;
-	char		**currtokstr;
-	char		c;
-}				t_lexdat;
+	kTokTypeNone,
+	kTokTypeGeneral,
+	kTokTypeIONumber,
+	kTokTypeRedir,
+	kTokTypePipe
+}				t_toktype;
 
 typedef struct	s_equi
 {
@@ -46,27 +48,29 @@ typedef struct	s_equi
 	void	*data;
 }				t_equi;
 
-typedef enum	e_toktype
-{
-	kToktypeNone,
-	kToktypeStr,
-	kToktypeIO
-}				t_toktype;
-
 typedef struct	s_token
 {
 	char		*toks;
 	t_toktype	type;
 }				t_token;
 
+typedef struct	s_lexdat
+{
+	t_list		**ret;
+	char		*currtoks;
+	t_lexstate	curr_state;
+	char		c;
+}				t_lexdat;
+
 t_list			*lex_line(char *line);
 
-void			add_token(t_list **tokens, char **s);
+void			add_token(t_list **tokens, char *s, t_toktype type);
 
 int				add_to_curr(void *data);
 int				add_token_to_ret(void *data);
+int				create_redir_tok(void *data);
+int				create_pipe_tok(void *data);
 int				switch_to_dquote(void *data);
 int				switch_to_general(void *data);
-int				ft_swcmp(void *p1, void *p2);
 
 #endif
