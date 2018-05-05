@@ -5,42 +5,65 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/01 19:55:35 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/01 20:16:26 by kdumarai         ###   ########.fr       */
+/*   Created: 2018/04/26 19:30:28 by kdumarai          #+#    #+#             */
+/*   Updated: 2018/05/05 17:35:37 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include "libftreadline.h"
+#include "../basiclexer/bl.h"
 #include "bp.h"
 
-static void	readloop(int fd)
+static void	do_stuff(char *line)
 {
-	char		*cfg;
+	t_list		*tokens;
+	t_btree		*ast;
+
+	if (!(tokens = lex_line(line)))
+	{
+		ft_putendl_fd("lexer error", STDERR_FILENO);
+		return ;
+	}
+	ast = parse_tokens(tokens);
+	ft_putubt(ast, &astputelem);
+	ft_lstdel(&tokens, &lstdelf);
+}
+
+static void	read_loop(const char *pr, t_rl_opts *opts, t_rl_hist **hist)
+{
 	char		*line;
-	const char	*pr = "\033[0;36mbasicparser\033[0;39m$ ";
+	int			limit;
+
+	limit = 100;
+	while ((line = ft_readline(pr, opts, *hist)))
+	{
+		if (*line)
+		{
+			do_stuff(line);
+			if (--limit)
+				ft_histadd(hist, line);
+			else
+			{
+				ft_histdel(hist);
+				limit = 100;
+			}
+		}
+		free(line);
+	}
+}
+
+int			main(void)
+{
+	const char	*pr = "\033[1;31mbasicparser\033[0;39m$ ";
 	t_rl_opts	opts;
+	t_rl_hist	*hist;
 
 	ft_bzero(&opts, sizeof(t_rl_opts));
 	opts.bell = YES;
-	if (!(cfg = ft_readfd(fd, 32)))
-		return ;
-	while ((line = ft_readline(pr, &opts, NULL)))
-	{
-		parsestuff(cfg, line);
-		free(line);
-	}
-	free(cfg);
-}
-
-int			main(int ac, char **av)
-{
-	int		fd;
-
-	if (ac < 2)
-		return (1);
-	if ((fd = open(av[1], O_RDONLY)) == -1)
-		return (1);
-	readloop(fd);
-	close(fd);
+	hist = NULL;
+	read_loop(pr, &opts, &hist);
+	ft_histdel(&hist);
 	return (0);
 }

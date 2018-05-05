@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/05/05 17:34:05 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/05/01 20:13:09 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,12 +19,7 @@ LD_FLAGS = -L ../../libft -L ../../libftreadline -lft -lftreadline -ltermcap
 LIBFT = ../../libft/libft.a
 LIBFTREADLINE = ../../libftreadline/libftreadline.a
 
-SRCS = main.c \
-	parsemain.c \
-	utils.c \
-	../basiclexer/lexer_start.c \
-	../basiclexer/lexer_ptrs.c \
-	../basiclexer/lexer_redir.c
+SRCS = main.c cfgparse.c
 
 NSRC = $(shell echo "$(SRCS)" | awk '{print NF}')
 ifeq ($(shell [ ! -z "`which bc`" ] && [ ! -z "`which awk`" ] && echo true),true)

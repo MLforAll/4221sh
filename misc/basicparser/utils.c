@@ -1,20 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bp.h                                               :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/05 17:33:41 by kdumarai         ###   ########.fr       */
+/*   Created: 2018/05/05 17:30:16 by kdumarai          #+#    #+#             */
+/*   Updated: 2018/05/05 17:33:45 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BP_H
-# define BP_H
+#include <unistd.h>
+#include <stdlib.h>
+#include "libft.h"
+#include "../basiclexer/bl.h"
 
-t_btree	*parse_tokens(t_list *tokens);
-void	lstdelf(void *data, size_t datsize);
-void	astputelem(void *data, size_t datsize);
+void	lstdelf(void *data, size_t datsize)
+{
+	(void)datsize;
+	free(((t_token*)data)->toks);
+	free(data);
+}
 
-#endif
+void	astputelem(void *data, size_t datsize)
+{
+	if (datsize == 0)
+	{
+		ft_putendl("maybe t_list");
+		return ;
+	}
+	ft_putendl((char*)data);
+}
