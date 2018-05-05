@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/30 15:40:43 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/05 18:21:27 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ int		create_pipe_tok(void *data)
 
 int		switch_to_dquote(void *data)
 {
-	(void)data;
+	if (!add_to_curr(data))
+		return ((int)kLexStateUndefined);
 	return ((int)kLexStateDQuote);
 }
 

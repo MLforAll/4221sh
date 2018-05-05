@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/30 15:38:31 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/05 18:21:47 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static t_charstate	get_charstate(char c)
 {
 	if (c == '>')
-		return (kCharStateRedir);
+		return (kCharStateGreat);
 	if (c == '|')
 		return (kCharStatePipe);
 	if (c == '"')
@@ -58,12 +58,12 @@ static t_lexstate	get_nextstate(t_lexdat *dat)
 	{1000 * kLexStateGeneral + kCharStateGeneral, &add_to_curr, (void*)dat},
 	{1000 * kLexStateGeneral + kCharStateDQuote, &switch_to_dquote, (void*)dat},
 	{1000 * kLexStateGeneral + kCharStateSpace, &add_token_to_ret, (void*)dat},
-	{1000 * kLexStateGeneral + kCharStateRedir, &create_redir_tok, (void*)dat},
+	{1000 * kLexStateGeneral + kCharStateGreat, &create_redir_tok, (void*)dat},
 	{1000 * kLexStateGeneral + kCharStatePipe, &create_pipe_tok, (void*)dat},
 	{1000 * kLexStateDQuote + kCharStateGeneral, &add_to_curr, (void*)dat},
 	{1000 * kLexStateDQuote + kCharStateDQuote, &switch_to_general, (void*)dat},
 	{1000 * kLexStateDQuote + kCharStateSpace, &add_to_curr, (void*)dat},
-	{1000 * kLexStateDQuote + kCharStateRedir, &add_to_curr, (void*)dat},
+	{1000 * kLexStateDQuote + kCharStateGreat, &add_to_curr, (void*)dat},
 	{1000 * kLexStateDQuote + kCharStatePipe, &add_to_curr, (void*)dat},
 	{0, NULL, NULL}};
 	const t_charstate	char_state = get_charstate(dat->c);

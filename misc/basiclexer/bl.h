@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/30 15:37:34 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/05 18:23:01 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ typedef enum	e_charstate
 	kCharStateGeneral,
 	kCharStateSpace,
 	kCharStateDQuote,
-	kCharStateRedir,
+	kCharStateGreat,
+	kCharStateDGreat,
+	kCharStateLess,
+	kCharStateDGLess,
 	kCharStatePipe
 }				t_charstate;
 
