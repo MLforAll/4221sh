@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_ptrs.c                                       :+:      :+:    :+:   */
+/*   lexer_general.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/05 18:21:27 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/08 23:23:14 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "bl.h"
+#include "sh_lexer.h"
 
-int		add_to_curr(void *data)
+int			add_to_curr(void *data)
 {
 	t_lexdat	*cdat;
 
@@ -24,20 +24,20 @@ int		add_to_curr(void *data)
 	return ((int)cdat->curr_state);
 }
 
-int		add_token_to_ret(void *data)
+int			add_token_to_ret(void *data)
 {
 	t_lexdat	*cdat;
 
 	if (!data)
 		return ((int)kLexStateUndefined);
 	cdat = (t_lexdat*)data;
-	add_token(cdat->ret, cdat->currtoks, kTokTypeGeneral);
+	add_token(cdat->ret, cdat->currtoks, WORD);
 	free(cdat->currtoks);
 	cdat->currtoks = ft_strnew(0);
 	return ((int)cdat->curr_state);
 }
 
-int		create_pipe_tok(void *data)
+static int	create_pipe_tok(void *data)
 {
 	t_lexdat	*cdat;
 	char		pipec[2];
@@ -49,19 +49,27 @@ int		create_pipe_tok(void *data)
 		add_token_to_ret(data);
 	pipec[0] = cdat->c;
 	pipec[1] = '\0';
-	add_token(cdat->ret, pipec, kTokTypePipe);
+	add_token(cdat->ret, pipec, PIPE);
 	return ((int)cdat->curr_state);
 }
 
-int		switch_to_dquote(void *data)
+static int	switch_to_dquote(void *data)
 {
 	if (!add_to_curr(data))
 		return ((int)kLexStateUndefined);
 	return ((int)kLexStateDQuote);
 }
 
-int		switch_to_general(void *data)
+int			lex_general(void *data)
 {
-	(void)data;
-	return ((int)kLexStateGeneral);
+	const t_equi		eq[6] = {
+	{kCharGeneral, &add_to_curr, (void*)data},
+	{kCharDQuote, &switch_to_dquote, (void*)data},
+	{kCharSpace, &add_token_to_ret, (void*)data},
+	{kCharGreat, &switch_to_great, (void*)data},
+	{kCharPipe, &create_pipe_tok, (void*)data},
+	{0, NULL, NULL}};
+	const t_charstate	cmpdat = get_charstate(((t_lexdat*)data)->c);
+
+	return (ft_switch((void*)&cmpdat, (void*)&eq, sizeof(t_equi), &ft_swcmp));
 }

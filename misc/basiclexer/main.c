@@ -6,13 +6,13 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 19:30:28 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/05 18:17:06 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/08 22:36:31 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libftreadline.h"
-#include "bl.h"
+#include "sh_lexer.h"
 #include "blintern.h"
 
 static void		add_to_hist(int *limit, char *line, t_rl_hist **hist)
@@ -20,9 +20,9 @@ static void		add_to_hist(int *limit, char *line, t_rl_hist **hist)
 	if (--*limit)
 	{
 		ft_histadd(hist, line);
-		ft_putstr("Request to lexer: ``");
+		ft_putstr("Request to lexer: `");
 		ft_putstr(line);
-		ft_putendl("'' has been added to history!");
+		ft_putendl(" has been added to history!");
 	}
 	else
 	{

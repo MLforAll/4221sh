@@ -1,18 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   blintern.h                                         :+:      :+:    :+:   */
+/*   lexer_dquote.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/29 22:48:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/08 21:14:24 by kdumarai         ###   ########.fr       */
+/*   Created: 2018/05/08 23:13:07 by kdumarai          #+#    #+#             */
+/*   Updated: 2018/05/08 23:22:57 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BL_INTERN_H
-# define BL_INTERN_H
+#include "sh_lexer.h"
 
-void		print_tokens(char *line);
-
-#endif
+int		lex_dquote(void *data)
+{
+	if (get_charstate(((t_lexdat*)data)->c) == kCharDQuote)
+		return ((int)kLexStateGeneral);
+	add_to_curr(data);
+	return ((int)kLexStateDQuote);
+}

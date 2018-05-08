@@ -6,13 +6,13 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 22:27:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/05 18:22:51 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/08 22:37:05 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
-#include "bl.h"
+#include "sh_lexer.h"
 #include "libft.h"
 
 static void	lstdelf(void *data, size_t datsize)
@@ -34,13 +34,13 @@ static void	ft_putnchar_limit(char c, size_t len)
 
 static void	print_tok(t_token *tok)
 {
-	static char	*typedesc[5] = {"kTokTypeNone", "kTokTypeGeneral",
-								"kTokTypeIONumber", "kTokTypeRedir",
-								"kTokTypePipe"};
+	static char	*typedesc[10] = {"NONE", "WORD", "IO_NUMBER", "PIPE",
+								"GREAT", "DGREAT", "LESS", "DLESS",
+								"CLOBBER", "AMPERSAND"};
 
 	ft_putstr("Token: ");
 	ft_putstr(typedesc[(int)tok->type]);
-	ft_putnchar_limit(' ', 16 - ft_strlen(typedesc[(int)tok->type]));
+	ft_putnchar_limit(' ', 9 - ft_strlen(typedesc[(int)tok->type]));
 	ft_putstr(" | Value: ");
 	ft_putstr((tok->toks) ? tok->toks : "(null)");
 	ft_putchar('\n');

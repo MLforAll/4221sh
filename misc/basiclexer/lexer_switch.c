@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_redir.c                                      :+:      :+:    :+:   */
+/*   lexer_switch.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/30 14:10:56 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/05 18:22:09 by kdumarai         ###   ########.fr       */
+/*   Created: 2018/05/08 23:11:41 by kdumarai          #+#    #+#             */
+/*   Updated: 2018/05/08 23:21:54 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "bl.h"
+#include "sh_lexer.h"
 
-int		create_redir_tok(void *data)
+int			ft_swcmp(void *p1, void *p2)
+{
+	const int	a = *(int*)p1;
+	const int	b = *(int*)p2;
+
+	return ((a == b));
+}
+
+int			switch_to_great(void *data)
 {
 	t_lexdat	*cdat;
-	char		redirc[2];
 
 	if (!data)
 		return ((int)kLexStateUndefined);
@@ -24,17 +31,12 @@ int		create_redir_tok(void *data)
 	if (*cdat->currtoks)
 	{
 		if (!ft_strisnumeric(cdat->currtoks))
-		{
-			add_token(cdat->ret, cdat->currtoks, kTokTypeGeneral);
-			add_token(cdat->ret, "1", kTokTypeIONumber);
-		}
+			add_token(cdat->ret, cdat->currtoks, WORD);
 		else
-			add_token(cdat->ret, cdat->currtoks, kTokTypeIONumber);
+			add_token(cdat->ret, cdat->currtoks, IO_NUMBER);
 		free(cdat->currtoks);
 		cdat->currtoks = ft_strnew(0);
 	}
-	redirc[0] = cdat->c;
-	redirc[1] = '\0';
-	add_token(cdat->ret, redirc, kTokTypeRedir);
-	return ((int)kLexStateGeneral);
+	add_to_curr(data);
+	return ((int)kLexStateGreat);
 }
