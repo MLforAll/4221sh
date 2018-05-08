@@ -6,12 +6,12 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 22:48:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/08 21:14:24 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/08 23:32:54 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BL_INTERN_H
-# define BL_INTERN_H
+#ifndef BLINTERN_H
+# define BLINTERN_H
 
 void		print_tokens(char *line);
 
