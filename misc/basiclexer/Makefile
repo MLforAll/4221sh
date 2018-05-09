@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/05/08 23:21:27 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/05/09 18:41:39 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRCS = main.c print.c \
 		lexer_general.c \
 		lexer_dquote.c \
 		lexer_great.c \
+		lexer_less.c \
 		lexer_switch.c
 
 NSRC = $(shell echo "$(SRCS)" | awk '{print NF}')

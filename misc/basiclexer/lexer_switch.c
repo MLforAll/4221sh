@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 23:11:41 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/08 23:21:54 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/10 00:01:03 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,19 @@ int			switch_to_great(void *data)
 	if (*cdat->currtoks)
 	{
 		if (!ft_strisnumeric(cdat->currtoks))
-			add_token(cdat->ret, cdat->currtoks, WORD);
+			add_token(cdat->ret, cdat->currtoks, WORD, 0);
 		else
-			add_token(cdat->ret, cdat->currtoks, IO_NUMBER);
+			add_token(cdat->ret, cdat->currtoks, IO_NUMBER, 0);
 		free(cdat->currtoks);
 		cdat->currtoks = ft_strnew(0);
 	}
 	add_to_curr(data);
 	return ((int)kLexStateGreat);
 }
+
+int			switch_to_less(void *data)
+{
+	switch_to_great(data);
+	return ((int)kLexStateLess);
+}
+

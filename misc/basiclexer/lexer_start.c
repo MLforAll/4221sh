@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/08 23:33:07 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/09 22:29:02 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ t_charstate			get_charstate(char c)
 {
 	if (c == '>')
 		return (kCharGreat);
+	if (c == '<')
+		return (kCharLess);
 	if (c == '|')
 		return (kCharPipe);
 	if (c == '"')
@@ -31,7 +33,7 @@ t_charstate			get_charstate(char c)
 	return (kCharGeneral);
 }
 
-void				add_token(t_list **tokens, char *s, t_toktype type)
+void				add_token(t_list **tokens, char *s, t_toktype type, int prio)
 {
 	t_list	*newtok;
 	t_token	tokdat;
@@ -42,6 +44,7 @@ void				add_token(t_list **tokens, char *s, t_toktype type)
 	if (s && !(tokdat.toks = ft_strdup(s)))
 		return ;
 	tokdat.type = type;
+	tokdat.priority = prio;
 	if (!(newtok = ft_lstnew(&tokdat, sizeof(t_token))))
 		return ;
 	ft_lstpush(tokens, newtok);
@@ -49,10 +52,11 @@ void				add_token(t_list **tokens, char *s, t_toktype type)
 
 static t_lexstate	get_nextstate(t_lexdat *dat)
 {
-	const t_equi		eq[4] = {
+	const t_equi		eq[5] = {
 	{kLexStateGeneral, &lex_general, (void*)dat},
 	{kLexStateDQuote, &lex_dquote, (void*)dat},
 	{kLexStateGreat, &lex_great, (void*)dat},
+	{kLexStateLess, &lex_less, (void*)dat},
 	{0, NULL, NULL}};
 	const int			cmpdat = dat->curr_state;
 	int					ret;
@@ -79,7 +83,7 @@ t_list				*lex_line(char *line)
 		dat.curr_state = get_nextstate(&dat);
 		line++;
 	}
-	add_token(&ret, dat.currtoks, WORD);
+	add_token(&ret, dat.currtoks, WORD, 0);
 	ft_strdel(&dat.currtoks);
 	return (ret);
 }

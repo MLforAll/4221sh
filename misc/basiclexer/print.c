@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 22:27:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/08 22:37:05 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/10 00:02:52 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ static void	ft_putnchar_limit(char c, size_t len)
 
 static void	print_tok(t_token *tok)
 {
-	static char	*typedesc[10] = {"NONE", "WORD", "IO_NUMBER", "PIPE",
-								"GREAT", "DGREAT", "LESS", "DLESS",
-								"CLOBBER", "AMPERSAND"};
+	static char	*typedesc[13] = {"NONE", "WORD", "IO_NUMBER", "PIPE", "SEMI",
+								"AND_IF", "OR_IF", "GREAT", "DGREAT", "LESS",
+								"DLESS", "CLOBBER", "AMPERSAND"};
 
 	ft_putstr("Token: ");
 	ft_putstr(typedesc[(int)tok->type]);

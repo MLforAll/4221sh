@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/08 23:18:46 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/10 00:02:29 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ typedef enum	e_toktype
 	WORD,
 	IO_NUMBER,
 	PIPE,
+	SEMI,
+	AND_IF,
+	AND_OR,
 	GREAT,
 	DGREAT,
 	LESS,
@@ -72,6 +75,7 @@ typedef struct	s_token
 {
 	char		*toks;
 	t_toktype	type;
+	int			priority;
 }				t_token;
 
 typedef struct	s_lexdat
@@ -84,17 +88,34 @@ typedef struct	s_lexdat
 
 t_list			*lex_line(char *line);
 
+/*
+** Lexer State functions
+*/
+
 int				lex_general(void *data);
 int				lex_dquote(void *data);
 int				lex_great(void *data);
+int				lex_less(void *data);
 
-void			add_token(t_list **tokens, char *s, t_toktype type);
+/*
+** State functions used throughout
+*/
 
 int				add_to_curr(void *data);
 int				add_token_to_ret(void *data);
 
-int				switch_to_great(void *data);
+/*
+** State switchers
+*/
 
+int				switch_to_great(void *data);
+int				switch_to_less(void *data);
+
+/*
+** Utilities
+*/
+
+void			add_token(t_list **tokens, char *s, t_toktype type, int prio);
 int				ft_swcmp(void *p1, void *p2);
 t_charstate		get_charstate(char c);
 
