@@ -6,13 +6,13 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 16:55:22 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/05 17:37:21 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/09 22:43:19 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
-#include "../basiclexer/bl.h"
+#include "../basiclexer/sh_lexer.h"
 
 static t_btree	*create_cmd_node(t_list *tokens)
 {
@@ -24,15 +24,18 @@ static t_btree	*create_cmd_node(t_list *tokens)
 	return (ret);
 }
 
-static int		is_rank(t_list *token)
+static int		is_higher(t_list *token, t_list *top)
 {
 	t_token	*tokdat;
+	t_token	*topdat;
 
 	tokdat = (t_token*)token->content;
-	/*if (tokdat->type == kTokTypePipe)
+	if (tokdat->priority == 0)
+		return (FALSE);
+	if (!top)
 		return (TRUE);
-	return (FALSE);*/
-	return ((tokdat->type == kTokTypePipe));
+	topdat = (t_token*)top->content;
+	return ((tokdat->type >= topdat->type));
 }
 
 t_btree			*parse_tokens(t_list *tokens)
@@ -46,7 +49,7 @@ t_btree			*parse_tokens(t_list *tokens)
 	bw = &tokens;
 	while (*bw)
 	{
-		if (is_rank(*bw))
+		if (is_higher(*bw, (top) ? *top : NULL))
 			top = bw;
 		bw = &(*bw)->next;
 	}

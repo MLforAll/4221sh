@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/05/05 17:34:05 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/05/09 22:19:11 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,11 @@ SRCS = main.c \
 	parsemain.c \
 	utils.c \
 	../basiclexer/lexer_start.c \
-	../basiclexer/lexer_ptrs.c \
-	../basiclexer/lexer_redir.c
+	../basiclexer/lexer_general.c \
+	../basiclexer/lexer_dquote.c \
+	../basiclexer/lexer_great.c \
+	../basiclexer/lexer_less.c \
+	../basiclexer/lexer_switch.c
 
 NSRC = $(shell echo "$(SRCS)" | awk '{print NF}')
 ifeq ($(shell [ ! -z "`which bc`" ] && [ ! -z "`which awk`" ] && echo true),true)
