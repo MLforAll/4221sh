@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_node.c                                         :+:      :+:    :+:   */
+/*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 02:03:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/11 19:20:40 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/11 22:47:42 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include "bp.h"
+#include "sh_parser.h"
 
 static void	add_redirect(t_cmdnode *cmddat, t_list **tok, int io_nbr)
 {

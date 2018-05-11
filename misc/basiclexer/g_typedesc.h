@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   blintern.h                                         :+:      :+:    :+:   */
+/*   g_typedesc.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/29 22:48:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/11 23:50:16 by kdumarai         ###   ########.fr       */
+/*   Created: 2018/05/11 23:49:54 by kdumarai          #+#    #+#             */
+/*   Updated: 2018/05/11 23:50:18 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BLINTERN_H
-# define BLINTERN_H
+#ifndef G_TYPEDESC_H
+# define G_TYPEDESC_H
 
-void				print_tokens(char *line);
+const char		*g_typedesc[13] = {"NONE", "WORD", "IO_NUMBER", "PIPE", "SEMI",
+								"AND_IF", "OR_IF", "GREAT", "DGREAT", "LESS",
+								"DLESS", "CLOBBER", "AMPERSAND"};
 
 #endif

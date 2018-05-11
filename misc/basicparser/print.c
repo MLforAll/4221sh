@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:16 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/11 19:20:24 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/11 23:51:03 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
 #include "libft.h"
-#include "bp.h"
-#include "../basiclexer/blintern.h"
+#include "../../includes/sh_parser.h"
+#include "../basiclexer/g_typedesc.h"
 
 static void	cmdnode_putav(t_cmdnode *ndat)
 {

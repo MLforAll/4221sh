@@ -6,13 +6,13 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 19:30:28 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/09 18:44:29 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/11 23:50:48 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libftreadline.h"
-#include "sh_lexer.h"
+#include "../../includes/sh_lexer.h"
 #include "blintern.h"
 
 static void		add_to_hist(int *limit, char *line, t_rl_hist **hist)

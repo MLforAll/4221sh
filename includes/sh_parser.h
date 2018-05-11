@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bp.h                                               :+:      :+:    :+:   */
+/*   sh_parser.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/11 19:24:11 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/11 23:16:41 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BP_H
-# define BP_H
+#ifndef SH_PARSER_H
+# define SH_PARSER_H
 
-#include "../basiclexer/sh_lexer.h"
+#include "sh_lexer.h"
 
 typedef struct	s_astnode
 {

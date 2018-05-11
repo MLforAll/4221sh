@@ -6,30 +6,31 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/05/11 19:23:26 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/05/11 23:51:39 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = basicparser
 
 CC_FLAGS = -Wall -Werror -Wextra
-CC_LIB = -I . -I ../../libft/includes -I ../../libftreadline/includes
+CC_LIB = -I . -I ../../includes -I ../../libft/includes -I ../../libftreadline/includes
 LD_FLAGS = -L ../../libft -L ../../libftreadline -lft -lftreadline -ltermcap
 
 LIBFT = ../../libft/libft.a
 LIBFTREADLINE = ../../libftreadline/libftreadline.a
 
-SRCS = main.c \
-	parsemain.c \
-	cmd_node.c \
-	parser_free.c \
-	utils.c \
-	../basiclexer/lexer_start.c \
-	../basiclexer/lexer_general.c \
-	../basiclexer/lexer_dquote.c \
-	../basiclexer/lexer_great.c \
-	../basiclexer/lexer_less.c \
-	../basiclexer/lexer_switch.c
+SHSRCDIR = ../../srcs
+SHSRCFILES = parser/parser_start.c \
+	parser/parser_cmd.c \
+	parser/parser_free.c \
+	lexer/lexer_start.c \
+	lexer/lexer_general.c \
+	lexer/lexer_dquote.c \
+	lexer/lexer_great.c \
+	lexer/lexer_less.c \
+	lexer/lexer_switch.c
+TESTSRCFILES = main.c print.c
+SRCS = $(addprefix $(SHSRCDIR)/, $(SHSRCFILES))
 
 NSRC = $(shell echo "$(SRCS)" | awk '{print NF}')
 ifeq ($(shell [ ! -z "`which bc`" ] && [ ! -z "`which awk`" ] && echo true),true)
@@ -39,7 +40,8 @@ else
 endif
 
 OBJDIR = objs
-OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
+OBJS = $(SRCS:$(SHSRCDIR)/%.c=$(OBJDIR)/%.o)
+OBJS += $(TESTSRCFILES:%.c=$(OBJDIR)/%.o)
 
 PROJTEXT = \033[1;33m$(NAME): \033[0;39m
 
@@ -80,15 +82,22 @@ endif
 	@ printf "\033[0;39m\r"
 	@ gcc $(CC_FLAGS) $(CC_LIB) -c $< -o $@
 
+$(OBJDIR)/%.o: $(SHSRCDIR)/%.c
+	@ if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
+	@ printf "\033[K$(PROJTEXT)Compiling \033[1;33m$<"
+ifneq ($(CSRC),0)
+	@ printf " %.0s" {1..$(shell expr 44 - $(shell printf "$<" | wc -m))}
+	@ export LC_ALL=C; printf "\033[1;34m[%3.0f%%]" "$(shell bc <<< "scale=1; $(CSRC) / $(NSRC) * 100")"
+	@ $(eval CSRC = $(shell expr $(CSRC) + 1))
+endif
+	@ printf "\033[0;39m\r"
+	@ gcc $(CC_FLAGS) $(CC_LIB) -c $< -o $@
+
 clean:
-	@ make clean -C $(dir $(LIBFT))
-	@ make clean -C $(dir $(LIBFTREADLINE))
 	@ rm -rf $(OBJDIR)
 	@ printf "$(PROJTEXT)Removed objects\n"
 
 fclean: clean
-	@ make fclean -C $(dir $(LIBFT))
-	@ make fclean -C $(dir $(LIBFTREADLINE))
 	@ rm -f $(NAME)
 	@ printf "$(PROJTEXT)Removed $(NAME)\n"
 

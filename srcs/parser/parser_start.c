@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsemain.c                                        :+:      :+:    :+:   */
+/*   parser_start.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 16:55:22 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/11 19:23:09 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/11 23:06:48 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
-#include "bp.h"
+#include "sh_parser.h"
 
 inline static t_btree	*create_cmd_node(t_list *tokens)
 {
@@ -71,9 +71,9 @@ t_btree					*parse_tokens(t_list *tokens)
 			top = bw;
 		bw = &(*bw)->next;
 	}
-	if (!top)
+	if (!top && tokens)
 		return (create_cmd_node(tokens));
-	if (!(ret = add_operator_leaf(*top)))
+	if (!tokens || !(ret = add_operator_leaf(*top)))
 		return (NULL);
 	rtoks = (*top)->next;
 	bak = *top;
