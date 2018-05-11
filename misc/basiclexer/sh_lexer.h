@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/10 00:02:29 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/10 22:47:05 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef enum	e_charstate
 	kCharSQuote,
 	kCharEscape,
 	kCharPipe,
+	kCharSemi,
 	kCharGreat,
 	kCharLess,
 	kCharAmpersand

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/09 22:29:02 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/10 01:23:31 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ t_charstate			get_charstate(char c)
 		return (kCharLess);
 	if (c == '|')
 		return (kCharPipe);
+	if (c == ';')
+		return (kCharSemi);
 	if (c == '"')
 		return (kCharDQuote);
 	if (c == '\'')

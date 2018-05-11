@@ -6,25 +6,42 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 16:55:22 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/09 22:43:19 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/11 02:53:48 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
-#include "../basiclexer/sh_lexer.h"
+#include "bp.h"
 
-static t_btree	*create_cmd_node(t_list *tokens)
+inline static t_btree	*create_cmd_node(t_list *tokens)
 {
-	t_btree	*ret;
+	t_btree		*ret;
+	t_astnode	ndat;
 
-	if (!(ret = ft_btnew(NULL, 0)))
+	ndat.type = 0;
+	ndat.data = ft_memalloc(sizeof(t_cmdnode));
+	fill_cmd_data((t_cmdnode*)ndat.data, tokens);
+	if (!(ret = ft_btnew(&ndat, sizeof(t_astnode))))
 		return (NULL);
-	ret->data = (void*)tokens;
 	return (ret);
 }
 
-static int		is_higher(t_list *token, t_list *top)
+inline static t_btree	*add_operator_leaf(t_list *tok)
+{
+	t_btree		*ret;
+	t_astnode	ndat;
+
+	if (!tok)
+		return (NULL);
+	ndat.data = NULL;
+	ndat.type = ((t_token*)tok->content)->type;
+	if (!(ret = ft_btnew(&ndat, sizeof(ndat))))
+		return (NULL);
+	return (ret);
+}
+
+static int				is_higher(t_list *token, t_list *top)
 {
 	t_token	*tokdat;
 	t_token	*topdat;
@@ -38,7 +55,7 @@ static int		is_higher(t_list *token, t_list *top)
 	return ((tokdat->type >= topdat->type));
 }
 
-t_btree			*parse_tokens(t_list *tokens)
+t_btree					*parse_tokens(t_list *tokens)
 {
 	t_list	**top;
 	t_list	**bw;
@@ -55,10 +72,10 @@ t_btree			*parse_tokens(t_list *tokens)
 	}
 	if (!top)
 		return (create_cmd_node(tokens));
+	if (!(ret = add_operator_leaf(*top)))
+		return (NULL);
 	rtoks = (*top)->next;
 	*top = NULL;
-	if (!(ret = ft_btnew("node", 4)))
-		return (NULL);
 	ft_btattach(ret, parse_tokens(tokens), parse_tokens(rtoks));
 	return (ret);
 }

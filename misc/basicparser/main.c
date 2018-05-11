@@ -6,14 +6,13 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 19:30:28 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/09 22:19:28 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/10 23:40:34 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
 #include "libftreadline.h"
-#include "../basiclexer/sh_lexer.h"
 #include "bp.h"
 
 static void	do_stuff(char *line)
