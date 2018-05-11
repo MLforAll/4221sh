@@ -6,21 +6,15 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 22:27:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/11 01:44:06 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/11 19:32:55 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
 #include "sh_lexer.h"
+#include "blintern.h"
 #include "libft.h"
-
-static void	lstdelf(void *data, size_t datsize)
-{
-	(void)datsize;
-	free(((t_token*)data)->toks);
-	free(data);
-}
 
 static void	ft_putnchar_limit(char c, size_t len)
 {
@@ -62,5 +56,5 @@ void		print_tokens(char *line)
 		tokbw = tokbw->next;
 	}
 	ft_putendl("------------------------------------");
-	ft_lstdel(&tokens, &lstdelf);
+	ft_lstdel(&tokens, &tokens_lstdel);
 }

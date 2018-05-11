@@ -6,11 +6,19 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/10 01:23:31 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/11 15:38:38 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "sh_lexer.h"
+
+void				tokens_lstdel(void *data, size_t datsize)
+{
+	(void)datsize;
+	free(((t_token*)data)->toks);
+	free(data);
+}
 
 t_charstate			get_charstate(char c)
 {

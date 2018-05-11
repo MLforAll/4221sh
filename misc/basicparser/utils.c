@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:16 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/11 03:02:34 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/11 19:20:24 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,6 @@
 #include "libft.h"
 #include "bp.h"
 #include "../basiclexer/blintern.h"
-
-void		lstdelf(void *data, size_t datsize)
-{
-	(void)datsize;
-	free(((t_token*)data)->toks);
-	free(data);
-}
 
 static void	cmdnode_putav(t_cmdnode *ndat)
 {
@@ -48,7 +41,7 @@ static void	cmdnode_putredirs(t_cmdnode *ndat)
 	t_list	*rdb;
 	int		idx;
 
-	if (!ndat || !(rdb = ndat->redirects))
+	if (!ndat || !(rdb = ndat->c_redirects))
 	{
 		ft_putendl("\tc_redirects: NULL");
 		return ;

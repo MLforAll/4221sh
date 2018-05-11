@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/11 02:53:41 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/11 19:24:11 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef	struct	s_cmdnode
 {
 	char	*c_path;
 	char	**c_av;
-	t_list	*redirects;
+	t_list	*c_redirects;
 }				t_cmdnode;
 
 typedef struct	s_redirect
@@ -38,7 +38,9 @@ typedef struct	s_redirect
 
 t_btree	*parse_tokens(t_list *tokens);
 void	fill_cmd_data(t_cmdnode *cmddat, t_list *tokens);
-void	lstdelf(void *data, size_t datsize);
+
 void	astputelem(void *data, size_t datsize);
+void	ast_btdel(void *data, size_t datsize);
+void	lstdelf(void *data, size_t datsize);
 
 #endif

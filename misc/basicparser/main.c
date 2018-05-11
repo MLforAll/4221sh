@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 19:30:28 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/10 23:40:34 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/11 19:34:10 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static void	do_stuff(char *line)
 	}
 	ast = parse_tokens(tokens);
 	ft_putubt(ast, &astputelem);
-	ft_lstdel(&tokens, &lstdelf);
+	ft_btdel(&ast, &ast_btdel);
+	ft_lstdel(&tokens, &tokens_lstdel);
 }
 
 static void	read_loop(const char *pr, t_rl_opts *opts, t_rl_hist **hist)

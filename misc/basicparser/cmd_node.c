@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 02:03:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/11 02:57:40 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/11 19:20:40 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	add_redirect(t_cmdnode *cmddat, t_list **tok, int io_nbr)
 	}
 	if (!(nr = ft_lstnew(&nrdat, sizeof(t_redirect))))
 		return ;
-	ft_lstpush(&cmddat->redirects, nr);
+	ft_lstpush(&cmddat->c_redirects, nr);
 }
 
 void		fill_cmd_data(t_cmdnode *cmddat, t_list *tokens)
@@ -43,17 +43,18 @@ void		fill_cmd_data(t_cmdnode *cmddat, t_list *tokens)
 	while (tokens)
 	{
 		tokdat = (t_token*)tokens->content;
-		if (tokdat->type == WORD && first_word)
+		if (tokdat->type == WORD)
 		{
-			cmddat->c_path = ft_strdup(tokdat->toks);
-			first_word = FALSE;
-		}
-		else if (tokdat->type == WORD)
+			if (first_word)
+			{
+				cmddat->c_path = ft_strdup(tokdat->toks);
+				first_word = FALSE;
+			}
 			ft_tabaddstr(&cmddat->c_av, tokdat->toks);
+		}
 		else if (tokdat->type == IO_NUMBER)
 			io_nbr = ft_atoi(tokdat->toks);
-		else if (tokdat->type == GREAT || tokdat->type == DGREAT
-			|| tokdat->type == LESS || tokdat->type == DLESS)
+		else if (tokdat->type >= GREAT && tokdat->type <= DLESS)
 			add_redirect(cmddat, &tokens, io_nbr);
 		tokens = tokens->next;
 	}

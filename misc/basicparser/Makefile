@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/05/11 02:06:25 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/05/11 19:23:26 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ LIBFTREADLINE = ../../libftreadline/libftreadline.a
 SRCS = main.c \
 	parsemain.c \
 	cmd_node.c \
+	parser_free.c \
 	utils.c \
 	../basiclexer/lexer_start.c \
 	../basiclexer/lexer_general.c \

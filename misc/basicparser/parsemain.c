@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 16:55:22 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/11 02:53:48 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/11 19:23:09 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_btree					*parse_tokens(t_list *tokens)
 {
 	t_list	**top;
 	t_list	**bw;
+	t_list	*bak;
 	t_list	*rtoks;
 	t_btree	*ret;
 
@@ -75,7 +76,9 @@ t_btree					*parse_tokens(t_list *tokens)
 	if (!(ret = add_operator_leaf(*top)))
 		return (NULL);
 	rtoks = (*top)->next;
+	bak = *top;
 	*top = NULL;
 	ft_btattach(ret, parse_tokens(tokens), parse_tokens(rtoks));
+	*top = bak;
 	return (ret);
 }

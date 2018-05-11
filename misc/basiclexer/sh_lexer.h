@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/10 22:47:05 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/11 15:37:10 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,6 @@ int				switch_to_less(void *data);
 void			add_token(t_list **tokens, char *s, t_toktype type, int prio);
 int				ft_swcmp(void *p1, void *p2);
 t_charstate		get_charstate(char c);
+void			tokens_lstdel(void *data, size_t datsize);
 
 #endif
