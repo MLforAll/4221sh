@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 16:55:22 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/11 23:06:48 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/13 01:07:06 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ inline static t_btree	*create_cmd_node(t_list *tokens)
 
 	ndat.type = 0;
 	ndat.data = ft_memalloc(sizeof(t_cmdnode));
+	((t_cmdnode*)ndat.data)->c_av = ft_tabnew();
+	((t_cmdnode*)ndat.data)->stdout_fd = -1;
+	((t_cmdnode*)ndat.data)->stdin_fd = -1;
 	fill_cmd_data((t_cmdnode*)ndat.data, tokens);
 	if (!(ret = ft_btnew(&ndat, sizeof(t_astnode))))
 		return (NULL);

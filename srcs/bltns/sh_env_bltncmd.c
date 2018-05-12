@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 23:00:55 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/12 02:08:29 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/13 00:59:23 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,14 @@ static int	get_env_opts(int ac, char **av, int *idx)
 static int	launch_utility(char **av, int idx, char **new_env)
 {
 	int				ret;
-	t_cmd			*cmd;
+	t_cmdnode		cmdnode;
 
-	cmd = ft_cmdnew();
-	cmd->c_argv = ft_tabdup(av + idx);
-	cmd->c_path = get_cmd_path(*cmd->c_argv, new_env);
-	ret = exec_cmd(cmd, new_env);
-	ft_cmddel(&cmd);
+	ft_bzero(&cmdnode, sizeof(t_cmdnode));
+	cmdnode.c_av = ft_tabdup(av + idx);
+	cmdnode.c_path = get_cmd_path(*cmdnode.c_av, new_env);
+	ret = exec_cmd(&cmdnode, new_env);
+	ft_tabfree(&cmdnode.c_av);
+	free(cmdnode.c_path);
 	return (ret);
 }
 

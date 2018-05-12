@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/12 02:05:54 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/12 22:28:38 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "libft.h"
 # include "sh_data.h"
 # include "sh_prompt.h"
+# include "sh_lexer.h"
+# include "sh_parser.h"
 
 /*
 ** macros
@@ -42,21 +44,16 @@ int		interactive_shell(void);
 ** line parsing
 */
 
+char	*get_cmd_path(char *line_cmd, char **env);
+
 int		ft_splitquote(t_list **dest, char *s, char *charset, char *cs);
 char	*ft_strrmquote(char *s, char *cset);
-
-/*
-** cmd parsing
-*/
-
-char	*get_cmd_path(char *line_cmd, char **env);
-t_cmd	*interpret_cmd(char *cline);
 
 /*
 ** cmd exec
 */
 
-int		exec_cmd(t_cmd *cmd, char **env);
+int		exec_cmd(t_cmdnode *node, char **env);
 int		exec_cmds(char *line);
 
 /*

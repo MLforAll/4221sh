@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/12 02:07:37 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/13 00:52:45 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 #include "sh.h"
 
 static int	cmd_chk(char *path)
@@ -38,7 +39,27 @@ static int	cmd_chk(char *path)
 	return (code);
 }
 
-static int	exec_bincmd(t_cmd *cmd, char **env)
+static void	exec_redir(t_cmdnode *cmddat)
+{
+	t_list		*bw;
+	t_redirect	*redir;
+	int			fd;
+
+	bw = cmddat->c_redirects;
+	while (bw)
+	{
+		redir = (t_redirect*)bw->content;
+		if (redir->rtype == GREAT)
+		{
+			fd = open(redir->filename, O_WRONLY | O_CREAT, 0644);
+			close(redir->io_nbr);
+			dup2(fd, redir->io_nbr);
+		}
+		bw = bw->next;
+	}
+}
+
+static int	exec_bincmd(t_cmdnode *cmddat, char **env)
 {
 	pid_t	pid;
 	int		exval;
@@ -48,49 +69,52 @@ static int	exec_bincmd(t_cmd *cmd, char **env)
 		return (EXIT_FAILURE);
 	if (pid == 0)
 	{
-		prepare_dups(cmd);
+		//prepare_dups(cmd);
+		exec_redir(cmddat);
 		switch_traps(FALSE);
-		chg_env_var(env, "_", cmd->c_path);
-		execve(cmd->c_path, cmd->c_argv, env);
-		exit(exec_shell(cmd->c_path) == EXIT_SUCCESS ? EXIT_SUCCESS : 127);
+		chg_env_var(env, "_", cmddat->c_path);
+		execve(cmddat->c_path, cmddat->c_av, env);
+		exit(exec_shell(cmddat->c_path) == EXIT_SUCCESS ? EXIT_SUCCESS : 127);
 	}
-	cmd->c_pid = pid;
+	/*cmd->c_pid = pid;
 	if (cmd->next)
-		return (EXIT_SUCCESS);
+		return (EXIT_SUCCESS);*/
 	waitpid(pid, &exval, 0);
 	if (WIFSIGNALED(exval))
 		sh_child_sighandler(WTERMSIG(exval));
 	return (WEXITSTATUS(exval));
 }
 
-int			exec_cmd(t_cmd *cmd, char **env)
+int			exec_cmd(t_cmdnode *cmddat, char **env)
 {
 	extern char	**environ;
 	int			errval;
 	int			exval;
 
-	if (cmd->builtin)
+	if (!cmddat)
+		return (EXIT_SUCCESS);
+	/*if (cmd->builtin)
 		exval = (cmd->builtin)((int)ft_tablen(cmd->c_argv), \
 			cmd->c_argv, (cmd->next) ? cmd->c_pfd[1] : STDOUT_FILENO);
 	else
-	{
-		if ((errval = cmd_chk(cmd->c_path)) >= 0)
+	{*/
+		if ((errval = cmd_chk(cmddat->c_path)) >= 0)
 		{
-			if (cmd->prev)
-				close(cmd->prev->c_pfd[0]);
-			sh_err(errval, NULL, cmd->c_path);
+			/*if (cmd->prev)
+				close(cmd->prev->c_pfd[0]);*/
+			sh_err(errval, NULL, cmddat->c_path);
 			return (127);
 		}
-		exval = exec_bincmd(cmd, (env) ? env : environ);
-	}
+		exval = exec_bincmd(cmddat, (env) ? env : environ);
+	/*}
 	if (!cmd->next && cmd->c_pfd[0] > 2)
 		close(cmd->c_pfd[0]);
 	if (cmd->next && cmd->c_pfd[1] > 2)
-		close(cmd->c_pfd[1]);
+		close(cmd->c_pfd[1]);*/
 	return (exval);
 }
 
-static int	run_cmdp(t_cmd *cmdp)
+/*static int	run_cmdp(t_cmd *cmdp)
 {
 	int		ret;
 	t_cmd	*cbw;
@@ -116,28 +140,4 @@ static int	run_cmdp(t_cmd *cmdp)
 		cbw = cbw->prev;
 	}
 	return (ret);
-}
-
-int			exec_cmds(char *line)
-{
-	int		ret;
-	t_cmd	*cmdp;
-	t_list	*cmds;
-	t_list	*bw;
-
-	if (*line == '#')
-		return (EXIT_SUCCESS);
-	if (!ft_splitquote(&cmds, line, ";", SH_QUOTES))
-		return (ft_returnmsg("exec_cmds: line split err!", STDERR_FILENO, 258));
-	bw = cmds;
-	ret = EXIT_SUCCESS;
-	while (bw)
-	{
-		cmdp = interpret_cmd(bw->content);
-		ret = run_cmdp(cmdp);
-		ft_cmddel(&cmdp);
-		bw = bw->next;
-	}
-	ft_lstdel(&cmds, &free_tlist);
-	return (ret);
-}
+}*/
