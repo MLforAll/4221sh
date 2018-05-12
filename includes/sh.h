@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/10 20:00:43 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/12 02:05:54 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@
 ** shell types
 */
 
-int		exec_shell(const char *path, char ***env);
-int		interactive_shell(char ***env);
+int		exec_shell(const char *path);
+int		interactive_shell(void);
 
 /*
 ** line parsing
@@ -50,29 +50,29 @@ char	*ft_strrmquote(char *s, char *cset);
 */
 
 char	*get_cmd_path(char *line_cmd, char **env);
-t_cmd	*interpret_cmd(char *cline, char **env);
+t_cmd	*interpret_cmd(char *cline);
 
 /*
 ** cmd exec
 */
 
-int		exec_cmd(t_cmd *cmd, char ***env);
-int		exec_cmds(char *line, char ***env);
+int		exec_cmd(t_cmd *cmd, char **env);
+int		exec_cmds(char *line);
 
 /*
 ** builtins
 */
 
-int		echo_bltn(int ac, char **av, char ***env, int outfd);
-int		exit_bltn(int ac, char **av, char ***env, int outfd);
+int		echo_bltn(int ac, char **av, int outfd);
+int		exit_bltn(int ac, char **av, int outfd);
 
-char	*getset_pwd_env(char ***env);
-int		cd_bltn(int ac, char **av, char ***env, int outfd);
+char	*getset_pwd_env(void);
+int		cd_bltn(int ac, char **av, int outfd);
 
-int		env_bltn(int ac, char **av, char ***env, int outfd);
-int		setenv_bltn(int ac, char **av, char ***env, int outfd);
-int		unsetenv_bltn(int ac, char **av, char ***env, int outfd);
-int		source_bltn(int ac, char **av, char ***env, int outfd);
+int		env_bltn(int ac, char **av, int outfd);
+int		setenv_bltn(int ac, char **av, int outfd);
+int		unsetenv_bltn(int ac, char **av, int outfd);
+int		source_bltn(int ac, char **av, int outfd);
 
 /*
 ** fsexp utilities

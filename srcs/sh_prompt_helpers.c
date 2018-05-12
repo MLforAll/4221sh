@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 21:41:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/10 20:00:40 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/12 01:04:39 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ int			add_hostname(char **dest)
 	return (TRUE);
 }
 
-static char	*build_home(char *pwd, char **env)
+static char	*build_home(char *pwd)
 {
 	char			*ret;
 	char			*home;
 	char			*stret;
 
-	if (!pwd || !(home = get_env_var(env, "HOME")))
+	if (!pwd || !(home = getenv("HOME")))
 		return (NULL);
 	if ((stret = ft_strstart(pwd, home)))
 		ret = ft_strdup("~");
@@ -61,14 +61,14 @@ static char	*build_home(char *pwd, char **env)
 	return (ret);
 }
 
-int			add_pwd(char **dest, int all, char **env)
+int			add_pwd(char **dest, int all)
 {
 	char			*path;
 	char			*pwd;
 	char			*tmp;
 
 	tmp = NULL;
-	if (!(pwd = get_env_var(env, "PWD")))
+	if (!(pwd = getenv("PWD")))
 	{
 		if (!(tmp = getcwd(NULL, 0)))
 			return (FALSE);
@@ -76,7 +76,7 @@ int			add_pwd(char **dest, int all, char **env)
 	}
 	else
 	{
-		if (!(path = build_home(pwd, env)))
+		if (!(path = build_home(pwd)))
 			return (FALSE);
 	}
 	if (!all)

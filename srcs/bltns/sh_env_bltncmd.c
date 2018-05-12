@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 23:00:55 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/10 20:00:31 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/12 02:08:29 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ static int	launch_utility(char **av, int idx, char **new_env)
 	t_cmd			*cmd;
 
 	cmd = ft_cmdnew();
-	cmd->c_argv = ft_tabdup((const char**)(av + idx));
+	cmd->c_argv = ft_tabdup(av + idx);
 	cmd->c_path = get_cmd_path(*cmd->c_argv, new_env);
-	ret = exec_cmd(cmd, &new_env);
+	ret = exec_cmd(cmd, new_env);
 	ft_cmddel(&cmd);
 	return (ret);
 }
@@ -74,8 +74,9 @@ static int	usage(char a)
 	return (EXIT_FAILURE);
 }
 
-int			env_bltn(int ac, char **av, char ***env, int outfd)
+int			env_bltn(int ac, char **av, int outfd)
 {
+	extern char		**environ;
 	char			**new_env;
 	int				idx;
 	int				opts;
@@ -85,7 +86,7 @@ int			env_bltn(int ac, char **av, char ***env, int outfd)
 	idx = 1;
 	if ((opts = get_env_opts(ac, av, &idx)) < 0)
 		return (usage(-opts));
-	new_env = (opts & 0x1) ? ft_tabnew() : ft_tabdup((const char**)*env);
+	new_env = (opts & 0x1) ? ft_tabnew() : ft_tabdup(environ);
 	while (ac > 1 && av[idx])
 	{
 		if (!ft_strchr(av[idx], '='))

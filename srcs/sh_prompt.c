@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 21:41:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/10 20:00:39 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/12 01:05:15 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include "sh.h"
 
-static int	check_str(char **dest, char **af, char *s, char **env)
+static int	check_str(char **dest, char **af, char *s)
 {
 	int			subr;
 
@@ -24,9 +24,9 @@ static int	check_str(char **dest, char **af, char *s, char **env)
 	else if ((*af = ft_strstart(s, "\\h")))
 		subr = add_hostname(dest);
 	else if ((*af = ft_strstart(s, "\\w")))
-		subr = add_pwd(dest, YES, env);
+		subr = add_pwd(dest, YES);
 	else if ((*af = ft_strstart(s, "\\W")))
-		subr = add_pwd(dest, NO, env);
+		subr = add_pwd(dest, NO);
 	else if ((*af = ft_strstart(s, "\\033")))
 		subr = ft_stradd(dest, "\033");
 	else
@@ -37,7 +37,7 @@ static int	check_str(char **dest, char **af, char *s, char **env)
 	return (subr);
 }
 
-char		*get_prompt_from_str(char *s, char **env)
+char		*get_prompt_from_str(char *s)
 {
 	char			*ret;
 	char			*af;
@@ -46,7 +46,7 @@ char		*get_prompt_from_str(char *s, char **env)
 	ret = ft_strnew(0);
 	while (*s)
 	{
-		subr = check_str(&ret, &af, s, env);
+		subr = check_str(&ret, &af, s);
 		if (!subr)
 		{
 			ft_strdel(&ret);

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/03 20:21:10 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/10 20:00:44 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/12 01:55:10 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** prompt
 */
 
-char	*get_prompt_from_str(char *s, char **env);
+char	*get_prompt_from_str(char *s);
 
 /*
 ** prompt utilities
@@ -25,6 +25,6 @@ char	*get_prompt_from_str(char *s, char **env);
 
 int		add_username(char **dest);
 int		add_hostname(char **dest);
-int		add_pwd(char **dest, int all, char **env);
+int		add_pwd(char **dest, int all);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/10 20:02:34 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/12 01:35:34 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 #include <unistd.h>
 #include "sh.h"
 
-int		echo_bltn(int ac, char **av, char ***env, int outfd)
+int		echo_bltn(int ac, char **av, int outfd)
 {
 	int		nonl;
 
-	(void)env;
 	nonl = 0;
 	if (ac > 1 && ft_strcmp(av[1], "-n") == 0)
 	{
@@ -36,26 +35,28 @@ int		echo_bltn(int ac, char **av, char ***env, int outfd)
 	return (EXIT_SUCCESS);
 }
 
-int		setenv_bltn(int ac, char **av, char ***env, int outfd)
+int		setenv_bltn(int ac, char **av, int outfd)
 {
+	extern char	**environ;
+
 	if (ac > 3)
 		return (sh_err(SH_ERR_TMARG, "setenv", NULL));
 	if (ac == 1)
 	{
-		ft_puttab_fd(*env, NULL, outfd);
+		ft_puttab_fd(environ, NULL, outfd);
 		return (EXIT_SUCCESS);
 	}
 	if (!ft_isalpha(*av[1]) || ft_strchrf(av[1], '=')
 		|| (ac == 3 && ft_strchr(av[1], '=')))
 		return (sh_err(SH_ERR_INVID, av[0], av[1]));
 	if (ac == 3)
-		set_env_var(env, av[1], av[2]);
+		set_env_var(NULL, av[1], av[2]);
 	else
-		set_env_from_str(env, av[1]);
+		set_env_from_str(NULL, av[1]);
 	return (EXIT_SUCCESS);
 }
 
-int		unsetenv_bltn(int ac, char **av, char ***env, int outfd)
+int		unsetenv_bltn(int ac, char **av, int outfd)
 {
 	int		idx;
 
@@ -67,11 +68,11 @@ int		unsetenv_bltn(int ac, char **av, char ***env, int outfd)
 		return (sh_err(SH_ERR_INVID, av[0], av[1]));
 	idx = 0;
 	while (idx < ac)
-		del_env_var(env, av[idx++]);
+		del_env_var(NULL, av[idx++]);
 	return (EXIT_SUCCESS);
 }
 
-int		exit_bltn(int ac, char **av, char ***env, int outfd)
+int		exit_bltn(int ac, char **av, int outfd)
 {
 	char	*last_cmd_ret;
 
@@ -80,7 +81,7 @@ int		exit_bltn(int ac, char **av, char ***env, int outfd)
 		return (sh_err(SH_ERR_TMARG, av[0], NULL));
 	if (ac == 1)
 	{
-		last_cmd_ret = get_env_var(*env, "?");
+		last_cmd_ret = getenv("?");
 		exit((last_cmd_ret) ? ft_atoi(last_cmd_ret) : EXIT_SUCCESS);
 	}
 	if (!ft_strisnumeric(av[1]))
@@ -89,11 +90,11 @@ int		exit_bltn(int ac, char **av, char ***env, int outfd)
 	return (EXIT_SUCCESS);
 }
 
-int		source_bltn(int ac, char **av, char ***env, int outfd)
+int		source_bltn(int ac, char **av, int outfd)
 {
 	(void)outfd;
 	if (ac == 1)
 		return (EXIT_FAILURE);
-	exec_shell(av[1], env);
+	exec_shell(av[1]);
 	return (EXIT_SUCCESS);
 }

@@ -6,18 +6,19 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 18:22:50 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/10 20:00:34 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/12 02:02:32 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <stdlib.h>
 #include "sh.h"
 
 static void	fill_bltn(t_cmd *cmd, char *line_cmd)
 {
 	char			*nptr;
 	unsigned int	idx;
-	static int		(*bltns_funcs[])(int, char **, char ***, int) = {&echo_bltn,
+	static int		(*bltns_funcs[])(int, char **, int) = {&echo_bltn,
 		&cd_bltn, &exit_bltn, &env_bltn, &setenv_bltn, &unsetenv_bltn,
 		&source_bltn, NULL};
 
@@ -81,12 +82,13 @@ static char	**get_cmd_argv(char *s)
 	return (ret);
 }
 
-t_cmd		*interpret_cmd(char *cline, char **env)
+t_cmd		*interpret_cmd(char *cline)
 {
 	t_cmd	*ret;
 	t_cmd	*new;
 	t_list	*psplit;
 	t_list	*bw;
+	extern char	**environ;
 
 	ret = NULL;
 	ft_splitquote(&psplit, cline, "|", SH_QUOTES);
@@ -101,7 +103,7 @@ t_cmd		*interpret_cmd(char *cline, char **env)
 			break ;
 		}
 		fill_bltn(new, *new->c_argv);
-		new->c_path = (!new->builtin) ? get_cmd_path(*new->c_argv, env) : NULL;
+		new->c_path = (!new->builtin) ? get_cmd_path(*new->c_argv, environ) : NULL;
 		if (pipe(new->c_pfd) == -1)
 			ft_bzero(new->c_pfd, sizeof(new->c_pfd) / sizeof(int));
 		bw = bw->next;

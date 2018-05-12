@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/10 20:02:05 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/12 02:07:37 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <sys/wait.h>
 #include "sh.h"
 
-static int	cmd_chk(char *path, char **env)
+static int	cmd_chk(char *path)
 {
 	int		code;
 	int		noent;
@@ -27,7 +27,7 @@ static int	cmd_chk(char *path, char **env)
 	noent = SH_ERR_NOENT;
 	if (!ft_strchr(path, '/'))
 	{
-		if ((pathenv = get_env_var(env, "PATH")) && *pathenv)
+		if ((pathenv = getenv("PATH")) && *pathenv)
 			return (SH_ERR_NOCMD);
 		noent = SH_ERR_NOCMD;
 	}
@@ -38,7 +38,7 @@ static int	cmd_chk(char *path, char **env)
 	return (code);
 }
 
-static int	exec_bincmd(t_cmd *cmd, char ***env)
+static int	exec_bincmd(t_cmd *cmd, char **env)
 {
 	pid_t	pid;
 	int		exval;
@@ -50,9 +50,9 @@ static int	exec_bincmd(t_cmd *cmd, char ***env)
 	{
 		prepare_dups(cmd);
 		switch_traps(FALSE);
-		chg_env_var(*env, "_", cmd->c_path);
-		execve(cmd->c_path, cmd->c_argv, *env);
-		exit(exec_shell(cmd->c_path, env) == EXIT_SUCCESS ? EXIT_SUCCESS : 127);
+		chg_env_var(env, "_", cmd->c_path);
+		execve(cmd->c_path, cmd->c_argv, env);
+		exit(exec_shell(cmd->c_path) == EXIT_SUCCESS ? EXIT_SUCCESS : 127);
 	}
 	cmd->c_pid = pid;
 	if (cmd->next)
@@ -63,24 +63,25 @@ static int	exec_bincmd(t_cmd *cmd, char ***env)
 	return (WEXITSTATUS(exval));
 }
 
-int			exec_cmd(t_cmd *cmd, char ***env)
+int			exec_cmd(t_cmd *cmd, char **env)
 {
-	int		errval;
-	int		exval;
+	extern char	**environ;
+	int			errval;
+	int			exval;
 
 	if (cmd->builtin)
-		exval = (cmd->builtin)((int)ft_tablen((const char**)cmd->c_argv), \
-			cmd->c_argv, env, (cmd->next) ? cmd->c_pfd[1] : STDOUT_FILENO);
+		exval = (cmd->builtin)((int)ft_tablen(cmd->c_argv), \
+			cmd->c_argv, (cmd->next) ? cmd->c_pfd[1] : STDOUT_FILENO);
 	else
 	{
-		if ((errval = cmd_chk(cmd->c_path, *env)) >= 0)
+		if ((errval = cmd_chk(cmd->c_path)) >= 0)
 		{
 			if (cmd->prev)
 				close(cmd->prev->c_pfd[0]);
 			sh_err(errval, NULL, cmd->c_path);
 			return (127);
 		}
-		exval = exec_bincmd(cmd, env);
+		exval = exec_bincmd(cmd, (env) ? env : environ);
 	}
 	if (!cmd->next && cmd->c_pfd[0] > 2)
 		close(cmd->c_pfd[0]);
@@ -89,7 +90,7 @@ int			exec_cmd(t_cmd *cmd, char ***env)
 	return (exval);
 }
 
-static int	run_cmdp(t_cmd *cmdp, char ***env)
+static int	run_cmdp(t_cmd *cmdp)
 {
 	int		ret;
 	t_cmd	*cbw;
@@ -99,7 +100,7 @@ static int	run_cmdp(t_cmd *cmdp, char ***env)
 	cbw = cmdp;
 	while (cbw)
 	{
-		ret = exec_cmd(cbw, env);
+		ret = exec_cmd(cbw, NULL);
 		if (!cbw->next)
 			break ;
 		cbw = cbw->next;
@@ -117,7 +118,7 @@ static int	run_cmdp(t_cmd *cmdp, char ***env)
 	return (ret);
 }
 
-int			exec_cmds(char *line, char ***env)
+int			exec_cmds(char *line)
 {
 	int		ret;
 	t_cmd	*cmdp;
@@ -132,8 +133,8 @@ int			exec_cmds(char *line, char ***env)
 	ret = EXIT_SUCCESS;
 	while (bw)
 	{
-		cmdp = interpret_cmd(bw->content, *env);
-		ret = run_cmdp(cmdp, env);
+		cmdp = interpret_cmd(bw->content);
+		ret = run_cmdp(cmdp);
 		ft_cmddel(&cmdp);
 		bw = bw->next;
 	}

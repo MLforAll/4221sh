@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/21 19:45:50 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/05 00:44:16 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/12 02:06:03 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "get_next_line.h"
 #include "sh.h"
 
-int			exec_shell(const char *path, char ***env)
+int			exec_shell(const char *path)
 {
 	char		*line;
 	int			fd;
@@ -28,8 +28,8 @@ int			exec_shell(const char *path, char ***env)
 	ret = EXIT_SUCCESS;
 	while (get_next_line(fd, &line) > 0)
 	{
-		ret = exec_cmds(line, env);
-		set_env_var_n(env, "?", ret);
+		ret = exec_cmds(line);
+		set_env_var_n(NULL, "?", ret);
 		ft_strdel(&line);
 	}
 	if (fd != STDIN_FILENO)
@@ -37,22 +37,21 @@ int			exec_shell(const char *path, char ***env)
 	return (ret);
 }
 
-int			main(int ac, char **av, char **environ)
+int			main(int ac, char **av)
 {
-	char		**env;
+	extern char	**environ;
 	int			exval;
 
 	switch_traps(TRUE);
-	env = (environ) ? ft_tabdup((const char**)environ) : ft_tabnew();
-	set_env_var(&env, "SHELL", av[0]);
-	getset_pwd_env(&env);
-	if (!get_env_var(env, "PATH"))
-		set_env_var(&env, "PATH", SH_DEFAULT_PATH);
-	set_env_var(&env, "_", av[0]);
+	environ = ft_tabdup(environ);
+	set_env_var(NULL, "SHELL", av[0]);
+	getset_pwd_env();
+	if (!getenv("PATH"))
+		set_env_var(NULL, "PATH", SH_DEFAULT_PATH);
+	set_env_var(NULL, "_", av[0]);
 	if (ac > 1 || !ft_isatty(STDIN_FILENO))
-		exval = exec_shell((ac > 1) ? av[1] : NULL, &env);
+		exval = exec_shell((ac > 1) ? av[1] : NULL);
 	else
-		exval = interactive_shell(&env);
-	ft_tabfree(&env);
+		exval = interactive_shell();
 	return (exval);
 }
