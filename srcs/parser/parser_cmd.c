@@ -6,11 +6,12 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 02:03:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/11 22:47:42 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/12 02:35:29 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include "sh.h"
 #include "sh_parser.h"
 
 static void	add_redirect(t_cmdnode *cmddat, t_list **tok, int io_nbr)
@@ -47,7 +48,7 @@ void		fill_cmd_data(t_cmdnode *cmddat, t_list *tokens)
 		{
 			if (first_word)
 			{
-				cmddat->c_path = ft_strdup(tokdat->toks);
+				cmddat->c_path = get_cmd_path(tokdat->toks, NULL);
 				first_word = FALSE;
 			}
 			ft_tabaddstr(&cmddat->c_av, tokdat->toks);
