@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/12 22:28:38 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/13 02:48:04 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@
 */
 
 # define SH_NAME			"21sh"
-# define SH_PLAIN_PROMPT	"21sh$ "
+# define SH_PLAIN_PROMPT	SH_NAME "$ "
 # define SH_RC				".21shrc"
-# define SH_QUOTES			"\""
 # define SH_MAXHIST			100
 # define SH_BLTNS			"echo\0cd\0exit\0env\0setenv\0unsetenv\0source\0"
 
@@ -41,20 +40,11 @@ int		exec_shell(const char *path);
 int		interactive_shell(void);
 
 /*
-** line parsing
-*/
-
-char	*get_cmd_path(char *line_cmd, char **env);
-
-int		ft_splitquote(t_list **dest, char *s, char *charset, char *cs);
-char	*ft_strrmquote(char *s, char *cset);
-
-/*
 ** cmd exec
 */
 
-int		exec_cmd(t_cmdnode *node, char **env);
-int		exec_cmds(char *line);
+int		exec_cmd(t_cmdnode *cmddat, int async, char **env);
+int		eval_line(char *line);
 
 /*
 ** builtins

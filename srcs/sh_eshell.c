@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_shell.c                                       :+:      :+:    :+:   */
+/*   sh_eshell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 02:41:29 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/12 02:42:32 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/13 03:09:03 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ int			exec_shell(const char *path)
 	ret = EXIT_SUCCESS;
 	while (get_next_line(fd, &line) > 0)
 	{
-		ret = exec_cmds(line);
-		set_env_var_n(NULL, "?", ret);
+		ret = eval_line(line);
 		ft_strdel(&line);
 	}
 	if (fd != STDIN_FILENO)

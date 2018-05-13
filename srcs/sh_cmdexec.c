@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/13 00:52:45 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/13 02:42:23 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,27 @@ static void	exec_redir(t_cmdnode *cmddat)
 			fd = open(redir->filename, O_WRONLY | O_CREAT, 0644);
 			close(redir->io_nbr);
 			dup2(fd, redir->io_nbr);
+			close(fd);
 		}
 		bw = bw->next;
 	}
 }
 
-static int	exec_bincmd(t_cmdnode *cmddat, char **env)
+static void	exec_pipe(t_cmdnode *cmddat)
+{
+	if (cmddat->stdin_fd != -1)
+	{
+		close(STDIN_FILENO);
+		dup2(cmddat->stdin_fd, STDIN_FILENO);
+	}
+	if (cmddat->stdout_fd != -1)
+	{
+		close(STDOUT_FILENO);
+		dup2(cmddat->stdout_fd, STDOUT_FILENO);
+	}
+}
+
+static int	exec_bincmd(t_cmdnode *cmddat, int async, char **env)
 {
 	pid_t	pid;
 	int		exval;
@@ -70,22 +85,23 @@ static int	exec_bincmd(t_cmdnode *cmddat, char **env)
 	if (pid == 0)
 	{
 		//prepare_dups(cmd);
+		exec_pipe(cmddat);
 		exec_redir(cmddat);
 		switch_traps(FALSE);
 		chg_env_var(env, "_", cmddat->c_path);
 		execve(cmddat->c_path, cmddat->c_av, env);
 		exit(exec_shell(cmddat->c_path) == EXIT_SUCCESS ? EXIT_SUCCESS : 127);
 	}
-	/*cmd->c_pid = pid;
-	if (cmd->next)
-		return (EXIT_SUCCESS);*/
+	//cmd->c_pid = pid;
+	if (async)
+		return (EXIT_SUCCESS);
 	waitpid(pid, &exval, 0);
 	if (WIFSIGNALED(exval))
 		sh_child_sighandler(WTERMSIG(exval));
 	return (WEXITSTATUS(exval));
 }
 
-int			exec_cmd(t_cmdnode *cmddat, char **env)
+int			exec_cmd(t_cmdnode *cmddat, int async, char **env)
 {
 	extern char	**environ;
 	int			errval;
@@ -100,17 +116,11 @@ int			exec_cmd(t_cmdnode *cmddat, char **env)
 	{*/
 		if ((errval = cmd_chk(cmddat->c_path)) >= 0)
 		{
-			/*if (cmd->prev)
-				close(cmd->prev->c_pfd[0]);*/
 			sh_err(errval, NULL, cmddat->c_path);
 			return (127);
 		}
-		exval = exec_bincmd(cmddat, (env) ? env : environ);
-	/*}
-	if (!cmd->next && cmd->c_pfd[0] > 2)
-		close(cmd->c_pfd[0]);
-	if (cmd->next && cmd->c_pfd[1] > 2)
-		close(cmd->c_pfd[1]);*/
+		exval = exec_bincmd(cmddat, async, (env) ? env : environ);
+	//}
 	return (exval);
 }
 
