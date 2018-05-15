@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/05/12 22:28:18 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/05/15 03:01:22 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRCFILES = sh_main.c \
 	sh_ishell.c \
 	sh_eval.c \
 	sh_cmdexec.c \
+	sh_cmdredirs.c \
 	sh_err.c \
 	parser/parser_start.c \
 	parser/parser_cmd.c \
@@ -40,6 +41,7 @@ SRCFILES = sh_main.c \
 	lexer/lexer_dquote.c \
 	lexer/lexer_great.c \
 	lexer/lexer_less.c \
+	lexer/lexer_ampersand.c \
 	lexer/lexer_switch.c \
 	prompt/sh_prompt.c \
 	prompt/sh_prompt_helpers.c \

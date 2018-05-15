@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/05/12 02:43:22 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/05/15 02:52:50 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,17 +28,18 @@ SHSRCFILES = parser/parser_start.c \
 	lexer/lexer_dquote.c \
 	lexer/lexer_great.c \
 	lexer/lexer_less.c \
+	lexer/lexer_ampersand.c \
 	lexer/lexer_switch.c \
-	exec_shell.c \
+	sh_eshell.c \
 	sh_ishell.c \
-	sh_interpret.c \
+	sh_eval.c \
 	sh_cmdexec.c \
+	sh_cmdredirs.c \
 	sh_err.c \
-	sh_prompt.c \
-	sh_prompt_helpers.c \
-	sh_env.c \
-	sh_env_helpers.c \
-	sh_lineparser.c \
+	prompt/sh_prompt.c \
+	prompt/sh_prompt_helpers.c \
+	env/sh_env.c \
+	env/sh_env_helpers.c \
 	fsexp_functions.c \
 	bltns/sh_builtins.c \
 	bltns/sh_env_bltncmd.c \

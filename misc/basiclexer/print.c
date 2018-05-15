@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 22:27:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/11 23:50:50 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/15 03:23:10 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ static void	ft_putnchar_limit(char c, size_t len)
 static void	print_tok(t_token *tok)
 {
 	ft_putstr("Token: ");
-	ft_putstr(g_typedesc[(int)tok->type]);
+	if ((unsigned long)tok->type < sizeof(g_typedesc) / sizeof(*g_typedesc))
+		ft_putstr(g_typedesc[(int)tok->type]);
+	else
+		ft_putstr("Undefined");
 	ft_putnchar_limit(' ', 9 - ft_strlen(g_typedesc[(int)tok->type]));
 	ft_putstr(" | Value: ");
 	ft_putstr((tok->toks) ? tok->toks : "(null)");

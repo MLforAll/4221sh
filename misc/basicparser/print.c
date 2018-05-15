@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:16 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/11 23:51:03 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/15 02:56:05 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ static void	cmdnode_putav(t_cmdnode *ndat)
 
 static void	cmdnode_putredirs(t_cmdnode *ndat)
 {
-	t_list	*rdb;
-	int		idx;
+	t_list		*rdb;
+	t_redirect	*redir;
+	int			idx;
 
 	if (!ndat || !(rdb = ndat->c_redirects))
 	{
@@ -49,14 +50,21 @@ static void	cmdnode_putredirs(t_cmdnode *ndat)
 	idx = 0;
 	while (rdb)
 	{
-		ft_putstr("\tc_redirects[");
+		redir = (t_redirect*)rdb->content;
+		ft_putstr("\tc_redirects(");
 		ft_putnbr(idx++);
-		ft_putstr("]: ");
-		ft_putnbr(((t_redirect*)rdb->content)->io_nbr);
+		ft_putstr("): ");
+		ft_putnbr(redir->io_nbr);
 		ft_putstr(" \"");
-		ft_putstr(g_typedesc[(int)((t_redirect*)rdb->content)->rtype]);
+		ft_putstr(g_typedesc[(int)redir->rtype]);
 		ft_putstr("\" ");
-		ft_putendl(((t_redirect*)rdb->content)->filename);
+		if (redir->filename)
+			ft_putendl(redir->filename);
+		else
+		{
+			ft_putnbr(redir->agreg);
+			ft_putchar('\n');
+		}
 		rdb = rdb->next;
 	}
 }

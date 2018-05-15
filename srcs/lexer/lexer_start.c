@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/11 15:38:38 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/15 03:19:51 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,20 @@ void				tokens_lstdel(void *data, size_t datsize)
 
 t_charstate			get_charstate(char c)
 {
+	if (c == '\0')
+		return (kCharNull);
 	if (c == '>')
 		return (kCharGreat);
 	if (c == '<')
 		return (kCharLess);
-	if (c == '|')
-		return (kCharPipe);
+	if (c == '&')
+		return (kCharAmpersand);
+	if (c == '-')
+		return (kCharDash);
 	if (c == ';')
 		return (kCharSemi);
+	if (c == '|')
+		return (kCharPipe);
 	if (c == '"')
 		return (kCharDQuote);
 	if (c == '\'')
@@ -38,8 +44,6 @@ t_charstate			get_charstate(char c)
 		return (kCharEscape);
 	if (c == ' ')
 		return (kCharSpace);
-	if (c == '\0')
-		return (kCharNull);
 	return (kCharGeneral);
 }
 
@@ -62,11 +66,12 @@ void				add_token(t_list **tokens, char *s, t_toktype type, int prio)
 
 static t_lexstate	get_nextstate(t_lexdat *dat)
 {
-	const t_equi		eq[5] = {
+	const t_equi		eq[6] = {
 	{kLexStateGeneral, &lex_general, (void*)dat},
 	{kLexStateDQuote, &lex_dquote, (void*)dat},
 	{kLexStateGreat, &lex_great, (void*)dat},
 	{kLexStateLess, &lex_less, (void*)dat},
+	{kLexStateAmpersand, &lex_ampersand, (void*)dat},
 	{0, NULL, NULL}};
 	const int			cmpdat = dat->curr_state;
 	int					ret;
@@ -87,13 +92,14 @@ t_list				*lex_line(char *line)
 	dat.currtoks = ft_strnew(0);
 	dat.ret = &ret;
 	dat.curr_state = kLexStateGeneral;
-	while (*line)
+	while (42)
 	{
 		dat.c = *line;
 		dat.curr_state = get_nextstate(&dat);
+		if (!*line)
+			break ;
 		line++;
 	}
-	add_token(&ret, dat.currtoks, WORD, 0);
 	ft_strdel(&dat.currtoks);
 	return (ret);
 }

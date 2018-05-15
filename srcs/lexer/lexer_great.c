@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/30 14:10:56 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/10 00:00:53 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/15 02:40:18 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ int			lex_great(void *data)
 		return ((int)kLexStateGeneral);
 	}
 	create_great_tok(data);
+	if (cs == kCharAmpersand)
+		return ((int)kLexStateAmpersand);
 	if (cs != kCharSpace)
 		add_to_curr(data);
 	return ((int)kLexStateGeneral);

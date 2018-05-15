@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 02:03:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/13 01:06:39 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/15 03:23:53 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "sh.h"
 #include "sh_parser.h"
 
-char		*get_cmd_path(char *line_cmd, char **env)
+char				*get_cmd_path(char *line_cmd, char **env)
 {
 	char			*env_path;
 	char			**paths;
@@ -38,33 +38,44 @@ char		*get_cmd_path(char *line_cmd, char **env)
 	return ((!ret) ? line_cmd : ret);
 }
 
-static void	add_redirect(t_cmdnode *cmddat, t_list **tok, int io_nbr)
+inline static int	get_dfl_io_nbr(t_toktype type)
+{
+	return ((type == LESS || type == DLESS) ? STDIN_FILENO : STDOUT_FILENO);
+}
+
+static void			add_redirect(t_cmdnode *cmddat, t_list **tok, int *io_nbr)
 {
 	t_list		*nr;
 	t_redirect	nrdat;
+	t_token		*tokdat;
 
+	tokdat = ((t_token*)(*tok)->content);
 	ft_bzero(&nrdat, sizeof(t_redirect));
 	nrdat.agreg = -1;
-	nrdat.io_nbr = io_nbr;
-	nrdat.rtype = ((t_token*)(*tok)->content)->type;
-	if ((*tok)->next && ((t_token*)(*tok)->next->content)->type == WORD)
+	nrdat.io_nbr = (*io_nbr == -1) ? get_dfl_io_nbr(tokdat->type) : *io_nbr;
+	nrdat.rtype = tokdat->type;
+	if ((*tok)->next)
 	{
-		nrdat.filename = ft_strdup(((t_token*)(*tok)->next->content)->toks);
+		if (((t_token*)(*tok)->next->content)->type == WORD)
+			nrdat.filename = ft_strdup(((t_token*)(*tok)->next->content)->toks);
+		else if (((t_token*)(*tok)->next->content)->type == IO_NUMBER)
+			nrdat.agreg = ft_atoi(((t_token*)(*tok)->next->content)->toks);
 		*tok = (*tok)->next;
 	}
+	*io_nbr = -1;
 	if (!(nr = ft_lstnew(&nrdat, sizeof(t_redirect))))
 		return ;
 	ft_lstpush(&cmddat->c_redirects, nr);
 }
 
-void		fill_cmd_data(t_cmdnode *cmddat, t_list *tokens)
+void				fill_cmd_data(t_cmdnode *cmddat, t_list *tokens)
 {
 	t_token	*tokdat;
 	int		first_word;
 	int		io_nbr;
 
 	first_word = TRUE;
-	io_nbr = 1;
+	io_nbr = -1;
 	while (tokens)
 	{
 		tokdat = (t_token*)tokens->content;
@@ -80,7 +91,7 @@ void		fill_cmd_data(t_cmdnode *cmddat, t_list *tokens)
 		else if (tokdat->type == IO_NUMBER)
 			io_nbr = ft_atoi(tokdat->toks);
 		else if (tokdat->type >= GREAT && tokdat->type <= DLESS)
-			add_redirect(cmddat, &tokens, io_nbr);
+			add_redirect(cmddat, &tokens, &io_nbr);
 		tokens = tokens->next;
 	}
 }

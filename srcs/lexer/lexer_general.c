@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/13 02:02:11 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/15 03:20:46 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,12 @@ static int	switch_to_dquote(void *data)
 
 int			lex_general(void *data)
 {
-	const t_equi		eq[8] = {
+	const t_equi		eq[10] = {
 	{kCharGeneral, &add_to_curr, (void*)data},
+	{kCharDash, &add_to_curr, (void*)data},
 	{kCharDQuote, &switch_to_dquote, (void*)data},
 	{kCharSpace, &add_token_to_ret, (void*)data},
+	{kCharNull, &add_token_to_ret, (void*)data},
 	{kCharGreat, &switch_to_great, (void*)data},
 	{kCharLess, &switch_to_less, (void*)data},
 	{kCharPipe, &create_pipe_tok, (void*)data},

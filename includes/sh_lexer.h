@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/11 23:15:19 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/15 03:15:00 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ typedef enum	e_lexstate
 	kLexStateDQuote,
 	kLexStateSQuote,
 	kLexStateGreat,
-	kLexStateLess
+	kLexStateLess,
+	kLexStateAmpersand,
 }				t_lexstate;
 
 typedef enum	e_charstate
@@ -52,7 +53,8 @@ typedef enum	e_charstate
 	kCharSemi,
 	kCharGreat,
 	kCharLess,
-	kCharAmpersand
+	kCharAmpersand,
+	kCharDash
 }				t_charstate;
 
 typedef enum	e_toktype
@@ -69,7 +71,8 @@ typedef enum	e_toktype
 	LESS,
 	DLESS,
 	CLOBBER,
-	AMPERSAND
+	AMPERSAND,
+	DASH
 }				t_toktype;
 
 typedef struct	s_token
@@ -97,6 +100,7 @@ int				lex_general(void *data);
 int				lex_dquote(void *data);
 int				lex_great(void *data);
 int				lex_less(void *data);
+int				lex_ampersand(void *data);
 
 /*
 ** State functions used throughout

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/13 02:42:23 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/15 02:56:42 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <unistd.h>
 #include <signal.h>
 #include <sys/wait.h>
-#include <fcntl.h>
 #include "sh.h"
 
 static int	cmd_chk(char *path)
@@ -37,27 +36,6 @@ static int	cmd_chk(char *path)
 	if (code == SH_ERR_NOENT)
 		return (noent);
 	return (code);
-}
-
-static void	exec_redir(t_cmdnode *cmddat)
-{
-	t_list		*bw;
-	t_redirect	*redir;
-	int			fd;
-
-	bw = cmddat->c_redirects;
-	while (bw)
-	{
-		redir = (t_redirect*)bw->content;
-		if (redir->rtype == GREAT)
-		{
-			fd = open(redir->filename, O_WRONLY | O_CREAT, 0644);
-			close(redir->io_nbr);
-			dup2(fd, redir->io_nbr);
-			close(fd);
-		}
-		bw = bw->next;
-	}
 }
 
 static void	exec_pipe(t_cmdnode *cmddat)

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/13 02:48:04 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/14 14:43:42 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int		interactive_shell(void);
 ** cmd exec
 */
 
+void	exec_redir(t_cmdnode *cmddat);
 int		exec_cmd(t_cmdnode *cmddat, int async, char **env);
 int		eval_line(char *line);
 
