@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/17 03:39:20 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/17 04:30:44 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,22 +57,22 @@ static int	exec_bincmd(t_cmdnode *cmddat, int async, char **env)
 	pid_t	pid;
 	int		exval;
 
-	exval = 0;
 	if ((pid = fork()) == -1)
 		return (EXIT_FAILURE);
 	if (pid == 0)
 	{
-		//prepare_dups(cmd);
 		exec_pipe(cmddat);
 		exec_redir(cmddat);
 		switch_traps(FALSE);
 		chg_env_var(env, "_", cmddat->c_path);
 		execve(cmddat->c_path, cmddat->c_av, env);
-		exit(exec_shell(cmddat->c_path) == EXIT_SUCCESS ? EXIT_SUCCESS : 127);
+		if ((exval = cmd_chk(cmddat->c_path)) >= 0)
+			sh_err_ret(exval, NULL, cmddat->c_path, 127);
+		exit((exec_shell(cmddat->c_path) == EXIT_SUCCESS) ? EXIT_SUCCESS : 127);
 	}
-	//cmd->c_pid = pid;
 	if (async)
 		return (EXIT_SUCCESS);
+	exval = 0;
 	waitpid(pid, &exval, WUNTRACED);
 	if (WIFSIGNALED(exval))
 		sh_child_signaled(WTERMSIG(exval));
@@ -82,7 +82,6 @@ static int	exec_bincmd(t_cmdnode *cmddat, int async, char **env)
 int			exec_cmd(t_cmdnode *cmddat, int async, char **env)
 {
 	extern char	**environ;
-	int			errval;
 	int			exval;
 
 	if (!cmddat)
@@ -91,14 +90,7 @@ int			exec_cmd(t_cmdnode *cmddat, int async, char **env)
 		exval = (cmddat->builtin)((int)ft_tablen(cmddat->c_av), cmddat->c_av,
 			(cmddat->stdout_fd == -1) ? STDOUT_FILENO : cmddat->stdout_fd);
 	else
-	{
-		if ((errval = cmd_chk(cmddat->c_path)) >= 0)
-		{
-			sh_err(errval, NULL, cmddat->c_path);
-			return (127);
-		}
 		exval = exec_bincmd(cmddat, async, (env) ? env : environ);
-	}
 	return (exval);
 }
 
