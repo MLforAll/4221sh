@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/17 04:30:44 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/17 23:40:03 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	exec_bincmd(t_cmdnode *cmddat, int async, char **env)
 		chg_env_var(env, "_", cmddat->c_path);
 		execve(cmddat->c_path, cmddat->c_av, env);
 		if ((exval = cmd_chk(cmddat->c_path)) >= 0)
-			sh_err_ret(exval, NULL, cmddat->c_path, 127);
+			exit(sh_err_ret(exval, NULL, cmddat->c_path, 127));
 		exit((exec_shell(cmddat->c_path) == EXIT_SUCCESS) ? EXIT_SUCCESS : 127);
 	}
 	if (async)
