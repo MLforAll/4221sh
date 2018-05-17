@@ -6,13 +6,36 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 02:03:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/15 03:23:53 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/17 03:36:49 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "sh.h"
 #include "sh_parser.h"
+
+static int	fill_bltn(t_cmdnode *cmddat, char *line_cmd)
+{
+	char			*nptr;
+	unsigned int	idx;
+	static int		(*bltns_funcs[8])(int, char **, int) = {&echo_bltn,
+		&cd_bltn, &exit_bltn, &env_bltn, &setenv_bltn, &unsetenv_bltn,
+		&source_bltn, NULL};
+
+	idx = 0;
+	nptr = SH_BLTNS;
+	while (idx < sizeof(bltns_funcs) / sizeof(*bltns_funcs) && *nptr)
+	{
+		if (ft_strcmp(line_cmd, nptr) == 0)
+		{
+			cmddat->builtin = bltns_funcs[idx];
+			return (TRUE);
+		}
+		nptr += ft_strlen(nptr) + 1;
+		idx++;
+	}
+	return (FALSE);
+}
 
 char				*get_cmd_path(char *line_cmd, char **env)
 {
@@ -81,12 +104,13 @@ void				fill_cmd_data(t_cmdnode *cmddat, t_list *tokens)
 		tokdat = (t_token*)tokens->content;
 		if (tokdat->type == WORD)
 		{
+			ft_tabaddstr(&cmddat->c_av, tokdat->toks);
 			if (first_word)
 			{
-				cmddat->c_path = get_cmd_path(tokdat->toks, NULL);
+				if (!fill_bltn(cmddat, cmddat->c_av[0]))
+					cmddat->c_path = get_cmd_path(cmddat->c_av[0], NULL);
 				first_word = FALSE;
 			}
-			ft_tabaddstr(&cmddat->c_av, tokdat->toks);
 		}
 		else if (tokdat->type == IO_NUMBER)
 			io_nbr = ft_atoi(tokdat->toks);

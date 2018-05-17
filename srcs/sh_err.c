@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 21:23:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/04/10 20:02:21 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/17 03:43:25 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ int			sh_err_ret(int errc, const char *bltn, const char *path, int retv)
 	return (retv);
 }
 
-void		sh_child_sighandler(int sigc)
+void		sh_child_signaled(int sigc)
 {
-	const char	*errs[] = {"Hangup", NULL, NULL, "Illegal instruction",
+	const char	*errs[30] = {"Hangup", NULL, NULL, "Illegal instruction",
 		"Trace/BPT trap", "Abort trap", "EMT trap", "Floating point exception",
 		"Killed", "Bus error", "Segmentation fault",
 		"Bad system call", NULL, "Alarm clock", "Terminated",

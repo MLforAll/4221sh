@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/15 02:56:42 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/17 03:39:20 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ static int	exec_bincmd(t_cmdnode *cmddat, int async, char **env)
 	//cmd->c_pid = pid;
 	if (async)
 		return (EXIT_SUCCESS);
-	waitpid(pid, &exval, 0);
+	waitpid(pid, &exval, WUNTRACED);
 	if (WIFSIGNALED(exval))
-		sh_child_sighandler(WTERMSIG(exval));
+		sh_child_signaled(WTERMSIG(exval));
 	return (WEXITSTATUS(exval));
 }
 
@@ -87,18 +87,18 @@ int			exec_cmd(t_cmdnode *cmddat, int async, char **env)
 
 	if (!cmddat)
 		return (EXIT_SUCCESS);
-	/*if (cmd->builtin)
-		exval = (cmd->builtin)((int)ft_tablen(cmd->c_argv), \
-			cmd->c_argv, (cmd->next) ? cmd->c_pfd[1] : STDOUT_FILENO);
+	if (cmddat->builtin)
+		exval = (cmddat->builtin)((int)ft_tablen(cmddat->c_av), cmddat->c_av,
+			(cmddat->stdout_fd == -1) ? STDOUT_FILENO : cmddat->stdout_fd);
 	else
-	{*/
+	{
 		if ((errval = cmd_chk(cmddat->c_path)) >= 0)
 		{
 			sh_err(errval, NULL, cmddat->c_path);
 			return (127);
 		}
 		exval = exec_bincmd(cmddat, async, (env) ? env : environ);
-	//}
+	}
 	return (exval);
 }
 

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/13 02:41:00 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/17 03:15:55 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int					eval_line(char *line)
 
 	if (!(tokens = lex_line(line)))
 		return (EXIT_SUCCESS);
+	parser_check_heredocs(tokens);
 	if (!(ast = parse_tokens(tokens)))
 		return (ft_returnmsg("eval_line: ast error", STDERR_FILENO, 258));
 	ret = exec_cmd(eval_ast(ast), NO, NULL);

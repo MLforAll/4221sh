@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/13 02:42:21 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/17 03:00:29 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct	s_astnode
 
 typedef	struct	s_cmdnode
 {
+	int		(*builtin)(int, char **, int);
 	char	*c_path;
 	char	**c_av;
 	t_list	*c_redirects;
@@ -45,6 +46,8 @@ typedef struct	s_redirect
 /*
 ** parser
 */
+
+void	parser_check_heredocs(t_list *tokens);
 
 t_btree	*parse_tokens(t_list *tokens);
 

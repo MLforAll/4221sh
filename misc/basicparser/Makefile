@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/05/15 02:52:50 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/05/17 02:06:55 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SHSRCDIR = ../../srcs
 SHSRCFILES = parser/parser_start.c \
 	parser/parser_cmd.c \
 	parser/parser_free.c \
+	parser/parser_heredocs.c \
 	lexer/lexer_start.c \
 	lexer/lexer_general.c \
 	lexer/lexer_dquote.c \

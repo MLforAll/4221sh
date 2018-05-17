@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/14 14:43:42 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/17 03:39:44 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	*set_env_var_n(char ***env, const char *var, int value);
 
 int		sh_err(int errc, const char *bltn, const char *path);
 int		sh_err_ret(int errc, const char *bltn, const char *path, int retv);
-void	sh_child_sighandler(int sigc);
+void	sh_child_signaled(int sigc);
 int		get_errcode_for_path(const char *path, int mode, int dir);
 
 /*
