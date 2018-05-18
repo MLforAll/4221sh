@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/17 23:40:03 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/19 01:15:42 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	exec_pipe(t_cmdnode *cmddat)
 	}
 }
 
-static int	exec_bincmd(t_cmdnode *cmddat, int async, char **env)
+static int	exec_bincmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 {
 	pid_t	pid;
 	int		exval;
@@ -61,15 +61,17 @@ static int	exec_bincmd(t_cmdnode *cmddat, int async, char **env)
 		return (EXIT_FAILURE);
 	if (pid == 0)
 	{
+		switch_traps(FALSE);
 		exec_pipe(cmddat);
 		exec_redir(cmddat);
-		switch_traps(FALSE);
 		chg_env_var(env, "_", cmddat->c_path);
 		execve(cmddat->c_path, cmddat->c_av, env);
 		if ((exval = cmd_chk(cmddat->c_path)) >= 0)
 			exit(sh_err_ret(exval, NULL, cmddat->c_path, 127));
 		exit((exec_shell(cmddat->c_path) == EXIT_SUCCESS) ? EXIT_SUCCESS : 127);
 	}
+	if (spid)
+		*spid = pid;
 	if (async)
 		return (EXIT_SUCCESS);
 	exval = 0;
@@ -79,7 +81,7 @@ static int	exec_bincmd(t_cmdnode *cmddat, int async, char **env)
 	return (WEXITSTATUS(exval));
 }
 
-int			exec_cmd(t_cmdnode *cmddat, int async, char **env)
+int			exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 {
 	extern char	**environ;
 	int			exval;
@@ -90,7 +92,7 @@ int			exec_cmd(t_cmdnode *cmddat, int async, char **env)
 		exval = (cmddat->builtin)((int)ft_tablen(cmddat->c_av), cmddat->c_av,
 			(cmddat->stdout_fd == -1) ? STDOUT_FILENO : cmddat->stdout_fd);
 	else
-		exval = exec_bincmd(cmddat, async, (env) ? env : environ);
+		exval = exec_bincmd(cmddat, async, spid, (env) ? env : environ);
 	return (exval);
 }
 

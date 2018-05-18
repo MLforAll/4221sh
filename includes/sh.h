@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/17 03:39:44 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/19 01:14:45 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		interactive_shell(void);
 */
 
 void	exec_redir(t_cmdnode *cmddat);
-int		exec_cmd(t_cmdnode *cmddat, int async, char **env);
+int		exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid,  char **env);
 int		eval_line(char *line);
 
 /*
@@ -102,12 +102,11 @@ char	*get_name_from_path_2(const char *path);
 
 int		free_return(void **data, int retv);
 void	switch_traps(int ign);
-void	prepare_dups(t_cmd *cmd);
 
-t_cmd	*ft_cmdnew(void);
+/*t_cmd	*ft_cmdnew(void);
 void	ft_cmdpush(t_cmd **headref, t_cmd *new);
 void	ft_cmddel(t_cmd **headref);
-void	ft_cmddelone(t_cmd **cmdref);
+void	ft_cmddelone(t_cmd **cmdref);*/
 
 void	free_tlist(void *content, size_t size);
 void	ft_lstrmdups(t_list **lst);

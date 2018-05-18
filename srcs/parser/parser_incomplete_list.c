@@ -1,36 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_misc.c                                          :+:      :+:    :+:   */
+/*   parser_incomplete_list.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/31 18:31:09 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/19 01:15:32 by kdumarai         ###   ########.fr       */
+/*   Created: 2018/05/18 20:13:40 by kdumarai          #+#    #+#             */
+/*   Updated: 2018/05/18 20:17:15 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
-#include <unistd.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "sh.h"
 
-int			free_return(void **data, int retv)
-{
-	if (data && *data)
-	{
-		free(*data);
-		*data = NULL;
-	}
-	return (retv);
-}
 
-void		switch_traps(int ign)
-{
-	void	(*act)(int);
-
-	act = (ign) ? SIG_IGN : SIG_DFL;
-	signal(SIGINT, act);
-	signal(SIGTERM, act);
-	signal(SIGTSTP, act);
-}
