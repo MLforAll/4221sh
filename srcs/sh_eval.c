@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/19 11:40:55 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/19 17:14:44 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ static t_cmdnode	*eval_pipe(t_cmdnode *a, t_cmdnode *b, t_tab *pids)
 
 static t_cmdnode	*eval_semi(t_cmdnode *a, t_cmdnode *b)
 {
+	if (!b)
+		return (a);
 	exec_cmd(a, NO, NULL, NULL);
 	return (b);
 }
@@ -83,7 +85,6 @@ int					eval_line(char *line)
 
 	if (!(tokens = lex_line(line)))
 		return (EXIT_SUCCESS);
-	parser_check_heredocs(tokens);
 	if (!(ast = parse_tokens(tokens)))
 		return (ft_returnmsg("eval_line: ast error", STDERR_FILENO, 258));
 	pids = ft_ttabnew(sizeof(pid_t));

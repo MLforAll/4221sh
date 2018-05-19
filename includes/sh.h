@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/19 01:14:45 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/19 19:33:25 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,12 @@
 # define SH_MAXHIST			100
 # define SH_BLTNS			"echo\0cd\0exit\0env\0setenv\0unsetenv\0source\0"
 
-# define SH_DEFAULT_PATH	"/usr/local/bin:/usr/bin:/bin:/usr/sbin:" \
-							"/opt/X11/bin"
+# define SH_DEFAULT_PATH	"/usr/local/bin:/usr/bin:/bin:/usr/sbin:"
+
+# define SH_HEREDOC_PR		"heredoc> "
+# define SH_PIPE_PR			"pipe> "
+# define SH_ANDIF_PR		"andif> "
+# define SH_ORIF_PR			"orif> "
 
 /*
 ** shell types

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/17 03:00:29 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/19 19:28:08 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,25 +47,24 @@ typedef struct	s_redirect
 ** parser
 */
 
-void	parser_check_heredocs(t_list *tokens);
+void		parser_check_heredocs(t_list *tokens);
+uint8_t		parser_check_inclist(t_list **tokens);
 
-t_btree	*parse_tokens(t_list *tokens);
+t_btree		*parse_tokens(t_list *tokens);
 
 /*
 ** parser utilities
 */
 
-void	fill_cmd_data(t_cmdnode *cmddat, t_list *tokens);
-char	*get_cmd_path(char *line_cmd, char **env);
-int		ft_splitquote(t_list **dest, char *s, char *charset, char *cs);
-char	*ft_strrmquote(char *s, char *cset);
+void		fill_cmd_data(t_cmdnode *cmddat, t_list *tokens);
+char		*get_cmd_path(char *line_cmd, char **env);
+int			ft_splitquote(t_list **dest, char *s, char *charset, char *cs);
+char		*ft_strrmquote(char *s, char *cset);
 
 /*
-** free functions
+** free function
 */
 
-void	astputelem(void *data, size_t datsize);
-void	ast_btdel(void *data, size_t datsize);
-void	lstdelf(void *data, size_t datsize);
+void		ast_btdel(void *data, size_t datsize);
 
 #endif

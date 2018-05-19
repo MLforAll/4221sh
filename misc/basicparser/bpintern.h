@@ -1,17 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_incomplete_list.c                           :+:      :+:    :+:   */
+/*   bpintern.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/18 20:13:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/18 20:17:15 by kdumarai         ###   ########.fr       */
+/*   Created: 2018/05/19 13:39:09 by kdumarai          #+#    #+#             */
+/*   Updated: 2018/05/19 13:39:47 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include "sh.h"
+#ifndef BPINTERN_H
+# define BPINTERN_H
 
+# include "libft.h"
 
+void	astputelem(void *data, size_t datsize);
+
+#endif

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 16:55:22 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/13 01:07:06 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/19 19:28:55 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int				is_higher(t_list *token, t_list *top)
 	return ((tokdat->type >= topdat->type));
 }
 
-t_btree					*parse_tokens(t_list *tokens)
+static t_btree			*parse_tokens_core(t_list *tokens)
 {
 	t_list	**top;
 	t_list	**bw;
@@ -81,7 +81,20 @@ t_btree					*parse_tokens(t_list *tokens)
 	rtoks = (*top)->next;
 	bak = *top;
 	*top = NULL;
-	ft_btattach(ret, parse_tokens(tokens), parse_tokens(rtoks));
+	ft_btattach(ret, parse_tokens_core(tokens), parse_tokens_core(rtoks));
 	*top = bak;
 	return (ret);
+}
+
+t_btree					*parse_tokens(t_list *tokens)
+{
+	uint8_t	chk_again;
+
+	chk_again = TRUE;
+	while (chk_again)
+	{
+		parser_check_heredocs(tokens);
+		chk_again = parser_check_inclist(&tokens);
+	}
+	return (parse_tokens_core(tokens));
 }
