@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/19 02:29:42 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/19 11:40:55 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void			clean_pipes(t_tab *pids)
 	unsigned int	idx;
 	pid_t			*curr;
 
-	idx = pids->oc_size;
+	idx = pids->oc_size / sizeof(pid_t);
 	while (idx--)
 	{
 		curr = &((pid_t*)pids->data)[idx];
