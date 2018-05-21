@@ -1,38 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_eshell.c                                        :+:      :+:    :+:   */
+/*   parser_syntax.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/12 02:41:29 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/21 15:26:04 by kdumarai         ###   ########.fr       */
+/*   Created: 2018/05/21 17:10:58 by kdumarai          #+#    #+#             */
+/*   Updated: 2018/05/21 17:26:37 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include <stdlib.h>
-#include <fcntl.h>
-#include "get_next_line.h"
-#include "sh.h"
+#include <unistd.h>
+#include "sh_parser.h"
 
-int			exec_shell(const char *path)
+uint8_t		parser_check_syntax(t_list *tokens)
 {
-	char		*line;
-	int			fd;
-	int			ret;
+	t_token	*prev;
+	t_token	*curr;
 
-	fd = (!path) ? STDIN_FILENO : open(path, O_RDONLY);
-	if (fd == -1)
-		return (EXIT_FAILURE);
-	ret = EXIT_SUCCESS;
-	line = NULL;
-	while (get_next_line(fd, &line) > 0)
+	prev = NULL;
+	while (tokens)
 	{
-		ret = eval_line(&line);
-		ft_strdel(&line);
+		curr = (t_token*)tokens->content;
+		if (curr->type == PIPE && (!prev || prev->priority != 0))
+			return (FALSE);
+		prev = curr;
+		tokens = tokens->next;
 	}
-	if (fd != STDIN_FILENO)
-		close(fd);
-	return (ret);
+	return (TRUE);
 }

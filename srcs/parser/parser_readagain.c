@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/19 19:36:42 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/21 15:23:29 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,33 +58,33 @@ void		parser_check_heredocs(t_list *tokens)
 	}
 }
 
-uint8_t		parser_check_inclist(t_list **tokens)
+uint8_t		parser_check_inclist(char **line, t_list **tokens)
 {
 	t_toktype	ttype;
 	t_list		*tmp;
 	char		*extraline;
 	t_list		*extra;
 
-	if (!tokens)
-		return (FALSE);
 	tmp = *tokens;
-	while (tmp && tmp->next)
+	while (tmp->next)
 		tmp = tmp->next;
-	if (!tmp)
-		return (FALSE);
 	extra = NULL;
+	extraline = NULL;
 	ttype = ((t_token*)tmp->content)->type;
 	if (ttype == PIPE)
-	{
 		extraline = read_till_delim(SH_PIPE_PR, NULL, NO);
-		extra = lex_line(extraline);
-		free(extraline);
-	}
+	if (!extraline)
+		return (FALSE);
+	if (!*extraline)
+		return (free_return((void**)&extraline, TRUE));
+	ft_stradd(line, extraline);
+	extra = lex_line(extraline);
+	free(extraline);
 	ft_lstpush(tokens, extra);
 	return ((extra != NULL));
 }
 
-void		parser_check_quote(t_list **tokens)
+void		parser_check_quote(t_list *tokens)
 {
 	(void)tokens;
 }

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/23 16:15:34 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/15 03:50:25 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/21 17:09:36 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	do_history(t_rl_hist **hist, char *line)
 {
 	static int	n = 0;
 
-	if (!hist)
+	if (!hist || !line)
 		return ;
 	if (n >= SH_MAXHIST)
 	{
@@ -55,11 +55,10 @@ static void	do_history(t_rl_hist **hist, char *line)
 		n = 0;
 		return ;
 	}
-	if (line && *line)
-	{
-		ft_histadd(hist, line);
-		n++;
-	}
+	if (*line)
+		return ;
+	ft_histadd(hist, line);
+	n++;
 }
 
 int			interactive_shell(void)
@@ -78,12 +77,12 @@ int			interactive_shell(void)
 	while (42)
 	{
 		line = ft_readline((prompt = ishell_get_prompt()), &opts, history);
-		do_history(&history, line);
 		ft_strdel(&prompt);
 		if (!line)
 			break ;
 		if (*line)
-			ret = eval_line(line);
+			ret = eval_line(&line);
+		do_history(&history, line);
 		ft_strdel(&line);
 	}
 	ft_histdel(&history);

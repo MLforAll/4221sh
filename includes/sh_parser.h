@@ -6,13 +6,14 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/19 19:28:08 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/21 17:21:48 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SH_PARSER_H
 # define SH_PARSER_H
 
+#include <stdlib.h>
 #include "sh_lexer.h"
 
 /*
@@ -47,10 +48,11 @@ typedef struct	s_redirect
 ** parser
 */
 
+uint8_t		parser_check_syntax(t_list *tokens);
 void		parser_check_heredocs(t_list *tokens);
-uint8_t		parser_check_inclist(t_list **tokens);
+uint8_t		parser_check_inclist(char **line, t_list **tokens);
 
-t_btree		*parse_tokens(t_list *tokens);
+t_btree		*parse_tokens(char **line, t_list *tokens);
 
 /*
 ** parser utilities
