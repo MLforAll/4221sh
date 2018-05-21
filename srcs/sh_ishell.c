@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/23 16:15:34 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/21 17:09:36 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/21 23:32:31 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	do_history(t_rl_hist **hist, char *line)
 		n = 0;
 		return ;
 	}
-	if (*line)
+	if (!*line)
 		return ;
 	ft_histadd(hist, line);
 	n++;
@@ -76,12 +76,13 @@ int			interactive_shell(void)
 	opts.bell = YES;
 	while (42)
 	{
-		line = ft_readline((prompt = ishell_get_prompt()), &opts, history);
+		prompt = ishell_get_prompt();
+		line = ft_readline(prompt, &opts, history);
 		ft_strdel(&prompt);
 		if (!line)
 			break ;
 		if (*line)
-			ret = eval_line(&line);
+			ret = eval_line(&line, YES);
 		do_history(&history, line);
 		ft_strdel(&line);
 	}

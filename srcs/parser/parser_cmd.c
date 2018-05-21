@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 02:03:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/18 20:17:25 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/21 23:31:32 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "sh.h"
 #include "sh_parser.h"
 
-static int	fill_bltn(t_cmdnode *cmddat, char *line_cmd)
+static int			fill_bltn(t_cmdnode *cmddat, char *line_cmd)
 {
 	char			*nptr;
 	unsigned int	idx;

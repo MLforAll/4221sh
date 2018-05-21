@@ -6,19 +6,18 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 22:31:45 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/12 02:00:02 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/21 23:30:02 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "sh.h"
 
-extern char		**environ;
-
 char			*get_env_var(char **env, const char *var)
 {
-	char	*ret;
-	char	**bw;
+	extern char	**environ;
+	char		*ret;
+	char		**bw;
 
 	if (!var)
 		return (NULL);
@@ -34,8 +33,9 @@ char			*get_env_var(char **env, const char *var)
 
 char			*chg_env_var(char **env, const char *var, char *new)
 {
-	char	*tmp;
-	char	**bw;
+	extern char	**environ;
+	char		*tmp;
+	char		**bw;
 
 	if (!var || !new)
 		return (NULL);
@@ -58,10 +58,11 @@ char			*chg_env_var(char **env, const char *var, char *new)
 
 char			*set_env_var(char ***env, const char *var, char *value)
 {
-	char	***tgtenv;
-	char	*ret;
-	char	*entry_str;
-	size_t	newlen;
+	extern char	**environ;
+	char		***tgtenv;
+	char		*ret;
+	char		*entry_str;
+	size_t		newlen;
 
 	if (!var || !value)
 		return (NULL);
@@ -81,11 +82,11 @@ char			*set_env_var(char ***env, const char *var, char *value)
 
 void			del_env_var(char ***env, const char *var)
 {
-	char	***tgtenv;
-	char	*tmp;
-	char	**new_env;
-	char	**bw;
-	char	**bwn;
+	extern char	**environ;
+	char		***tgtenv;
+	char		*tmp;
+	char		**new_env;
+	char		**bw[2];
 
 	if (!var)
 		return ;
@@ -93,15 +94,15 @@ void			del_env_var(char ***env, const char *var)
 	if (!(new_env = (char**)malloc(sizeof(char*) * \
 		(ft_tablen(*tgtenv) + 1))))
 		return ;
-	bwn = new_env;
-	bw = *tgtenv;
-	while (*bw)
+	bw[0] = new_env;
+	bw[1] = *tgtenv;
+	while (*bw[1])
 	{
-		if (!(tmp = ft_strstart(*bw, (char*)var)) || *tmp != '=')
-			*(bwn++) = ft_strdup(*bw);
-		bw++;
+		if (!(tmp = ft_strstart(*(bw[1]), (char*)var)) || *tmp != '=')
+			*(bw[0]++) = ft_strdup(*(bw[1]));
+		bw[1]++;
 	}
-	*bwn = NULL;
+	*(bw[0]) = NULL;
 	ft_tabfree(tgtenv);
 	*tgtenv = new_env;
 }

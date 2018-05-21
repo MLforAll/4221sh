@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 23:11:41 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/15 02:33:30 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/21 23:33:09 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,3 @@ int			switch_to_less(void *data)
 	switch_to_great(data);
 	return ((int)kLexStateLess);
 }
-

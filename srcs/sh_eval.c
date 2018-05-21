@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/21 15:19:17 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/21 20:16:19 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static t_cmdnode	*eval_ast(t_btree *node, t_tab *pids)
 	return (NULL);
 }
 
-int					eval_line(char **line)
+int					eval_line(char **line, uint8_t ragain)
 {
 	int		ret;
 	t_list	*tokens;
@@ -85,7 +85,7 @@ int					eval_line(char **line)
 
 	if (!line || !(tokens = lex_line(*line)))
 		return (EXIT_SUCCESS);
-	if (!(ast = parse_tokens(line, tokens)))
+	if (!(ast = parse_tokens(line, tokens, ragain)))
 		return (ft_returnmsg("eval_line: ast error", STDERR_FILENO, 258));
 	pids = ft_ttabnew(sizeof(pid_t));
 	ret = exec_cmd(eval_ast(ast, &pids), NO, NULL, NULL);

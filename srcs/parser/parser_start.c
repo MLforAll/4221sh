@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 16:55:22 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/21 17:26:07 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/21 23:31:55 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,14 @@ static t_btree			*parse_tokens_core(t_list *tokens)
 	return (ret);
 }
 
-t_btree					*parse_tokens(char **line, t_list *tokens)
+t_btree					*parse_tokens(char **line, t_list *tokens, uint8_t ra)
 {
 	uint8_t	chk_again;
 
 	chk_again = TRUE;
-
 	while (chk_again)
 	{
-		if (!parser_check_syntax(tokens))
+		if (!parser_check_syntax(tokens, ra))
 			return (NULL);
 		parser_check_heredocs(tokens);
 		chk_again = parser_check_inclist(line, &tokens);

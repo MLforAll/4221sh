@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 02:41:29 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/21 15:26:04 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/21 20:17:44 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int			exec_shell(const char *path)
 	line = NULL;
 	while (get_next_line(fd, &line) > 0)
 	{
-		ret = eval_line(&line);
+		ret = eval_line(&line, NO);
 		ft_strdel(&line);
 	}
 	if (fd != STDIN_FILENO)

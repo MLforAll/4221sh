@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/21 17:10:58 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/21 17:26:37 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/21 20:19:18 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 #include <unistd.h>
 #include "sh_parser.h"
 
-uint8_t		parser_check_syntax(t_list *tokens)
+uint8_t		parser_check_syntax(t_list *tokens, uint8_t ragain)
 {
 	t_token	*prev;
 	t_token	*curr;
 
+	(void)ragain;
 	prev = NULL;
 	while (tokens)
 	{

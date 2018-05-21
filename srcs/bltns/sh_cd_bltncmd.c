@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/12 01:35:37 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/21 23:33:00 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static char		*get_cd_path(int ac, char **av, char *pwd)
 	return ((target) ? ft_strdup(target) : NULL);
 }
 
-char			*getset_pwd_env()
+char			*getset_pwd_env(void)
 {
 	char			*ret;
 	char			*pwd;
