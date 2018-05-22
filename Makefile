@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/05/21 17:21:31 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/05/22 17:08:35 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,17 +107,21 @@ endif
 	@ printf "\033[0;39m\r"
 	@ gcc $(CC_FLAGS) $(CC_LIB) -c $< -o $@
 
-clean:
-	@ make clean -C $(dir $(LIBFT))
-	@ make clean -C $(dir $(LIBFTREADLINE))
+cleanp:
 	@ rm -rf $(OBJDIR)
 	@ printf "$(PROJTEXT)Removed objects\n"
 
-fclean: clean
-	@ make fclean -C $(dir $(LIBFT))
-	@ make fclean -C $(dir $(LIBFTREADLINE))
+fcleanp: cleanp
 	@ rm -f $(NAME)
 	@ printf "$(PROJTEXT)Removed $(NAME)\n"
+
+clean: cleanp
+	@ make clean -C $(dir $(LIBFT))
+	@ make clean -C $(dir $(LIBFTREADLINE))
+
+fclean: fcleanp
+	@ make fclean -C $(dir $(LIBFT))
+	@ make fclean -C $(dir $(LIBFTREADLINE))
 
 re: fclean all
 

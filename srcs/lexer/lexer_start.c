@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/21 23:34:15 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/22 17:03:48 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,20 @@ void				tokens_lstdel(void *data, size_t datsize)
 
 t_charstate			get_charstate(char c)
 {
-	if (c == '\0')
-		return (kCharNull);
-	if (c == '>')
-		return (kCharGreat);
-	if (c == '<')
-		return (kCharLess);
-	if (c == '&')
-		return (kCharAmpersand);
-	if (c == '-')
-		return (kCharDash);
-	if (c == ';')
-		return (kCharSemi);
-	if (c == '|')
-		return (kCharPipe);
-	if (c == '"')
-		return (kCharDQuote);
-	if (c == '\'')
-		return (kCharSQuote);
-	if (c == '\\')
-		return (kCharEscape);
-	if (c == ' ')
-		return (kCharSpace);
+	const char		*chars[] = {"\0", ">", "<", "&", "-", ";", "|", "\"", "'",
+								"\\", " "};
+	t_charstate		st[] = {kCharNull, kCharGreat, kCharLess, kCharAmpersand,
+							kCharDash, kCharSemi, kCharPipe, kCharDQuote,
+							kCharSQuote, kCharEscape, kCharSpace};
+	unsigned int	idx;
+
+	idx = 0;
+	while (idx < sizeof(chars) / sizeof(char*))
+	{
+		if (ft_strnequ(chars[idx], &c, 1))
+			return (st[idx]);
+		idx++;
+	}
 	return (kCharGeneral);
 }
 
