@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/05/22 17:08:35 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/05/24 23:39:14 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,8 +51,12 @@ SRCFILES = sh_main.c \
 	env/sh_env_helpers.c \
 	fsexp_functions.c \
 	bltns/sh_builtins.c \
-	bltns/sh_env_bltncmd.c \
+	bltns/sh_echo_bltncmd.c \
+	bltns/sh_exit_bltncmd.c \
+	bltns/sh_source_bltncmd.c \
 	bltns/sh_cd_bltncmd.c \
+	bltns/sh_env_bltncmd.c \
+	bltns/sh_setenv_bltncmd.c \
 	misc/sh_misc.c \
 	misc/sh_misc_str.c \
 	misc/lst_support.c \

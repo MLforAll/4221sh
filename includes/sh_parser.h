@@ -6,15 +6,15 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/21 20:16:47 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/24 23:49:15 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SH_PARSER_H
 # define SH_PARSER_H
 
-#include <stdlib.h>
-#include "sh_lexer.h"
+# include <stdlib.h>
+# include "sh_lexer.h"
 
 /*
 ** data types
@@ -48,25 +48,25 @@ typedef struct	s_redirect
 ** parser
 */
 
-uint8_t		parser_check_syntax(t_list *tokens, uint8_t ragain);
-void		parser_check_heredocs(t_list *tokens);
-uint8_t		parser_check_inclist(char **line, t_list **tokens);
+uint8_t			parser_check_syntax(t_list *tokens, uint8_t ragain);
+void			parser_check_heredocs(t_list *tokens);
+uint8_t			parser_check_inclist(char **line, t_list **tokens);
 
-t_btree		*parse_tokens(char **line, t_list *tokens, uint8_t ragain);
+t_btree			*parse_tokens(char **line, t_list *tokens, uint8_t ragain);
 
 /*
 ** parser utilities
 */
 
-void		fill_cmd_data(t_cmdnode *cmddat, t_list *tokens);
-char		*get_cmd_path(char *line_cmd, char **env);
-int			ft_splitquote(t_list **dest, char *s, char *charset, char *cs);
-char		*ft_strrmquote(char *s, char *cset);
+void			fill_cmd_data(t_cmdnode *cmddat, t_list *tokens);
+char			*get_cmd_path(char *line_cmd, char **env);
+int				ft_splitquote(t_list **dest, char *s, char *charset, char *cs);
+char			*ft_strrmquote(char *s, char *cset);
 
 /*
 ** free function
 */
 
-void		ast_btdel(void *data, size_t datsize);
+void			ast_btdel(void *data, size_t datsize);
 
 #endif

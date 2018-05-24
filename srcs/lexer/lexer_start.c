@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/22 17:03:48 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/24 23:51:06 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,13 @@ void				tokens_lstdel(void *data, size_t datsize)
 
 t_charstate			get_charstate(char c)
 {
-	const char		*chars[] = {"\0", ">", "<", "&", "-", ";", "|", "\"", "'",
-								"\\", " "};
-	t_charstate		st[] = {kCharNull, kCharGreat, kCharLess, kCharAmpersand,
-							kCharDash, kCharSemi, kCharPipe, kCharDQuote,
-							kCharSQuote, kCharEscape, kCharSpace};
-	unsigned int	idx;
+	unsigned int		idx;
+	const char			*chars[] = {"\0", ">", "<", "&", "-", ";", "|", "\"",
+									"'", "\\", " "};
+	const t_charstate	st[] = {kCharNull, kCharGreat, kCharLess,
+								kCharAmpersand, kCharDash, kCharSemi, kCharPipe,
+								kCharDQuote, kCharSQuote, kCharEscape,
+								kCharSpace};
 
 	idx = 0;
 	while (idx < sizeof(chars) / sizeof(char*))

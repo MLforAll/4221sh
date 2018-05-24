@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/21 20:17:03 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/24 23:49:27 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft.h"
 # include "sh_data.h"
 # include "sh_prompt.h"
+# include "sh_builtins.h"
 # include "sh_lexer.h"
 # include "sh_parser.h"
 
@@ -27,9 +28,8 @@
 # define SH_PLAIN_PROMPT	SH_NAME "$ "
 # define SH_RC				".21shrc"
 # define SH_MAXHIST			100
-# define SH_BLTNS			"echo\0cd\0exit\0env\0setenv\0unsetenv\0source\0"
 
-# define SH_DEFAULT_PATH	"/usr/local/bin:/usr/bin:/bin:/usr/sbin:"
+# define SH_DEFAULT_PATH	"/usr/local/bin:/usr/bin:/bin:/usr/sbin"
 
 # define SH_HEREDOC_PR		"heredoc> "
 # define SH_PIPE_PR			"pipe> "
@@ -50,21 +50,6 @@ int		interactive_shell(void);
 void	exec_redir(t_cmdnode *cmddat);
 int		exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env);
 int		eval_line(char **line, uint8_t ragain);
-
-/*
-** builtins
-*/
-
-int		echo_bltn(int ac, char **av, int outfd);
-int		exit_bltn(int ac, char **av, int outfd);
-
-char	*getset_pwd_env(void);
-int		cd_bltn(int ac, char **av, int outfd);
-
-int		env_bltn(int ac, char **av, int outfd);
-int		setenv_bltn(int ac, char **av, int outfd);
-int		unsetenv_bltn(int ac, char **av, int outfd);
-int		source_bltn(int ac, char **av, int outfd);
 
 /*
 ** fsexp utilities
@@ -106,11 +91,6 @@ char	*get_name_from_path_2(const char *path);
 
 int		free_return(void **data, int retv);
 void	switch_traps(int ign);
-
-/*t_cmd	*ft_cmdnew(void);
-void	ft_cmdpush(t_cmd **headref, t_cmd *new);
-void	ft_cmddel(t_cmd **headref);
-void	ft_cmddelone(t_cmd **cmdref);*/
 
 void	free_tlist(void *content, size_t size);
 void	ft_lstrmdups(t_list **lst);

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 02:03:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/21 23:31:32 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/24 23:53:34 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,15 @@
 
 static int			fill_bltn(t_cmdnode *cmddat, char *line_cmd)
 {
-	char			*nptr;
-	unsigned int	idx;
-	static int		(*bltns_funcs[8])(int, char **, int) = {&echo_bltn,
-		&cd_bltn, &exit_bltn, &env_bltn, &setenv_bltn, &unsetenv_bltn,
-		&source_bltn, NULL};
+	int			idx;
+	static int	(*bltns_funcs[7])(int, char **, int) = {&echo_bltn,
+		&cd_bltn, &exit_bltn, &source_bltn,
+		&env_bltn, &setenv_bltn, &unsetenv_bltn};
 
-	idx = 0;
-	nptr = SH_BLTNS;
-	while (idx < sizeof(bltns_funcs) / sizeof(*bltns_funcs) && *nptr)
-	{
-		if (ft_strcmp(line_cmd, nptr) == 0)
-		{
-			cmddat->builtin = bltns_funcs[idx];
-			return (TRUE);
-		}
-		nptr += ft_strlen(nptr) + 1;
-		idx++;
-	}
-	return (FALSE);
+	if ((idx = sh_get_bltn(NULL, line_cmd)) == -1)
+		return (FALSE);
+	cmddat->builtin = bltns_funcs[idx];
+	return (TRUE);
 }
 
 char				*get_cmd_path(char *line_cmd, char **env)

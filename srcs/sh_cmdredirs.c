@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 14:42:44 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/17 04:18:12 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/24 22:53:45 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,21 @@ static void	do_agreg(t_redirect *redir)
 	dup2(redir->agreg, redir->io_nbr);
 }
 
-static void	do_str_to_stdin(t_redirect *redir)
+static void	do_str_to_stdin(t_redirect *redir, t_cmdnode *cmddat)
 {
 	int		cfd[2];
+	char	buff[33];
 
 	pipe(cfd);
+	if (cmddat->stdin_fd != -1)
+	{
+		ft_bzero(&buff, sizeof(buff));
+		while (read(redir->io_nbr, buff, 32) > 0)
+		{
+			ft_putstr_fd(buff, cfd[1]);
+			ft_bzero(&buff, sizeof(buff));
+		}
+	}
 	ft_putstr_fd(redir->filename, cfd[1]);
 	close(redir->io_nbr);
 	dup2(cfd[0], redir->io_nbr);
@@ -68,7 +78,7 @@ void		exec_redir(t_cmdnode *cmddat)
 		if (redir->rtype == LESS)
 			do_redir_action(redir, O_RDONLY);
 		if (redir->rtype == DLESS)
-			do_str_to_stdin(redir);
+			do_str_to_stdin(redir, cmddat);
 		bw = bw->next;
 	}
 }

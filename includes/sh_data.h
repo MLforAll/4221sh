@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/03 20:21:10 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/12 02:05:57 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/24 23:43:35 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef enum		e_errs
 	SH_ERR_NOTDIR,
 	SH_ERR_NUMARG,
 	SH_ERR_INVID,
+	SH_ERR_ARGREQ,
 	SH_ERR_MAX
 }					t_errs;
 

@@ -1,38 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_eshell.c                                        :+:      :+:    :+:   */
+/*   sh_exit_bltncmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/12 02:41:29 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/24 23:48:04 by kdumarai         ###   ########.fr       */
+/*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
+/*   Updated: 2018/05/24 23:29:47 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include <stdlib.h>
-#include <fcntl.h>
-#include "get_next_line.h"
+#include <unistd.h>
 #include "sh.h"
 
-int			exec_shell(const char *path)
+int		exit_bltn(int ac, char **av, int outfd)
 {
-	char		*line;
-	int			fd;
-	int			ret;
+	char	*last_cmd_ret;
 
-	fd = (!path) ? STDIN_FILENO : open(path, O_RDONLY);
-	if (fd == -1)
-		return (EXIT_FAILURE);
-	ret = EXIT_SUCCESS;
-	line = NULL;
-	while (get_next_line(fd, &line) > 0)
+	(void)outfd;
+	if (ac > 2)
+		return (sh_err(SH_ERR_TMARG, av[0], NULL));
+	if (ac == 1)
 	{
-		ret = eval_line(&line, NO);
-		ft_strdel(&line);
+		last_cmd_ret = getenv("?");
+		exit((last_cmd_ret) ? ft_atoi(last_cmd_ret) : EXIT_SUCCESS);
 	}
-	if (fd != STDIN_FILENO)
-		close(fd);
-	return (ret);
+	if (!ft_strisnumeric(av[1]))
+		exit(sh_err_ret(SH_ERR_NUMARG, av[0], av[1], 255));
+	exit(ft_atoi(av[1]));
+	return (EXIT_SUCCESS);
 }
