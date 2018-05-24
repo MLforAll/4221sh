@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/05/24 23:39:14 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/05/25 00:00:18 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ SRCFILES = sh_main.c \
 	prompt/sh_prompt_helpers.c \
 	env/sh_env.c \
 	env/sh_env_helpers.c \
-	fsexp_functions.c \
+	localvars/sh_lvars.c \
 	bltns/sh_builtins.c \
 	bltns/sh_echo_bltncmd.c \
 	bltns/sh_exit_bltncmd.c \
@@ -60,7 +60,8 @@ SRCFILES = sh_main.c \
 	misc/sh_misc.c \
 	misc/sh_misc_str.c \
 	misc/lst_support.c \
-	misc/tlist_support.c
+	misc/tlist_support.c \
+	fsexp_functions.c
 SRCS = $(addprefix $(SRCDIR)/, $(SRCFILES))
 NSRC = $(shell echo "$(SRCFILES)" | awk '{print NF}')
 ifeq ($(shell [ ! -z "`which bc`" ] && [ ! -z "`which awk`" ] && echo true),true)

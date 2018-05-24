@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/24 23:49:27 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/24 23:59:20 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,15 @@ void	del_env_var(char ***env, const char *var);
 
 char	*set_env_from_str(char ***env, char *str);
 char	*set_env_var_n(char ***env, const char *var, int value);
+
+/*
+** local vars mgmt
+*/
+
+char	*get_lvar(const char *var);
+char	*chg_lvar(const char *var, char *new);
+char	*set_lvar(const char *var, char *value);
+void	del_lvar(const char *var);
 
 /*
 ** errors
