@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/23 16:15:34 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/21 23:32:31 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/25 04:53:09 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int			interactive_shell(void)
 	ret = EXIT_SUCCESS;
 	launch_rc();
 	ft_bzero(&opts, sizeof(t_rl_opts));
+	opts.ac_get_result = &sh_get_acres;
 	opts.bell = YES;
 	while (42)
 	{

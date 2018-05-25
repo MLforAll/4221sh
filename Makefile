@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/05/25 00:00:18 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/05/25 04:50:26 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRCFILES = sh_main.c \
 	sh_cmdexec.c \
 	sh_cmdredirs.c \
 	sh_err.c \
+	sh_ac.c \
 	parser/parser_start.c \
 	parser/parser_cmd.c \
 	parser/parser_free.c \

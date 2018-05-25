@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/24 23:59:20 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/25 04:53:30 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,12 @@ int		interactive_shell(void);
 void	exec_redir(t_cmdnode *cmddat);
 int		exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env);
 int		eval_line(char **line, uint8_t ragain);
+
+/*
+** autocompletion
+*/
+
+t_list	*sh_get_acres(char *line, t_cursor *csr);
 
 /*
 ** fsexp utilities
