@@ -6,13 +6,12 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/23 16:15:34 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/25 04:53:09 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/25 19:27:15 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
-#include "libftreadline.h"
 #include "sh.h"
 
 static void	launch_rc(void)

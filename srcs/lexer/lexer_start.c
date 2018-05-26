@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/24 23:51:06 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/26 09:12:35 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,33 @@ void				tokens_lstdel(void *data, size_t datsize)
 	free(data);
 }
 
-t_charstate			get_charstate(char c)
+static size_t		get_charstate(t_charstate *cs, char *s)
 {
 	unsigned int		idx;
-	const char			*chars[] = {"\0", ">", "<", "&", "-", ";", "|", "\"",
-									"'", "\\", " "};
-	const t_charstate	st[] = {kCharNull, kCharGreat, kCharLess,
+	const char			*chars[] = {">>", ">", "<<", "<", "&", "-",
+									";", "|", "\"", "'", "\\", " "};
+	const t_charstate	st[] = {kCharDGreat, kCharGreat, kCharDLess, kCharLess,
 								kCharAmpersand, kCharDash, kCharSemi, kCharPipe,
 								kCharDQuote, kCharSQuote, kCharEscape,
 								kCharSpace};
 
+	if (!*s)
+	{
+		*cs = kCharNull;
+		return (1);
+	}
 	idx = 0;
 	while (idx < sizeof(chars) / sizeof(char*))
 	{
-		if (ft_strnequ(chars[idx], &c, 1))
-			return (st[idx]);
-		idx++;
+		if (ft_strstart(s, (char*)chars[idx]))
+		{
+			*cs = st[idx];
+			return (ft_strlen(chars[idx]));
+		}
+		++idx;
 	}
-	return (kCharGeneral);
+	*cs = kCharGeneral;
+	return (1);
 }
 
 void				add_token(t_list **toks, char *s, t_toktype type, int prio)
@@ -62,8 +71,6 @@ static t_lexstate	get_nextstate(t_lexdat *dat)
 	const t_equi		eq[6] = {
 	{kLexStateGeneral, &lex_general, (void*)dat},
 	{kLexStateDQuote, &lex_dquote, (void*)dat},
-	{kLexStateGreat, &lex_great, (void*)dat},
-	{kLexStateLess, &lex_less, (void*)dat},
 	{kLexStateAmpersand, &lex_ampersand, (void*)dat},
 	{0, NULL, NULL}};
 	const int			cmpdat = dat->curr_state;
@@ -77,6 +84,7 @@ t_list				*lex_line(char *line)
 {
 	t_list		*ret;
 	t_lexdat	dat;
+	size_t		jmp;
 
 	if (!line)
 		return (NULL);
@@ -88,10 +96,11 @@ t_list				*lex_line(char *line)
 	while (42)
 	{
 		dat.c = *line;
+		jmp = get_charstate(&dat.cs, line);
 		dat.curr_state = get_nextstate(&dat);
 		if (!*line)
 			break ;
-		line++;
+		line += jmp;
 	}
 	ft_strdel(&dat.currtoks);
 	return (ret);

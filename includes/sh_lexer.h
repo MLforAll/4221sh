@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/22 15:59:06 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/26 09:26:16 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ typedef enum	e_lexstate
 	kLexStateGeneral,
 	kLexStateDQuote,
 	kLexStateSQuote,
-	kLexStateGreat,
-	kLexStateLess,
 	kLexStateAmpersand,
 }				t_lexstate;
 
@@ -52,7 +50,9 @@ typedef enum	e_charstate
 	kCharPipe,
 	kCharSemi,
 	kCharGreat,
+	kCharDGreat,
 	kCharLess,
+	kCharDLess,
 	kCharAmpersand,
 	kCharDash
 }				t_charstate;
@@ -87,6 +87,7 @@ typedef struct	s_lexdat
 	t_list		**ret;
 	char		*currtoks;
 	t_lexstate	curr_state;
+	t_charstate	cs;
 	char		c;
 }				t_lexdat;
 
@@ -98,9 +99,19 @@ t_list			*lex_line(char *line);
 
 int				lex_general(void *data);
 int				lex_dquote(void *data);
-int				lex_great(void *data);
 int				lex_less(void *data);
 int				lex_ampersand(void *data);
+
+/*
+** Tokens creators
+*/
+
+int				create_great_tok(void *data);
+int				create_dgreat_tok(void *data);
+int				create_less_tok(void *data);
+int				create_dless_tok(void *data);
+int				create_pipe_tok(void *data);
+int				create_semi_tok(void *data);
 
 /*
 ** State functions used throughout
@@ -108,6 +119,7 @@ int				lex_ampersand(void *data);
 
 int				add_to_curr(void *data);
 int				add_token_to_ret(void *data);
+void			add_io_nbr(t_lexdat *cdat);
 
 /*
 ** State switchers
@@ -115,6 +127,7 @@ int				add_token_to_ret(void *data);
 
 int				switch_to_great(void *data);
 int				switch_to_less(void *data);
+int				switch_to_ampersand(void *data);
 
 /*
 ** Utilities
@@ -122,7 +135,6 @@ int				switch_to_less(void *data);
 
 void			add_token(t_list **tokens, char *s, t_toktype type, int prio);
 int				ft_swcmp(void *p1, void *p2);
-t_charstate		get_charstate(char c);
 void			tokens_lstdel(void *data, size_t datsize);
 
 #endif

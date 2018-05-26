@@ -6,12 +6,11 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/21 15:23:29 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/25 19:27:21 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "libftreadline.h"
 #include "sh_parser.h"
 #include "sh.h"
 

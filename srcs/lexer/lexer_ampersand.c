@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/15 02:24:04 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/21 23:33:18 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/26 09:00:25 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,14 @@ static int	create_dash_tok(void *data)
 
 int			lex_ampersand(void *data)
 {
-	t_charstate	cs;
 	t_lexdat	*cdat;
 
 	if (!data)
 		return ((int)kLexStateUndefined);
 	cdat = (t_lexdat*)data;
-	if ((cs = get_charstate(cdat->c)) == kCharDash && !*cdat->currtoks)
+	if (cdat->cs == kCharDash && !*cdat->currtoks)
 		return (create_dash_tok(data));
-	if (cs != kCharSpace && cs != kCharNull)
+	if (cdat->cs != kCharSpace && cdat->cs != kCharNull)
 	{
 		lex_general(data);
 		return ((int)kLexStateAmpersand);

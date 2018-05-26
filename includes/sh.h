@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/25 04:53:30 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/25 19:27:09 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define SH_H
 
 # include "libft.h"
+# include "libftreadline.h"
 # include "sh_data.h"
 # include "sh_prompt.h"
 # include "sh_builtins.h"

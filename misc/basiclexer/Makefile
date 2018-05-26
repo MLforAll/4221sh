@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/05/15 02:35:30 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/05/26 09:23:08 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SHSRCFILES = lexer/lexer_start.c \
 		lexer/lexer_dquote.c \
 		lexer/lexer_great.c \
 		lexer/lexer_less.c \
+		lexer/lexer_semipipe.c \
 		lexer/lexer_ampersand.c \
 		lexer/lexer_switch.c
 TESTSRCFILES = main.c print.c

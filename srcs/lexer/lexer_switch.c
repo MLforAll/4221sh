@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 23:11:41 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/21 23:33:09 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/26 09:16:35 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,28 +21,37 @@ int			ft_swcmp(void *p1, void *p2)
 	return ((a == b));
 }
 
-int			switch_to_great(void *data)
-{
-	t_lexdat	*cdat;
+/*
+**int			switch_to_great(void *data)
+**{
+**	t_lexdat	*cdat;
+**
+**	if (!data)
+**		return ((int)kLexStateUndefined);
+**	cdat = (t_lexdat*)data;
+**	if (*cdat->currtoks)
+**	{
+**		if (!ft_strisnumeric(cdat->currtoks))
+**			add_token(cdat->ret, cdat->currtoks, WORD, 0);
+**		else
+**			add_token(cdat->ret, cdat->currtoks, IO_NUMBER, 0);
+**		free(cdat->currtoks);
+**		cdat->currtoks = ft_strnew(0);
+**	}
+**	add_to_curr(data);
+**	return ((int)kLexStateGreat);
+**}
+**
+**
+**int			switch_to_less(void *data)
+**{
+**	switch_to_great(data);
+**	return ((int)kLexStateLess);
+**}
+*/
 
-	if (!data)
-		return ((int)kLexStateUndefined);
-	cdat = (t_lexdat*)data;
-	if (*cdat->currtoks)
-	{
-		if (!ft_strisnumeric(cdat->currtoks))
-			add_token(cdat->ret, cdat->currtoks, WORD, 0);
-		else
-			add_token(cdat->ret, cdat->currtoks, IO_NUMBER, 0);
-		free(cdat->currtoks);
-		cdat->currtoks = ft_strnew(0);
-	}
-	add_to_curr(data);
-	return ((int)kLexStateGreat);
-}
-
-int			switch_to_less(void *data)
+int			switch_to_ampersand(void *data)
 {
-	switch_to_great(data);
-	return ((int)kLexStateLess);
+	(void)data;
+	return ((int)kLexStateAmpersand);
 }
