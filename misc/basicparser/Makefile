@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/05/19 13:40:47 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/05/27 19:39:31 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,36 +20,43 @@ LIBFT = ../../libft/libft.a
 LIBFTREADLINE = ../../libftreadline/libftreadline.a
 
 SHSRCDIR = ../../srcs
-SHSRCFILES = parser/parser_start.c \
-	parser/parser_cmd.c \
-	parser/parser_free.c \
-	parser/parser_heredocs.c \
-	parser/parser_incomplete_list.c \
-	lexer/lexer_start.c \
-	lexer/lexer_general.c \
-	lexer/lexer_dquote.c \
-	lexer/lexer_great.c \
-	lexer/lexer_less.c \
-	lexer/lexer_ampersand.c \
-	lexer/lexer_switch.c \
-	sh_eshell.c \
+SHSRCFILES = sh_eshell.c \
 	sh_ishell.c \
 	sh_eval.c \
 	sh_cmdexec.c \
 	sh_cmdredirs.c \
 	sh_err.c \
+	sh_ac.c \
+	parser/parser_start.c \
+	parser/parser_cmd.c \
+	parser/parser_free.c \
+	parser/parser_readagain.c \
+	parser/parser_syntax.c \
+	lexer/lexer_start.c \
+	lexer/lexer_general.c \
+	lexer/lexer_dquote.c \
+	lexer/lexer_great.c \
+	lexer/lexer_less.c \
+	lexer/lexer_semipipe.c \
+	lexer/lexer_ampersand.c \
+	lexer/lexer_switch.c \
 	prompt/sh_prompt.c \
 	prompt/sh_prompt_helpers.c \
 	env/sh_env.c \
 	env/sh_env_helpers.c \
-	fsexp_functions.c \
+	localvars/sh_lvars.c \
 	bltns/sh_builtins.c \
-	bltns/sh_env_bltncmd.c \
+	bltns/sh_echo_bltncmd.c \
+	bltns/sh_exit_bltncmd.c \
+	bltns/sh_source_bltncmd.c \
 	bltns/sh_cd_bltncmd.c \
+	bltns/sh_env_bltncmd.c \
+	bltns/sh_setenv_bltncmd.c \
 	misc/sh_misc.c \
 	misc/sh_misc_str.c \
 	misc/lst_support.c \
-	misc/tlist_support.c
+	misc/tlist_support.c \
+	fsexp_functions.c
 TESTSRCFILES = main.c print.c
 SRCS = $(addprefix $(SHSRCDIR)/, $(SHSRCFILES))
 

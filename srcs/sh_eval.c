@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/21 20:16:19 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/27 20:51:28 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int					eval_line(char **line, uint8_t ragain)
 
 	if (!line || !(tokens = lex_line(*line)))
 		return (EXIT_SUCCESS);
-	if (!(ast = parse_tokens(line, tokens, ragain)))
+	if (!(ast = parse_tokens((ragain) ? line : NULL, tokens)))
 		return (ft_returnmsg("eval_line: ast error", STDERR_FILENO, 258));
 	pids = ft_ttabnew(sizeof(pid_t));
 	ret = exec_cmd(eval_ast(ast, &pids), NO, NULL, NULL);

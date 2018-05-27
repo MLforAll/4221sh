@@ -6,13 +6,12 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 02:03:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/24 23:53:34 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/28 00:26:11 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "sh.h"
-#include "sh_parser.h"
 
 static int			fill_bltn(t_cmdnode *cmddat, char *line_cmd)
 {
@@ -48,7 +47,7 @@ char				*get_cmd_path(char *line_cmd, char **env)
 		tmp++;
 	}
 	ft_tabfree(&paths);
-	return ((!ret) ? line_cmd : ret);
+	return ((!ret) ? ft_strdup(line_cmd) : ret);
 }
 
 inline static int	get_dfl_io_nbr(t_toktype type)
@@ -94,6 +93,12 @@ void				fill_cmd_data(t_cmdnode *cmddat, t_list *tokens)
 		tokdat = (t_token*)tokens->content;
 		if (tokdat->type == WORD)
 		{
+			if (ft_strchr(tokdat->toks, '=') && first_word)
+			{
+				ft_tabaddstr(&cmddat->c_vars, tokdat->toks);
+				tokens = tokens->next;
+				continue ;
+			}
 			ft_tabaddstr(&cmddat->c_av, tokdat->toks);
 			if (first_word)
 			{

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 16:55:22 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/21 23:31:55 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/27 21:17:21 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ inline static t_btree	*create_cmd_node(t_list *tokens)
 
 	ndat.type = 0;
 	ndat.data = ft_memalloc(sizeof(t_cmdnode));
+	((t_cmdnode*)ndat.data)->c_vars = ft_tabnew();
 	((t_cmdnode*)ndat.data)->c_av = ft_tabnew();
 	((t_cmdnode*)ndat.data)->stdout_fd = -1;
 	((t_cmdnode*)ndat.data)->stdin_fd = -1;
@@ -86,14 +87,14 @@ static t_btree			*parse_tokens_core(t_list *tokens)
 	return (ret);
 }
 
-t_btree					*parse_tokens(char **line, t_list *tokens, uint8_t ra)
+t_btree					*parse_tokens(char **line, t_list *tokens)
 {
 	uint8_t	chk_again;
 
 	chk_again = TRUE;
 	while (chk_again)
 	{
-		if (!parser_check_syntax(tokens, ra))
+		if (!parser_check_syntax(tokens, (line != NULL)))
 			return (NULL);
 		parser_check_heredocs(tokens);
 		chk_again = parser_check_inclist(line, &tokens);

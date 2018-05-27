@@ -6,12 +6,11 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/25 19:27:21 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/27 21:17:32 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "sh_parser.h"
 #include "sh.h"
 
 static char	*read_till_delim(const char *prompt, char *delim, uint8_t whole)

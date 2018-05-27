@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 19:22:56 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/24 23:01:46 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/28 00:26:01 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void		ast_btdel(void *data, size_t datsize)
 	if (ndat->data)
 	{
 		cmddat = (t_cmdnode*)ndat->data;
-		if (cmddat->c_path != cmddat->c_av[0])
-			free(cmddat->c_path);
+		ft_tabfree(&cmddat->c_vars);
+		free(cmddat->c_path);
 		ft_tabfree(&cmddat->c_av);
 		if (cmddat->c_redirects)
 			ft_lstdel(&cmddat->c_redirects, &redirects_lstdel);

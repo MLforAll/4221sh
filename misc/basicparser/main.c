@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 19:30:28 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/19 13:40:08 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/27 20:30:14 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	do_stuff(char *line)
 		ft_putendl_fd("lexer error", STDERR_FILENO);
 		return ;
 	}
-	ast = parse_tokens(tokens);
+	ast = parse_tokens(NULL, tokens);
 	ft_putubt(ast, &astputelem);
 	ft_btdel(&ast, &ast_btdel);
 	ft_lstdel(&tokens, &tokens_lstdel);

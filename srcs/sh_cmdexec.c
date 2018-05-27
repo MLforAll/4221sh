@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/21 23:35:46 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/27 21:29:41 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,22 @@ static int	exec_bincmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 
 int			exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 {
+	extern char	**g_lvars;
 	extern char	**environ;
+	char		**tmp;
+	uint8_t		is_cmd;
 	int			exval;
 
 	if (!cmddat)
+		return (EXIT_FAILURE);
+	is_cmd = (cmddat->builtin || cmddat->c_path);
+	if (cmddat->c_vars)
+	{
+		tmp = cmddat->c_vars;
+		while (*tmp)
+			set_env_from_str((is_cmd) ? NULL : &g_lvars, *(tmp++));
+	}
+	if (!is_cmd)
 		return (EXIT_SUCCESS);
 	if (cmddat->builtin)
 		exval = (cmddat->builtin)((int)ft_tablen(cmddat->c_av), cmddat->c_av,

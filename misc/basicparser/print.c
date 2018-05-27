@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:16 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/15 02:56:05 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/27 19:44:24 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,26 @@ static void	cmdnode_putav(t_cmdnode *ndat)
 		ft_putnbr(idx++);
 		ft_putstr("]: ");
 		ft_putendl(*(avb++));
+	}
+}
+
+static void	cmdnode_putvars(t_cmdnode *ndat)
+{
+	char	**varsb;
+	int		idx;
+
+	if (!ndat || !(varsb = ndat->c_vars) || !*varsb)
+	{
+		ft_putendl("\tc_vars: NULL");
+		return ;
+	}
+	idx = 0;
+	while (*varsb)
+	{
+		ft_putstr("\tc_vars[");
+		ft_putnbr(idx++);
+		ft_putstr("]: ");
+		ft_putendl(*(varsb++));
 	}
 }
 
@@ -80,8 +100,9 @@ void		astputelem(void *data, size_t datsize)
 	{
 		cmddat = (t_cmdnode*)ndat->data;
 		ft_putendl("command:");
+		cmdnode_putvars(cmddat);
 		ft_putstr("\tc_path: ");
-		ft_putendl(cmddat->c_path);
+		ft_putendl((cmddat->c_path) ? cmddat->c_path : "NULL");
 		cmdnode_putav(cmddat);
 		cmdnode_putredirs(cmddat);
 		return ;

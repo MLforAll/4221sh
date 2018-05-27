@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/24 23:49:15 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/27 20:30:04 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct	s_astnode
 
 typedef	struct	s_cmdnode
 {
+	char	**c_vars;
 	int		(*builtin)(int, char **, int);
 	char	*c_path;
 	char	**c_av;
@@ -52,7 +53,7 @@ uint8_t			parser_check_syntax(t_list *tokens, uint8_t ragain);
 void			parser_check_heredocs(t_list *tokens);
 uint8_t			parser_check_inclist(char **line, t_list **tokens);
 
-t_btree			*parse_tokens(char **line, t_list *tokens, uint8_t ragain);
+t_btree			*parse_tokens(char **line, t_list *tokens);
 
 /*
 ** parser utilities

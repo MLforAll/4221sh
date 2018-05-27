@@ -6,12 +6,12 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/26 09:12:35 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/27 22:05:58 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "sh_lexer.h"
+#include "sh.h"
 
 void				tokens_lstdel(void *data, size_t datsize)
 {
@@ -51,13 +51,21 @@ static size_t		get_charstate(t_charstate *cs, char *s)
 
 void				add_token(t_list **toks, char *s, t_toktype type, int prio)
 {
+	char	*tmp;
 	t_list	*newtok;
 	t_token	tokdat;
 
-	if (s && (ft_strlen(s) < 1))
+	if (!s || (ft_strlen(s) < 1))
 		return ;
 	ft_bzero(&tokdat, sizeof(t_token));
-	if (s && !(tokdat.toks = ft_strdup(s)))
+	if (s[0] == '$' && s[1])
+	{
+		if ((tmp = get_lvar(s + 1)) || (tmp = getenv(s + 1)))
+			s = tmp;
+		else
+			s = "";
+	}
+	if (!(tokdat.toks = ft_strdup(s)))
 		return ;
 	tokdat.type = type;
 	tokdat.priority = prio;
