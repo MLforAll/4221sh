@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/05/26 09:25:11 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/05/28 01:38:12 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,8 @@ SRCFILES = sh_main.c \
 	sh_cmdexec.c \
 	sh_cmdredirs.c \
 	sh_err.c \
-	sh_ac.c \
+	sh_acget.c \
+	sh_acshow.c \
 	parser/parser_start.c \
 	parser/parser_cmd.c \
 	parser/parser_free.c \
@@ -59,6 +60,7 @@ SRCFILES = sh_main.c \
 	bltns/sh_cd_bltncmd.c \
 	bltns/sh_env_bltncmd.c \
 	bltns/sh_setenv_bltncmd.c \
+	bltns/sh_jobs_bltncmd.c \
 	misc/sh_misc.c \
 	misc/sh_misc_str.c \
 	misc/lst_support.c \

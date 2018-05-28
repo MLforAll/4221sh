@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 02:03:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/28 00:26:11 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/28 01:27:19 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 static int			fill_bltn(t_cmdnode *cmddat, char *line_cmd)
 {
 	int			idx;
-	static int	(*bltns_funcs[7])(int, char **, int) = {&echo_bltn,
+	static int	(*bltns_funcs[8])(int, char **, int) = {&echo_bltn,
 		&cd_bltn, &exit_bltn, &source_bltn,
-		&env_bltn, &setenv_bltn, &unsetenv_bltn};
+		&env_bltn, &setenv_bltn, &unsetenv_bltn, &jobs_bltn};
 
 	if ((idx = sh_get_bltn(NULL, line_cmd)) == -1)
 		return (FALSE);

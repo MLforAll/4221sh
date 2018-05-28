@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/25 19:27:09 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/28 02:00:59 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int		eval_line(char **line, uint8_t ragain);
 */
 
 t_list	*sh_get_acres(char *line, t_cursor *csr);
+char	*sh_show_acres(t_list **chs);
 
 /*
 ** fsexp utilities

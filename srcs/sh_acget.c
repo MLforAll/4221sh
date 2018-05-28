@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 04:23:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/25 05:05:48 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/28 01:30:47 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,18 @@ t_list				*sh_get_acres(char *line, t_cursor *csr)
 {
 	t_list	*ret;
 	char	*region;
+	char	*tmp;
 	int		type;
 
 	if ((type = get_region(&region, line, csr)) == -1)
 		return (NULL);
+	if (*region == '~'
+		&& (tmp = getenv("HOME"))
+		&& (tmp = ft_strjoin(tmp, region + 1)))
+	{
+		free(region);
+		region = tmp;
+	}
 	if (type == 1)
 		ret = get_res_with_path(region);
 	else

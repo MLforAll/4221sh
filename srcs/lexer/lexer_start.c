@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/27 22:05:58 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/28 02:38:03 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ void				add_token(t_list **toks, char *s, t_toktype type, int prio)
 		else
 			s = "";
 	}
-	if (!(tokdat.toks = ft_strdup(s)))
+	if (s[0] == '~' && (tmp = getenv("HOME"))
+		&& (tmp = ft_strjoin(tmp, s + 1)))
+		tokdat.toks = tmp;
+	else if (!(tokdat.toks = ft_strdup(s)))
 		return ;
 	tokdat.type = type;
 	tokdat.priority = prio;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_builtins.c                                      :+:      :+:    :+:   */
+/*   sh_jobs_bltncmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/28 01:27:29 by kdumarai         ###   ########.fr       */
+/*   Created: 2018/05/28 01:25:14 by kdumarai          #+#    #+#             */
+/*   Updated: 2018/05/28 01:39:10 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,10 @@
 #include <unistd.h>
 #include "sh.h"
 
-int		sh_get_bltn(char **buff, char *chk)
+int		jobs_bltn(int ac, char **av, int outfd)
 {
-	int			idx;
-	static char	*bltn_names[8] = {
-		"echo", "cd", "exit", "source",
-		"env", "setenv", "unsetenv", "jobs"};
-
-	idx = 0;
-	while (idx < (int)(sizeof(bltn_names) / sizeof(*bltn_names)))
-	{
-		if (ft_strequ(chk, bltn_names[idx]))
-		{
-			if (buff)
-				*buff = bltn_names[idx];
-			return (idx);
-		}
-		idx++;
-	}
-	return (-1);
+	(void)ac;
+	(void)av;
+	ft_putendl_fd("Not currently available!", outfd);
+	return (EXIT_SUCCESS);
 }
