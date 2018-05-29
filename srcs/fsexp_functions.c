@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 21:26:34 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/21 20:33:16 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/29 00:37:59 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,6 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include "sh.h"
-
-static char	*get_elem_path(const char *d_path, char *name)
-{
-	char			*ret;
-
-	if (!d_path || !name)
-		return (NULL);
-	if (!(ret = ft_strnew(ft_strlen(d_path) + ft_strlen(name) + 1)))
-		return (NULL);
-	ft_strcat(ret, d_path);
-	ft_strcat(ret, "/");
-	ft_strcat(ret, name);
-	return (ret);
-}
 
 char		*search_dir_for_file(const char *d_path, const char *name)
 {

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/28 02:00:59 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/29 01:26:04 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,10 @@
 # define SH_NAME			"21sh"
 # define SH_PLAIN_PROMPT	SH_NAME "$ "
 # define SH_RC				".21shrc"
+# define SH_HISTFILE		".21sh_history"
 # define SH_MAXHIST			100
 
 # define SH_DEFAULT_PATH	"/usr/local/bin:/usr/bin:/bin:/usr/sbin"
-
-# define SH_HEREDOC_PR		"heredoc> "
-# define SH_PIPE_PR			"pipe> "
-# define SH_ANDIF_PR		"andif> "
-# define SH_ORIF_PR			"orif> "
 
 /*
 ** shell types
@@ -60,15 +56,21 @@ t_list	*sh_get_acres(char *line, t_cursor *csr);
 char	*sh_show_acres(t_list **chs);
 
 /*
+** history load/save
+*/
+
+void	write_history(t_dlist *hist);
+void	load_history(t_dlist **hist);
+
+/*
 ** fsexp utilities
 */
 
-char	*get_basedir(const char *f_path);
 char	*search_dir_for_file(const char *d_path, const char *name);
 t_list	*search_files_begin(const char *f_path, const char *s_dir, int exec);
 
 /*
-** env mgmt
+** variables mgmt
 */
 
 char	*get_env_var(char **env, const char *var);
@@ -78,10 +80,6 @@ void	del_env_var(char ***env, const char *var);
 
 char	*set_env_from_str(char ***env, char *str);
 char	*set_env_var_n(char ***env, const char *var, int value);
-
-/*
-** local vars mgmt
-*/
 
 char	*get_lvar(const char *var);
 char	*chg_lvar(const char *var, char *new);
@@ -102,9 +100,6 @@ int		get_errcode_for_path(const char *path, int mode, int dir);
 */
 
 int		ft_strchrf(char *s, char c);
-char	*get_last_component(const char *str, char c);
-char	*get_name_from_path(const char *path);
-char	*get_name_from_path_2(const char *path);
 
 int		free_return(void **data, int retv);
 void	switch_traps(int ign);

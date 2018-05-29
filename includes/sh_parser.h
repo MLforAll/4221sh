@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/27 20:30:04 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/28 23:48:03 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 
 # include <stdlib.h>
 # include "sh_lexer.h"
+
+# define SH_HEREDOC_PR		"heredoc> "
+# define SH_PIPE_PR			"pipe> "
+# define SH_ANDIF_PR		"andif> "
+# define SH_ORIF_PR			"orif> "
 
 /*
 ** data types
@@ -63,6 +68,13 @@ void			fill_cmd_data(t_cmdnode *cmddat, t_list *tokens);
 char			*get_cmd_path(char *line_cmd, char **env);
 int				ft_splitquote(t_list **dest, char *s, char *charset, char *cs);
 char			*ft_strrmquote(char *s, char *cset);
+
+/*
+** get cmd paths and builtins
+*/
+
+char			*get_cmd_path(char *line_cmd, char **env);
+int				fill_bltn(t_cmdnode *cmddat, char *line_cmd);
 
 /*
 ** free function

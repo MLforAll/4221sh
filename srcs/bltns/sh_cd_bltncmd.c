@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/21 23:33:00 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/29 04:25:05 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char		*get_newpath(char *curr, char *path)
 	char			*last;
 	unsigned int	idx;
 
-	if (!path || !(ret = ft_strdup((*path == '/' || !curr) ? "" : curr)))
+	if (!path || !(ret = ft_strdup((!curr || *curr == '/') ? "" : curr)))
 		return (NULL);
 	last = path + (*path == '/');
 	idx = 0;

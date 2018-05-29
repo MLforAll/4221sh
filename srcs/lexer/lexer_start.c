@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/28 02:38:03 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/28 23:35:01 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void				add_token(t_list **toks, char *s, t_toktype type, int prio)
 	ft_bzero(&tokdat, sizeof(t_token));
 	if (s[0] == '$' && s[1])
 	{
-		if ((tmp = get_lvar(s + 1)) || (tmp = getenv(s + 1)))
+		if ((tmp = get_lvar(s + 1))
+			|| (tmp = getenv(s + 1)))
 			s = tmp;
 		else
 			s = "";

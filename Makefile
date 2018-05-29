@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/05/28 01:38:12 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/05/29 01:26:56 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,10 +33,12 @@ SRCFILES = sh_main.c \
 	sh_cmdexec.c \
 	sh_cmdredirs.c \
 	sh_err.c \
-	sh_acget.c \
-	sh_acshow.c \
+	sh_hist_loadsave.c \
+	autocompletion/sh_acget.c \
+	autocompletion/sh_acshow.c \
 	parser/parser_start.c \
 	parser/parser_cmd.c \
+	parser/parser_pathget.c \
 	parser/parser_free.c \
 	parser/parser_readagain.c \
 	parser/parser_syntax.c \
@@ -50,9 +52,9 @@ SRCFILES = sh_main.c \
 	lexer/lexer_switch.c \
 	prompt/sh_prompt.c \
 	prompt/sh_prompt_helpers.c \
-	env/sh_env.c \
-	env/sh_env_helpers.c \
-	localvars/sh_lvars.c \
+	vars/sh_env.c \
+	vars/sh_env_helpers.c \
+	vars/sh_lvars.c \
 	bltns/sh_builtins.c \
 	bltns/sh_echo_bltncmd.c \
 	bltns/sh_exit_bltncmd.c \

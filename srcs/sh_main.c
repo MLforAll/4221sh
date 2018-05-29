@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/21 19:45:50 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/27 21:30:44 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/28 20:33:44 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ static void	set_shlvl(void)
 	int		lvln;
 
 	if (!(lvlstr = getenv("SHLVL")))
+	{
+		set_env_var_n(NULL, "SHLVL", 1);
 		return ;
+	}
 	if (ft_strcmp(lvlstr, "-2147483648") >= 0
 		&& ft_strcmp(lvlstr, "2147483647") <= 0)
 		lvln = ft_atoi(lvlstr) + 1;

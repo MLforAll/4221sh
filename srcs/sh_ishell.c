@@ -6,31 +6,29 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/23 16:15:34 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/28 02:01:24 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/29 01:35:24 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
+#include <fcntl.h>
+#include "get_next_line.h"
 #include "sh.h"
 
-static void	launch_rc(void)
+inline static void	launch_rc(void)
 {
 	char		*home;
 	char		*rcpath;
 
-	if (!(home = getenv("HOME")))
+	if (!(home = getenv("HOME"))
+		|| !(rcpath = get_elem_path(home, SH_RC)))
 		return ;
-	if (!(rcpath = ft_strnew(ft_strlen(home) + ft_strlen(SH_RC) + 1)))
-		return ;
-	ft_strcpy(rcpath, home);
-	ft_strcat(rcpath, "/");
-	ft_strcat(rcpath, SH_RC);
 	exec_shell(rcpath);
 	free(rcpath);
 }
 
-static char	*ishell_get_prompt(void)
+inline static char	*ishell_get_prompt(void)
 {
 	char		*mshp_entry;
 	char		*pr;
@@ -42,39 +40,39 @@ static char	*ishell_get_prompt(void)
 	return ((pr) ? pr : ft_strdup("21sh-1.0$ "));
 }
 
-static void	do_history(t_rl_hist **hist, char *line)
+inline static void	do_history(t_dlist **hist, char *line)
 {
 	static int	n = 0;
 
-	if (!hist || !line)
+	if (!hist)
 		return ;
 	if (n >= SH_MAXHIST)
-	{
-		ft_histdel(hist);
-		n = 0;
-		return ;
-	}
-	if (!*line)
-		return ;
-	ft_histadd(hist, line);
-	n++;
+		ftrl_histdellast(hist);
+	else
+		n++;
+	ftrl_histadd(hist, line);
 }
 
-int			interactive_shell(void)
+inline static void	init_ishell(t_rl_opts *opts, t_dlist **hist)
+{
+	launch_rc();
+	ft_bzero(opts, sizeof(t_rl_opts));
+	opts->ac_get_result = &sh_get_acres;
+	opts->ac_show_result = &sh_show_acres;
+	opts->bell = YES;
+	load_history(hist);
+}
+
+int					interactive_shell(void)
 {
 	int			ret;
 	char		*line;
 	char		*prompt;
 	t_rl_opts	opts;
-	t_rl_hist	*history;
+	t_dlist		*history;
 
-	history = NULL;
 	ret = EXIT_SUCCESS;
-	launch_rc();
-	ft_bzero(&opts, sizeof(t_rl_opts));
-	opts.ac_get_result = &sh_get_acres;
-	opts.ac_show_result = &sh_show_acres;
-	opts.bell = YES;
+	init_ishell(&opts, &history);
 	while (42)
 	{
 		prompt = ishell_get_prompt();
@@ -83,10 +81,13 @@ int			interactive_shell(void)
 		if (!line)
 			break ;
 		if (*line)
+		{
 			ret = eval_line(&line, YES);
-		do_history(&history, line);
+			do_history(&history, line);
+		}
 		ft_strdel(&line);
 	}
-	ft_histdel(&history);
+	write_history(history);
+	ft_dlstdel(&history, &ftrl_histdelf);
 	return (ret);
 }
