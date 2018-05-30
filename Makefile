@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/05/29 01:26:56 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/05/31 00:24:29 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -125,6 +125,8 @@ cleanp:
 fcleanp: cleanp
 	@ rm -f $(NAME)
 	@ printf "$(PROJTEXT)Removed $(NAME)\n"
+
+rep: fcleanp all
 
 clean: cleanp
 	@ make clean -C $(dir $(LIBFT))

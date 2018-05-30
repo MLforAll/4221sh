@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/28 01:24:48 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/31 00:23:58 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include <signal.h>
 #include <sys/wait.h>
 #include "sh.h"
+
+t_list		*g_jobslst;
 
 static int	cmd_chk(char *path)
 {
@@ -58,7 +60,7 @@ static int	exec_bincmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 	int		exval;
 
 	if ((pid = fork()) == -1)
-		return (EXIT_FAILURE);
+		return (ft_returnmsg("fork(): Out of resource!", STDERR_FILENO, -1));
 	if (pid == 0)
 	{
 		switch_traps(FALSE);
@@ -70,10 +72,9 @@ static int	exec_bincmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 			exit(sh_err_ret(exval, NULL, cmddat->c_path, 127));
 		exit((exec_shell(cmddat->c_path) == EXIT_SUCCESS) ? EXIT_SUCCESS : 127);
 	}
-	if (spid)
-		*spid = pid;
+	(spid) ? *spid = pid : 0;
 	if (async)
-		return (EXIT_SUCCESS);
+		return (-1);
 	exval = 0;
 	waitpid(pid, &exval, WUNTRACED);
 	if (WIFSIGNALED(exval))

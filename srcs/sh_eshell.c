@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 02:41:29 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/29 01:56:02 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/31 00:08:54 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int			exec_shell(const char *path)
 	char		*line;
 	int			fd;
 	int			ret;
+	int			tmp;
 
 	fd = (!path) ? STDIN_FILENO : open(path, O_RDONLY);
 	if (fd == -1)
@@ -29,7 +30,8 @@ int			exec_shell(const char *path)
 	line = NULL;
 	while (get_next_line(fd, &line) > 0)
 	{
-		ret = eval_line(&line, NO);
+		if ((tmp = eval_line(&line, NO)) != -1)
+			ret = tmp;
 		ft_strdel(&line);
 	}
 	if (fd != STDIN_FILENO)

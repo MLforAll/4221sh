@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/23 16:15:34 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/29 01:35:24 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/30 23:39:39 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,29 +65,29 @@ inline static void	init_ishell(t_rl_opts *opts, t_dlist **hist)
 
 int					interactive_shell(void)
 {
-	int			ret;
+	int			ret[2];
 	char		*line;
 	char		*prompt;
 	t_rl_opts	opts;
 	t_dlist		*history;
 
-	ret = EXIT_SUCCESS;
+	ret[0] = EXIT_SUCCESS;
 	init_ishell(&opts, &history);
-	while (42)
+	while ((prompt = ishell_get_prompt()))
 	{
-		prompt = ishell_get_prompt();
 		line = ft_readline(prompt, &opts, history);
 		ft_strdel(&prompt);
 		if (!line)
 			break ;
 		if (*line)
 		{
-			ret = eval_line(&line, YES);
+			if ((ret[1] = eval_line(&line, YES)) != -1)
+				ret[0] = ret[1];
 			do_history(&history, line);
 		}
 		ft_strdel(&line);
 	}
 	write_history(history);
 	ft_dlstdel(&history, &ftrl_histdelf);
-	return (ret);
+	return (ret[0]);
 }
