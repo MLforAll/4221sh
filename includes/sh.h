@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/29 01:26:04 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/31 04:16:42 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,14 @@ int		interactive_shell(void);
 void	exec_redir(t_cmdnode *cmddat);
 int		exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env);
 int		eval_line(char **line, uint8_t ragain);
+
+/*
+** job control
+*/
+
+uint8_t		sh_job_put(int n);
+t_list		*sh_job_lastest(void);
+uint8_t		sh_job_add(char *cmd, pid_t pid);
 
 /*
 ** autocompletion

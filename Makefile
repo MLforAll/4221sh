@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/05/31 00:24:29 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/05/31 04:01:55 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRCFILES = sh_main.c \
 	sh_eval.c \
 	sh_cmdexec.c \
 	sh_cmdredirs.c \
+	sh_jobs.c \
 	sh_err.c \
 	sh_hist_loadsave.c \
 	autocompletion/sh_acget.c \
@@ -65,7 +66,6 @@ SRCFILES = sh_main.c \
 	bltns/sh_jobs_bltncmd.c \
 	misc/sh_misc.c \
 	misc/sh_misc_str.c \
-	misc/lst_support.c \
 	misc/tlist_support.c \
 	fsexp_functions.c
 SRCS = $(addprefix $(SRCDIR)/, $(SRCFILES))
@@ -141,4 +141,4 @@ re: fclean all
 force:
 	@ true
 
-.PHONY: all noflags fsanitize clean fclean re force
+.PHONY: all noflags fsanitize clean fclean re cleanp fcleanp rep force

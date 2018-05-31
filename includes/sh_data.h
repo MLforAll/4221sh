@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/03 20:21:10 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/24 23:43:35 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/31 04:16:37 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,29 @@
 # define SH_DATA_H
 
 /*
-** cmd struct
+** job control struct
 */
 
-typedef struct		s_cmd
+enum			e_jobstate
 {
-	int				(*builtin)(int, char **, int outfd);
-	char			*c_path;
-	char			**c_argv;
-	int				c_pfd[2];
-	pid_t			c_pid;
-	struct s_cmd	*next;
-	struct s_cmd	*prev;
-}					t_cmd;
+	kJobStateRunning,
+	kJobStateStopped,
+	kJobStateTerminated
+};
+
+typedef struct	s_jobctrl
+{
+	int				j_idx;
+	enum e_jobstate	j_state;
+	char			*j_cmd;
+	pid_t			j_pid;
+}				t_jobctrl;
 
 /*
 ** errs enum
 */
 
-typedef enum		e_errs
+typedef enum	e_errs
 {
 	SH_ERR_UNDEFINED,
 	SH_ERR_NOCMD,
@@ -48,6 +52,6 @@ typedef enum		e_errs
 	SH_ERR_INVID,
 	SH_ERR_ARGREQ,
 	SH_ERR_MAX
-}					t_errs;
+}				t_errs;
 
 #endif

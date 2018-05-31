@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 01:18:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/29 03:02:28 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/31 04:09:34 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,18 @@
 
 static int	open_hist_file(int o_mode, int o_perms)
 {
+	char	*homeenv;
 	char	*fpath;
 	int		fd;
 
-	if (!(fpath = getenv("HOME"))
+	fpath = NULL;
+	if (!(homeenv = getenv("HOME"))
 		|| !(fpath = get_elem_path(fpath, SH_HISTFILE))
 		|| (fd = open(fpath, o_mode, o_perms)) == -1)
+	{
+		ft_strdel(&fpath);
 		return (-1);
+	}
 	free(fpath);
 	return (fd);
 }

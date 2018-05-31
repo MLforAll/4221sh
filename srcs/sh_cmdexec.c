@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/31 00:23:58 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/31 04:18:14 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 #include <signal.h>
 #include <sys/wait.h>
 #include "sh.h"
-
-t_list		*g_jobslst;
 
 static int	cmd_chk(char *path)
 {
@@ -77,6 +75,8 @@ static int	exec_bincmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 		return (-1);
 	exval = 0;
 	waitpid(pid, &exval, WUNTRACED);
+	if (WIFSTOPPED(exval))
+		sh_job_add(cmddat->c_path, pid);
 	if (WIFSIGNALED(exval))
 		sh_child_signaled(WTERMSIG(exval));
 	return (WEXITSTATUS(exval));

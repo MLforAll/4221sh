@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/24 23:35:25 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/28 01:26:37 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/31 03:48:46 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int		source_bltn(int ac, char **av, int outfd);
 int		cd_bltn(int ac, char **av, int outfd);
 
 int		jobs_bltn(int ac, char **av, int outfd);
+int		fg_bltn(int ac, char **av, int outfd);
+int		bg_bltn(int ac, char **av, int outfd);
 
 int		env_bltn(int ac, char **av, int outfd);
 int		setenv_bltn(int ac, char **av, int outfd);

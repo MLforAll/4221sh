@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/24 23:54:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/27 20:56:16 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/31 03:44:46 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include "sh.h"
 
-char	**g_lvars;
+char	**g_lvars = NULL;
 
 char	*get_lvar(const char *var)
 {

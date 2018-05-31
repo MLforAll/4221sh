@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/28 01:27:29 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/31 04:00:51 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 int		sh_get_bltn(char **buff, char *chk)
 {
 	int			idx;
-	static char	*bltn_names[8] = {
+	static char	*bltn_names[10] = {
 		"echo", "cd", "exit", "source",
-		"env", "setenv", "unsetenv", "jobs"};
+		"env", "setenv", "unsetenv", "jobs", "fg", "bg"};
 
 	idx = 0;
 	while (idx < (int)(sizeof(bltn_names) / sizeof(*bltn_names)))
