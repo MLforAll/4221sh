@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 18:31:09 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/19 02:20:30 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/01 02:28:32 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,5 @@ void		switch_traps(int ign)
 	signal(SIGINT, act);
 	signal(SIGTERM, act);
 	signal(SIGTSTP, act);
+	signal(SIGCHLD, (ign) ? &sh_jb_sighdl : SIG_DFL);
 }

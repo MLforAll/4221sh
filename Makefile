@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/05/31 04:01:55 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/06/01 02:28:51 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRCFILES = sh_main.c \
 	sh_cmdexec.c \
 	sh_cmdredirs.c \
 	sh_jobs.c \
+	sh_jobs_helper.c \
 	sh_err.c \
 	sh_hist_loadsave.c \
 	autocompletion/sh_acget.c \

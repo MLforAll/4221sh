@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 21:23:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/24 23:43:54 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/05/31 20:14:00 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int			sh_err(int errc, const char *bltn, const char *path)
 		"Can't cd to directory", "not set", "too many arguments",
 		"Permission denied", "Fork failed", "Too many symbolic links",
 		"Not a directory", "numeric argument required",
-		"not a valid identifier", "argument required", "Undefined error", NULL};
+		"not a valid identifier", "argument required", "no such job", "Undefined error", NULL};
 
 	ft_putstr_fd(SH_NAME, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/28 01:25:14 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/31 04:28:49 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/01 01:52:27 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,17 @@ int		jobs_bltn(int ac, char **av, int outfd)
 		sh_job_put(0);
 		return (EXIT_SUCCESS);
 	}
-	/* separate assignement for secure atoi */
-	jn = ft_atoi(av[1]);
-	return (!sh_job_put(jn));
+	if (ft_secatoi(&jn, av[1]) == 0)
+	{
+		ft_putendl_fd("ft_secatoi(): n is out of range!", STDERR_FILENO);
+		return (EXIT_FAILURE);
+	}
+	if (!sh_job_put(jn))
+	{
+		sh_err(SH_ERR_NOJOB, av[0], av[1]);
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
 }
 
 int		fg_bltn(int ac, char **av, int outfd)

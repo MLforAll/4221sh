@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/31 04:16:42 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/01 03:15:28 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ int		eval_line(char **line, uint8_t ragain);
 uint8_t		sh_job_put(int n);
 t_list		*sh_job_lastest(void);
 uint8_t		sh_job_add(char *cmd, pid_t pid);
+void		sh_jb_sighdl(int sigc);
+void		ft_joblstdel(void *data, size_t datsize);
+void		ft_jobputnode(t_jobctrl *data);
 
 /*
 ** autocompletion
