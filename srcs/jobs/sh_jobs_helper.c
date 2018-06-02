@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/01 02:21:25 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/02 04:51:03 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/02 05:08:33 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,21 @@ void	ft_joblstdel(void *data, size_t datsize)
 	free(data);
 }
 
-void	ft_jobputnode(t_jobctrl *data)
+void	ft_jobputstate(enum e_jobstate state)
 {
 	const char	*jobstates[] = {"Running", "Stopped", "Terminated", "Exited"};
 
+	ft_putstr(jobstates[(int)state]);
+}
+
+void	ft_jobputnode(t_jobctrl *data)
+{
 	ft_putchar('[');
 	ft_putnbr(data->j_idx);
 	ft_putchar(']');
 	ft_putchar((data->j_state == kJobStateRunning) ? '+' : '-');
 	ft_putchar(' ');
-	ft_putstr(jobstates[(int)data->j_state]);
+	ft_jobputstate(data->j_state);
 	ft_putchar('\t');
 	ft_putendl(data->j_cmd);
 }
