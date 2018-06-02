@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/02 04:47:52 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/02 04:55:27 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,23 @@ static int	exec_bincmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 			exit(sh_err_ret(exval, NULL, cmddat->c_path, 127));
 		exit((exec_shell(cmddat->c_path) == EXIT_SUCCESS) ? EXIT_SUCCESS : 127);
 	}
-	(spid) ? *spid = pid : 0;
-	jobnode = sh_job_add(cmddat->c_path, pid);
+	if (spid)
+		*spid = pid;
+	else
+		jobnode = sh_job_add(cmddat->c_path, pid);
 	if (async)
 		return (-1);
 	return (ft_wait(jobnode));
-	/*waitpid(pid, &exval, WUNTRACED);
-	if (WIFSTOPPED(exval))
-		sh_job_add(cmddat->c_path, pid);
-	if (WIFSIGNALED(exval))
-		sh_child_signaled(WTERMSIG(exval));
-	return (WEXITSTATUS(exval));*/
 }
+
+/*
+**	waitpid(pid, &exval, WUNTRACED);
+**	if (WIFSTOPPED(exval))
+**		sh_job_add(cmddat->c_path, pid);
+**	if (WIFSIGNALED(exval))
+**		sh_child_signaled(WTERMSIG(exval));
+**	return (WEXITSTATUS(exval));
+*/
 
 int			exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 {

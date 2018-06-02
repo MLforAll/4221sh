@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 04:41:14 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/02 04:51:35 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/02 04:56:02 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void		act_upon(t_jobctrl *jdat, int exval)
 	}
 	if (WIFEXITED(exval))
 	{
-			jdat->j_state = kJobStateExited;
+		jdat->j_state = kJobStateExited;
 		jdat->j_exval = WEXITSTATUS(exval);
 	}
 }
