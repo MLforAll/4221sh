@@ -6,13 +6,14 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/28 01:25:14 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/01 01:52:27 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/02 04:52:24 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
+#include "sh_jobs.h"
 #include "sh.h"
 
 int		jobs_bltn(int ac, char **av, int outfd)

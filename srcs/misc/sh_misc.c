@@ -6,13 +6,14 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 18:31:09 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/02 04:00:38 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/02 04:52:46 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
-#include <unistd.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <signal.h>
+#include "sh_jobs.h"
 #include "sh.h"
 
 int			free_return(void **data, int retv)
@@ -33,5 +34,5 @@ void		switch_traps(int ign)
 	signal(SIGINT, act);
 	signal(SIGTERM, act);
 	signal(SIGTSTP, act);
-	//signal(SIGCHLD, (ign) ? &sh_jb_sighdl : SIG_DFL);
+	signal(SIGCHLD, (ign) ? &sh_jb_sighdl : SIG_DFL);
 }

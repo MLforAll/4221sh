@@ -6,14 +6,14 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/02 03:48:44 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/02 04:47:52 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
-#include <sys/wait.h>
+#include "sh_jobs.h"
 #include "sh.h"
 
 static int	cmd_chk(char *path)
@@ -56,6 +56,7 @@ static int	exec_bincmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 {
 	pid_t	pid;
 	int		exval;
+	t_list	**jobnode;
 
 	if ((pid = fork()) == -1)
 		return (ft_returnmsg("fork(): Out of resource!", STDERR_FILENO, -1));
@@ -71,15 +72,16 @@ static int	exec_bincmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 		exit((exec_shell(cmddat->c_path) == EXIT_SUCCESS) ? EXIT_SUCCESS : 127);
 	}
 	(spid) ? *spid = pid : 0;
+	jobnode = sh_job_add(cmddat->c_path, pid);
 	if (async)
 		return (-1);
-	exval = 0;
-	waitpid(pid, &exval, WUNTRACED);
+	return (ft_wait(jobnode));
+	/*waitpid(pid, &exval, WUNTRACED);
 	if (WIFSTOPPED(exval))
 		sh_job_add(cmddat->c_path, pid);
 	if (WIFSIGNALED(exval))
 		sh_child_signaled(WTERMSIG(exval));
-	return (WEXITSTATUS(exval));
+	return (WEXITSTATUS(exval));*/
 }
 
 int			exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)

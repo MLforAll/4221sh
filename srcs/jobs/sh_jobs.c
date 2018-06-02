@@ -6,13 +6,13 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/31 02:55:01 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/02 03:48:48 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/02 04:49:08 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
-#include "sh.h"
+#include "sh_jobs.h"
 
 t_list		*g_jobslst = NULL;
 
@@ -56,7 +56,7 @@ t_list		*sh_job_lastest(void)
 	return (tmp);
 }
 
-uint8_t		sh_job_add(char *cmd, pid_t pid)
+t_list		**sh_job_add(char *cmd, pid_t pid)
 {
 	t_jobctrl	*jdat;
 	t_list		*node;
@@ -66,49 +66,20 @@ uint8_t		sh_job_add(char *cmd, pid_t pid)
 	while (*tmp && (*tmp)->next)
 		tmp = &(*tmp)->next;
 	if (!(jdat = ft_memalloc(sizeof(t_jobctrl))))
-		return (FALSE);
+		return (NULL);
 	jdat->j_idx = (!*tmp) ? 1 : ((t_jobctrl*)(*tmp)->content)->j_idx;
-	jdat->j_state = kJobStateStopped;
+	jdat->j_state = kJobStateRunning;
 	jdat->j_cmd = ft_strdup(cmd);
 	jdat->j_pid = pid;
 	if (!(node = ft_lstnew(NULL, 0)))
 	{
 		free(jdat->j_cmd);
 		free(jdat);
-		return (FALSE);
+		return (NULL);
 	}
 	node->content = jdat;
 	node->content_size = sizeof(t_jobctrl);
 	tmp = (*tmp) ? &(*tmp)->next : tmp;
 	*tmp = node;
-	return (TRUE);
-}
-
-void		sh_jb_sighdl(int sigc)
-{
-	t_list		**tmp;
-	t_list		**bak;
-	t_jobctrl	*jdat;
-	int			exval;
-
-	if (sigc != SIGCHLD || !(tmp = &g_jobslst))
-		return ;
-	while (*tmp)
-	{
-		jdat = (t_jobctrl*)(*tmp)->content;
-		exval = 0;
-		waitpid(jdat->j_pid, &exval, WNOHANG | WUNTRACED);
-		if (jdat->j_state != kJobStateTerminated && WIFSTOPPED(exval))
-			jdat->j_state = kJobStateStopped;
-		if (jdat->j_state != kJobStateTerminated && WIFSIGNALED(exval))
-			jdat->j_state = kJobStateTerminated;
-		if (WIFEXITED(exval))
-		{
-			bak = tmp;
-			tmp = &(*tmp)->next;
-			ft_lstdelone(bak, &ft_joblstdel);
-			continue ;
-		}
-		tmp = &(*tmp)->next;
-	}
+	return (tmp);
 }
