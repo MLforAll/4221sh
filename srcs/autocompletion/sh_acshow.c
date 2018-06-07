@@ -6,13 +6,14 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/28 01:38:20 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/29 04:24:25 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/07 20:52:56 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 #include "sh.h"
+#include "ftrl_dev.h"
 #include "ftrl_termcap.h"
 #include <term.h>
 
