@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/01 02:21:25 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/02 05:08:33 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/09 03:45:25 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include "sh_jobs.h"
 
-void	ft_joblstdel(void *data, size_t datsize)
+void		ft_joblstdel(void *data, size_t datsize)
 {
 	if (datsize == 0)
 		return ;
@@ -22,26 +22,28 @@ void	ft_joblstdel(void *data, size_t datsize)
 	free(data);
 }
 
-void	ft_jobputstate(enum e_jobstate state)
+const char	*ft_jobputstate(enum e_jobstate state, uint8_t print)
 {
 	const char	*jobstates[] = {"Running", "Stopped", "Terminated", "Exited"};
 
-	ft_putstr(jobstates[(int)state]);
+	if (print)
+		ft_putstr(jobstates[(int)state]);
+	return (jobstates[(int)state]);
 }
 
-void	ft_jobputnode(t_jobctrl *data)
+void		ft_jobputnode(t_jobctrl *data)
 {
 	ft_putchar('[');
 	ft_putnbr(data->j_idx);
 	ft_putchar(']');
 	ft_putchar((data->j_state == kJobStateRunning) ? '+' : '-');
 	ft_putchar(' ');
-	ft_jobputstate(data->j_state);
+	ft_jobputstate(data->j_state, YES);
 	ft_putchar('\t');
 	ft_putendl(data->j_cmd);
 }
 
-int		ft_wait(t_list **jobnode)
+int			ft_wait(t_list **jobnode)
 {
 	t_jobctrl	*jdat;
 	uint8_t		ret;

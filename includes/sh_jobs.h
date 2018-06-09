@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 04:46:03 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/02 05:08:40 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/09 03:44:58 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,6 @@ int				ft_wait(t_list **jobnode);
 
 void			ft_joblstdel(void *data, size_t datsize);
 void			ft_jobputnode(t_jobctrl *data);
-void			ft_jobputstate(enum e_jobstate state);
+const char		*ft_jobputstate(enum e_jobstate state, uint8_t print);
 
 #endif
