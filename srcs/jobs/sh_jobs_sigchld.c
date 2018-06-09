@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 04:41:14 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/09 04:03:33 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/09 23:16:10 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void		insert_job_msg(t_jobctrl *jdat)
 	if (!(nbr_s = ft_itoa(jdat->j_idx)))
 	{
 		ft_tstrdel(&rl_rld_str);
-		return ;	
+		return ;
 	}
 	ft_tstrcpy(&rl_rld_str, "[");
 	ft_tstrcat(&rl_rld_str, nbr_s);
