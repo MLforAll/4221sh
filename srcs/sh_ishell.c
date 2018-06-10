@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/23 16:15:34 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/30 23:39:39 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/10 02:46:58 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,12 @@ inline static char	*ishell_get_prompt(void)
 
 inline static void	do_history(t_dlist **hist, char *line)
 {
-	static int	n = 0;
+	static int	n = -1;
 
 	if (!hist)
 		return ;
+	if (n == -1)
+		n = ft_dlstlen(*hist);
 	if (n >= SH_MAXHIST)
 		ftrl_histdellast(hist);
 	else

@@ -6,12 +6,20 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/24 23:35:25 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/09 22:59:46 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/10 02:36:12 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SH_BUILTINS_H
 # define SH_BUILTINS_H
+
+/*
+** builtins data
+*/
+
+# define CD_P_OPT		0x1
+# define CD_L_OPT		1 << 1
+# define CD_DASH_OPT	1 << 2
 
 /*
 ** utilities

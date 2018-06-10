@@ -6,13 +6,27 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/09 23:46:58 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/10 02:36:43 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 #include "sh.h"
+
+char			*getset_pwd_env(void)
+{
+	char			*ret;
+	char			*pwd;
+
+	if ((ret = getenv("PWD")))
+		return (ret);
+	if (!(pwd = getcwd(NULL, 0)))
+		ft_putendl_fd("getset_pwd_env: getcwd failed!", STDERR_FILENO);
+	ret = set_env_var(NULL, "PWD", pwd);
+	ft_strdel(&pwd);
+	return (ret);
+}
 
 static void		chg_ret(char **ret, char **last, char *path, unsigned int idx)
 {
@@ -69,44 +83,26 @@ static char		*get_newpath(char *curr, char *path)
 	return (ret);
 }
 
-static char		*get_cd_path(int ac, char **av, char *pwd)
+static char		*get_cd_path(int idx, int opts, char **av, char *pwd)
 {
 	char			*ret;
 	char			*oldpwd;
-	char			*target;
-	int				mode;
 
-	target = (av[1] && ft_strcmp(av[1], "-P") == 0) ? av[2] : av[1];
-	mode = (ac > 1 && target == av[1]);
-	if (!target)
-	{
-		if (!(ret = getenv("HOME")))
-			sh_err(SH_ERR_NOSET, av[0], "HOME");
-		return ((ret) ? ft_strdup(ret) : NULL);
-	}
-	if (target && ft_strcmp(target, "-") == 0)
+	if (opts & CD_DASH_OPT)
 	{
 		if (!(oldpwd = getenv("OLDPWD")))
 			sh_err(SH_ERR_NOSET, av[0], "OLDPWD");
-		return ((oldpwd) ? ft_strdup(oldpwd) : NULL);
+		return (ft_strdup(oldpwd));
 	}
-	if (mode)
-		return (get_newpath(pwd, target));
-	return ((target) ? ft_strdup(target) : NULL);
-}
-
-char			*getset_pwd_env(void)
-{
-	char			*ret;
-	char			*pwd;
-
-	if ((ret = getenv("PWD")))
-		return (ret);
-	if (!(pwd = getcwd(NULL, 0)))
-		ft_putendl_fd("getset_pwd_env: getcwd failed!", STDERR_FILENO);
-	ret = set_env_var(NULL, "PWD", pwd);
-	ft_strdel(&pwd);
-	return (ret);
+	if (!av[idx])
+	{
+		if (!(ret = getenv("HOME")))
+			sh_err(SH_ERR_NOSET, av[0], "HOME");
+		return (ft_strdup(ret));
+	}
+	if (!(opts & CD_P_OPT))
+		return (get_newpath(pwd, av[idx]));
+	return (ft_strdup(av[idx]));
 }
 
 int				cd_bltn(int ac, char **av, int outfd)
@@ -114,22 +110,21 @@ int				cd_bltn(int ac, char **av, int outfd)
 	char			*path_cd;
 	char			*pwd;
 	int				cd_opts;
+	int				idx;
 
 	pwd = getset_pwd_env();
-	cd_opts = get_bltn_opts(ac, av, NULL, "PL\004");
-	if (!(path_cd = get_cd_path(ac, av, pwd)))
+	idx = 1;
+	cd_opts = get_bltn_opts(ac, av, &idx, "PL\004");
+	if (!(path_cd = get_cd_path(idx, cd_opts, av, pwd)))
 		return (EXIT_FAILURE);
 	if (chdir(path_cd) == -1)
 	{
-		sh_err(get_errcode_for_path(path_cd, X_OK, YES), av[0], \
-			path_cd);
+		sh_err(get_errcode_for_path(path_cd, X_OK, YES), av[0], path_cd);
 		return (free_return((void**)&path_cd, EXIT_FAILURE));
 	}
-	if ((ac > 1 && ft_strcmp(av[1], "-") == 0)
-		|| (ac > 2 && ft_strcmp(av[2], "-") == 0))
-		ft_putendl_fd(path_cd, outfd);
+	(cd_opts & CD_DASH_OPT) ? ft_putendl_fd(path_cd, outfd) : 0;
 	set_env_var(NULL, "OLDPWD", pwd);
-	if (ac > 1 && ft_strcmp(av[1], "-P") == 0)
+	if (cd_opts & 0x1)
 	{
 		ft_strdel(&path_cd);
 		path_cd = getcwd(NULL, 0);
