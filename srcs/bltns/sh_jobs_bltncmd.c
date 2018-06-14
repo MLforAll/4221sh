@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/28 01:25:14 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/14 10:01:19 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/14 10:12:50 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ static t_list	**kick_job_back(int ac, char **av)
 		return (NULL);
 	}
 	if (!(jtowake = (idx == -1) ? sh_job_lastest() : sh_job_idx(idx)))
+	{
+		ft_putendl_fd("kick_job_back(): such job does not exist!", STDERR_FILENO);
 		return (NULL);
+	}
 	kill(((t_jobctrl*)(*jtowake)->content)->j_pid, SIGCONT);
 	((t_jobctrl*)(*jtowake)->content)->j_state = kJobStateRunning;
 	return (jtowake);

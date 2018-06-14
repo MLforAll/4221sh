@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 04:41:14 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/14 09:36:22 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/14 10:12:24 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ static const char	*get_sig_str(int sigc)
 
 static void			act_upon(t_jobctrl *jdat, int exval)
 {
+	const char	*tmp;
+
 	if (WIFEXITED(exval))
 	{
 		jdat->j_state = kJobStateExited;
@@ -79,7 +81,8 @@ static void			act_upon(t_jobctrl *jdat, int exval)
 	if (WIFSIGNALED(exval))
 	{
 		jdat->j_state = kJobStateTerminated;
-		insert_job_msg(jdat, get_sig_str(WTERMSIG(exval)));
+		if ((tmp = get_sig_str(WTERMSIG(exval))))
+			insert_job_msg(jdat, tmp);
 	}
 }
 
