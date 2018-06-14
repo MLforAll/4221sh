@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 04:23:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/28 23:34:10 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/14 10:43:21 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ static t_list		*get_res_with_path(char *base)
 
 inline static int	get_region(char **dest, char *line, t_cursor *csr)
 {
-	unsigned int	idx;
 	int				ret;
+	unsigned long	idx;
 	const char		*chkcomps = " ><&=";
 	const char		*prgchk = "|;";
 
@@ -55,7 +55,7 @@ inline static int	get_region(char **dest, char *line, t_cursor *csr)
 			break ;
 	}
 	idx++;
-	if (!(*dest = ft_strsub(line, idx, csr->pos - idx)))
+	if (!(*dest = ft_strsub(line, (unsigned int)idx, csr->pos - idx)))
 		return (-1);
 	if (!ft_strpbrk(line, prgchk) && !ft_strpbrk(line, chkcomps))
 		ret = 1;
