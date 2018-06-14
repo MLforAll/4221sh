@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/31 02:55:01 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/02 04:49:08 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/14 09:57:28 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,25 @@ uint8_t		sh_job_put(int n)
 	return (ret);
 }
 
-t_list		*sh_job_lastest(void)
+t_list		**sh_job_idx(int idx)
 {
-	t_list	*tmp;
+	t_list	**tmp;
 
-	if (!(tmp = g_jobslst))
+	if (!(tmp = &g_jobslst))
 		return (NULL);
-	while (tmp->next)
-		tmp = tmp->next;
+	while ((*tmp) && idx--)
+		tmp = &(*tmp)->next;
+	return ((idx > 0) ? NULL : tmp);
+}
+
+t_list		**sh_job_lastest(void)
+{
+	t_list	**tmp;
+
+	if (!(tmp = &g_jobslst))
+		return (NULL);
+	while ((*tmp)->next)
+		tmp = &(*tmp)->next;
 	return (tmp);
 }
 

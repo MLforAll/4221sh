@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 21:41:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/12 01:05:15 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/14 05:14:29 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include "sh.h"
 
-static int	check_str(char **dest, char **af, char *s)
+static int	check_str(char **dest, const char **af, char *s)
 {
 	int			subr;
 
@@ -40,7 +40,7 @@ static int	check_str(char **dest, char **af, char *s)
 char		*get_prompt_from_str(char *s)
 {
 	char			*ret;
-	char			*af;
+	const char		*af;
 	int				subr;
 
 	ret = ft_strnew(0);

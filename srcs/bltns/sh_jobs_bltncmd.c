@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/28 01:25:14 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/02 04:52:24 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/14 10:01:19 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "sh_jobs.h"
 #include "sh.h"
 
-int		jobs_bltn(int ac, char **av, int outfd)
+int				jobs_bltn(int ac, char **av, int outfd)
 {
 	int		jn;
 
@@ -39,28 +39,41 @@ int		jobs_bltn(int ac, char **av, int outfd)
 	return (EXIT_SUCCESS);
 }
 
-int		fg_bltn(int ac, char **av, int outfd)
+static t_list	**kick_job_back(int ac, char **av)
 {
-	t_list	*jtowake;
+	t_list	**jtowake;
+	int		idx;
 
-	(void)ac;
-	(void)av;
-	(void)outfd;
-	jtowake = sh_job_lastest();
-	/* kill(SIGCONT, pid); */
-	/* wait again */
-	return (EXIT_SUCCESS);
+	if (ac == 1)
+		idx = -1;
+	else if (ft_secatoi(&idx, av[1]) == 0)
+	{
+		ft_putendl_fd("ft_secatoi(): n is out of range!", STDERR_FILENO);
+		return (NULL);
+	}
+	if (!(jtowake = (idx == -1) ? sh_job_lastest() : sh_job_idx(idx)))
+		return (NULL);
+	kill(((t_jobctrl*)(*jtowake)->content)->j_pid, SIGCONT);
+	((t_jobctrl*)(*jtowake)->content)->j_state = kJobStateRunning;
+	return (jtowake);
 }
 
-int		bg_bltn(int ac, char **av, int outfd)
+int				fg_bltn(int ac, char **av, int outfd)
 {
-	t_list	*jtowake;
+	t_list	**jtowake;
 
-	(void)ac;
-	(void)av;
 	(void)outfd;
-	if (!(jtowake = sh_job_lastest()))
+	if (!(jtowake = kick_job_back(ac, av)))
 		return (EXIT_FAILURE);
-	kill(((t_jobctrl*)jtowake->content)->j_pid, SIGCONT);
+	return (ft_wait(jtowake));
+}
+
+int				bg_bltn(int ac, char **av, int outfd)
+{
+	t_list	**jtowake;
+
+	(void)outfd;
+	if (!(jtowake = kick_job_back(ac, av)))
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

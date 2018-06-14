@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 22:31:45 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/27 21:37:49 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/14 05:19:13 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 char			*get_env_var(char **env, const char *var)
 {
 	extern char	**environ;
-	char		*ret;
+	const char	*ret;
 	char		**bw;
 
 	if (!var)
@@ -24,8 +24,8 @@ char			*get_env_var(char **env, const char *var)
 	bw = (env) ? env : environ;
 	while (*bw)
 	{
-		if ((ret = ft_strstart(*bw, (char*)var)) && *ret == '=')
-			return (ret + 1);
+		if ((ret = ft_strstart(*bw, var)) && *ret == '=')
+			return ((char*)((uintptr_t)ret + 1));
 		bw++;
 	}
 	return (NULL);
@@ -34,7 +34,7 @@ char			*get_env_var(char **env, const char *var)
 char			*chg_env_var(char **env, const char *var, char *new)
 {
 	extern char	**environ;
-	char		*tmp;
+	const char	*tmp;
 	char		**bw;
 
 	if (!var || !new)
@@ -42,7 +42,7 @@ char			*chg_env_var(char **env, const char *var, char *new)
 	bw = (env) ? env : environ;
 	while (*bw)
 	{
-		if ((tmp = ft_strstart(*bw, (char*)var)) && *tmp == '=')
+		if ((tmp = ft_strstart(*bw, var)) && *tmp == '=')
 			break ;
 		bw++;
 	}
@@ -84,7 +84,7 @@ void			del_env_var(char ***env, const char *var)
 {
 	extern char	**environ;
 	char		***tgtenv;
-	char		*tmp;
+	const char	*tmp;
 	char		**new_env;
 	char		**bw[2];
 
@@ -98,7 +98,7 @@ void			del_env_var(char ***env, const char *var)
 	bw[1] = *tgtenv;
 	while (*bw[1])
 	{
-		if (!(tmp = ft_strstart(*(bw[1]), (char*)var)) || *tmp != '=')
+		if (!(tmp = ft_strstart(*(bw[1]), var)) || *tmp != '=')
 			*(bw[0]++) = ft_strdup(*(bw[1]));
 		bw[1]++;
 	}

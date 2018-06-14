@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 21:23:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/02 04:55:46 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/14 09:25:50 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,28 +47,6 @@ int			sh_err_ret(int errc, const char *bltn, const char *path, int retv)
 {
 	sh_err(errc, bltn, path);
 	return (retv);
-}
-
-void		sh_child_signaled(int sigc)
-{
-	const char	*errs[30] = {"Hangup", NULL, NULL, "Illegal instruction",
-		"Trace/BPT trap", "Abort trap", "EMT trap", "Floating point exception",
-		"Killed", "Bus error", "Segmentation fault",
-		"Bad system call", NULL, "Alarm clock", "Terminated",
-		NULL, NULL, NULL, NULL, NULL, NULL, NULL, "Cputime limit exceeded",
-		"Filesize limit exceeded", "Virtual timer expired",
-		"Profiling timer expired", NULL, NULL,
-		"User defined signal 1", "User defined signal 2"};
-
-	if (sigc <= 0 || sigc > 31)
-		return ;
-	ft_putchar('\n');
-	if (!errs[sigc - 1])
-		return ;
-	ft_putstr_fd(errs[sigc - 1], STDIN_FILENO);
-	ft_putstr_fd(": ", STDIN_FILENO);
-	ft_putnbr_fd(sigc, STDIN_FILENO);
-	ft_putchar_fd('\n', STDIN_FILENO);
 }
 
 static int	check_too_much_links(const char *path)
