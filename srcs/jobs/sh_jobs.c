@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/31 02:55:01 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/14 09:57:28 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/18 23:53:11 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "sh_jobs.h"
 
 t_list		*g_jobslst = NULL;
+uint8_t		g_jobop = NO;
 
 uint8_t		sh_job_put(int n)
 {

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/01 02:21:25 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/09 03:45:25 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/18 23:54:45 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,13 @@ int			ft_wait(t_list **jobnode)
 	if (jdat->j_state == kJobStateExited)
 		ft_lstdelone(jobnode, &ft_joblstdel);
 	return ((int)ret);
+}
+
+void		sh_jobop_getlock(void)
+{
+	extern uint8_t	g_jobop;
+
+	while (TRUE)
+		if (!g_jobop)
+			break ;
 }

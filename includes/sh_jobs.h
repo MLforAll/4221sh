@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 04:46:03 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/14 09:57:42 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/18 23:54:59 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void			sh_jb_sighdl(int sigc);
 */
 
 int				ft_wait(t_list **jobnode);
+
+void			sh_jobop_getlock(void);
 
 /*
 ** utilities
