@@ -1,0 +1,18 @@
+Un petit writeup sur les builtins.
+
+En fait, c'est tout con, mais c'est super chaud.
+
+Ya deux methodes que je vois pour avoir du job control : comme bash ou comme zsh
+Tu vois, bash n'utilise pas SIGCHLD. En conséquence, si tu lance ls en background et que tu le kill avec un autre terminal, bash n'est pas au courrant avant que tu lance une nouvelle commande.
+
+Alors que zsh est au courrant dès que tu kill le process.
+
+La méthode de zsh permet un meilleur résultat, mais à un prix. C'est beaucoup plus dur a ajouter.
+
+Avec bash, le code qui lis ta liste de process ne se lancera jamais en même temps que le code qui écris sur cette meme liste. Alors qu'avec zsh, c'est possible!
+
+Et oui, le code d'un sighandler est async et il se peux que ce code se lance au meme moment que ton code qui écris la liste. Elle est la la difficulté du job control.
+
+Si tu veux un job control fonctionnel safe, mais sans trop te casser le cul, la méthode bash est la meilleure. Si tu veux le meilleur résultat, fais comme zsh avec le signal mais assure toi que tu ne puisse pas écrire au meme moment que lire. De plus, avec la méthode zsh, le sighandler se déclenchera aussi pour le process en foreground. Il faut aussi faire gaffe a ça pour éviter les écritures en meme temps que les lectures mais aussi faire 2 waitpid en meme temps (ou avec très peux de décalage) sur le meme pid, ce qui entraine un disfonctionnement de ton job control (le premier waitpid va reap le process donc le 2nd ne va pas te donner le résultat auquel tu t'attend).
+
+Voilà voilà!
