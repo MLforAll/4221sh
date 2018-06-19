@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/31 02:55:01 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/19 06:28:10 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/19 06:30:28 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ t_list		**sh_job_add(char *cmd, pid_t pid)
 	t_list		*node;
 	t_list		**tmp;
 
+	sh_jobop_getlock();
+	g_jobop = YES;
 	tmp = &g_jobslst;
 	while (*tmp && (*tmp)->next)
 		tmp = &(*tmp)->next;
@@ -90,8 +92,6 @@ t_list		**sh_job_add(char *cmd, pid_t pid)
 		return (NULL);
 	}
 	tmp = (*tmp) ? &(*tmp)->next : tmp;
-	sh_jobop_getlock();
-	g_jobop = YES;
 	*tmp = node;
 	g_jobop = NO;
 	return (tmp);
