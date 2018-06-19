@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/31 02:55:01 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/18 23:53:11 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/19 06:28:10 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,16 @@ t_list		**sh_job_add(char *cmd, pid_t pid)
 	jdat->j_state = kJobStateRunning;
 	jdat->j_cmd = ft_strdup(cmd);
 	jdat->j_pid = pid;
-	if (!(node = ft_lstnew(NULL, 0)))
+	if (!(node = ft_lstnew_nomalloc(jdat, sizeof(t_jobctrl))))
 	{
 		free(jdat->j_cmd);
 		free(jdat);
 		return (NULL);
 	}
-	node->content = jdat;
-	node->content_size = sizeof(t_jobctrl);
 	tmp = (*tmp) ? &(*tmp)->next : tmp;
+	sh_jobop_getlock();
+	g_jobop = YES;
 	*tmp = node;
+	g_jobop = NO;
 	return (tmp);
 }
