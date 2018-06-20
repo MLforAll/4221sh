@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/01 02:21:25 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/19 23:43:52 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/20 04:05:31 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 #include <unistd.h>
 #include "sh_jobs.h"
 
-void		ft_joblstdel(void *data, size_t datsize)
+extern uint8_t	g_jobop;
+
+void			ft_joblstdel(void *data, size_t datsize)
 {
 	if (datsize == 0)
 		return ;
@@ -22,7 +24,7 @@ void		ft_joblstdel(void *data, size_t datsize)
 	free(data);
 }
 
-const char	*ft_jobputstate(enum e_jobstate state, uint8_t print)
+const char		*ft_jobputstate(enum e_jobstate state, uint8_t print)
 {
 	const char	*jobstates[] = {"Running", "Stopped", "Terminated", "Exited"};
 
@@ -31,7 +33,7 @@ const char	*ft_jobputstate(enum e_jobstate state, uint8_t print)
 	return (jobstates[(int)state]);
 }
 
-void		ft_jobputnode(t_jobctrl *data)
+void			ft_jobputnode(t_jobctrl *data)
 {
 	ft_putchar('[');
 	ft_putnbr(data->j_idx);
@@ -43,7 +45,7 @@ void		ft_jobputnode(t_jobctrl *data)
 	ft_putendl(data->j_cmd);
 }
 
-int			ft_wait(t_list **jobnode)
+int				ft_wait(t_list **jobnode)
 {
 	t_jobctrl	*jdat;
 	uint8_t		ret;
@@ -60,14 +62,17 @@ int			ft_wait(t_list **jobnode)
 		return (-1);
 	ret = jdat->j_exval;
 	if (jdat->j_state == kJobStateExited)
+	{
+		sh_jobop_getlock();
+		g_jobop = YES;
 		ft_lstdelone(jobnode, &ft_joblstdel);
+		g_jobop = NO;
+	}
 	return ((int)ret);
 }
 
-void		sh_jobop_getlock(void)
+void			sh_jobop_getlock(void)
 {
-	extern uint8_t	g_jobop;
-
 	while (TRUE)
 		if (!g_jobop)
 			break ;
