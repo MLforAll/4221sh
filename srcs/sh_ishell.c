@@ -6,14 +6,13 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/23 16:15:34 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/10 02:46:58 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/20 01:56:20 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include "get_next_line.h"
 #include "sh.h"
 
 inline static void	launch_rc(void)

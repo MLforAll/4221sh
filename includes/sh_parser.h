@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/28 23:48:03 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/20 01:47:55 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,15 @@ typedef	struct	s_cmdnode
 	t_list	*c_redirects;
 	int		stdout_fd;
 	int		stdin_fd;
+	int		pfd[2];
 }				t_cmdnode;
 
 typedef struct	s_redirect
 {
-	int			io_nbr;
-	t_toktype	rtype;
 	char		*filename;
+	int			io_nbr;
 	int			agreg;
+	t_toktype	rtype;
 }				t_redirect;
 
 /*

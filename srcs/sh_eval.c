@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/19 23:45:59 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/20 01:54:20 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@ static void			clean_pipes(t_tab *pids)
 	while (idx--)
 	{
 		curr = &((pid_t*)pids->data)[idx];
-		if (*curr > 0 && waitpid(*curr, NULL, WNOHANG) == 0)
+		if (*curr > 0)
 		{
-			kill(*curr, SIGKILL);
 			waitpid(*curr, NULL, 0);
 			*curr = 0;
 		}
@@ -40,10 +39,11 @@ static t_cmdnode	*eval_pipe(t_cmdnode *a, t_cmdnode *b, t_tab *pids)
 
 	pipe(pfd);
 	a->stdout_fd = pfd[1];
+	ft_memcpy(a->pfd, pfd, sizeof(pfd));
 	b->stdin_fd = pfd[0];
+	ft_memcpy(b->pfd, pfd, sizeof(pfd));
 	exec_cmd(a, YES, &pid, NULL);
 	ft_ttabcat(pids, &pid, sizeof(pid_t));
-	close(pfd[1]);
 	return (b);
 }
 

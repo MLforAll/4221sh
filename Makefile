@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/06/09 23:09:33 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/06/20 01:55:24 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,9 @@ SRCFILES = sh_main.c \
 	sh_eshell.c \
 	sh_ishell.c \
 	sh_eval.c \
-	sh_cmdexec.c \
-	sh_cmdredirs.c \
+	exec/sh_cmdexec.c \
+	exec/sh_cmdredirs.c \
+	exec/sh_cmdpipes.c \
 	jobs/sh_jobs.c \
 	jobs/sh_jobs_helper.c \
 	jobs/sh_jobs_sigchld.c \

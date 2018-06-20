@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/19 23:45:31 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/20 01:59:34 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,6 @@ static int	cmd_chk(char *path)
 	return (code);
 }
 
-static void	exec_pipe(t_cmdnode *cmddat)
-{
-	if (cmddat->stdin_fd != -1)
-	{
-		close(STDIN_FILENO);
-		dup2(cmddat->stdin_fd, STDIN_FILENO);
-	}
-	if (cmddat->stdout_fd != -1)
-	{
-		close(STDOUT_FILENO);
-		dup2(cmddat->stdout_fd, STDOUT_FILENO);
-	}
-}
-
 static int	exec_bincmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 {
 	pid_t	pid;
@@ -71,6 +57,7 @@ static int	exec_bincmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 			exit(sh_err_ret(exval, NULL, cmddat->c_path, 127));
 		exit((exec_shell(cmddat->c_path) == EXIT_SUCCESS) ? EXIT_SUCCESS : 127);
 	}
+	exec_pipe_clean(cmddat);
 	if (spid)
 		*spid = pid;
 	else

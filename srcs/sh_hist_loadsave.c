@@ -6,14 +6,13 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 01:18:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/10 02:44:37 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/20 01:56:15 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include "get_next_line.h"
 #include "sh.h"
 
 static int	open_hist_file(int o_mode, int o_perms)

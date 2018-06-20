@@ -1,39 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_eshell.c                                        :+:      :+:    :+:   */
+/*   sh_cmdpipes.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/12 02:41:29 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/20 01:55:55 by kdumarai         ###   ########.fr       */
+/*   Created: 2018/06/20 01:55:50 by kdumarai          #+#    #+#             */
+/*   Updated: 2018/06/20 01:58:01 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include <stdlib.h>
-#include <fcntl.h>
+#include <unistd.h>
 #include "sh.h"
 
-int			exec_shell(const char *path)
+void	exec_pipe(t_cmdnode *cmddat)
 {
-	char		*line;
-	int			fd;
-	int			ret;
-	int			tmp;
-
-	fd = (!path) ? STDIN_FILENO : open(path, O_RDONLY);
-	if (fd == -1)
-		return (EXIT_FAILURE);
-	ret = EXIT_SUCCESS;
-	line = NULL;
-	while (get_next_line(fd, &line) > 0)
+	if (cmddat->stdin_fd != -1)
 	{
-		if ((tmp = eval_line(&line, NO)) != -1)
-			ret = tmp;
-		ft_strdel(&line);
+		close(STDIN_FILENO);
+		dup2(cmddat->stdin_fd, STDIN_FILENO);
 	}
-	if (fd != STDIN_FILENO)
-		close(fd);
-	return (ret);
+	if (cmddat->stdout_fd != -1)
+	{
+		close(cmddat->pfd[0]);
+		close(STDOUT_FILENO);
+		dup2(cmddat->stdout_fd, STDOUT_FILENO);
+	}
+}
+
+void	exec_pipe_clean(t_cmdnode *cmddat)
+{
+	if (!cmddat)
+		return ;
+	if (cmddat->stdin_fd != -1)
+		close(cmddat->pfd[0]);
+	if (cmddat->stdout_fd != -1)
+		close(cmddat->pfd[1]);
 }

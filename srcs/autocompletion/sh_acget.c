@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 04:23:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/14 10:43:21 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/20 02:08:53 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ inline static int	get_region(char **dest, char *line, t_cursor *csr)
 	idx++;
 	if (!(*dest = ft_strsub(line, (unsigned int)idx, csr->pos - idx)))
 		return (-1);
-	if (!ft_strpbrk(line, prgchk) && !ft_strpbrk(line, chkcomps))
+	if (!ft_strpbrk(line, prgchk) && !ft_strpbrk(line, chkcomps)
+		&& !ft_strchr(line, '/'))
 		ret = 1;
 	return (ret);
 }

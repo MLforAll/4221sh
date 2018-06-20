@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/10 02:36:43 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/20 03:59:25 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@ char			*getset_pwd_env(void)
 	ft_strdel(&pwd);
 	return (ret);
 }
+
+/*
+** path = argv of cd (e.g cd misc => misc is path)
+*/
 
 static void		chg_ret(char **ret, char **last, char *path, unsigned int idx)
 {
@@ -49,7 +53,7 @@ static void		chg_ret(char **ret, char **last, char *path, unsigned int idx)
 		*last += ((*last)[2] != '\0') + 2;
 		return ;
 	}
-	if (**last || (*path == '/' && !**ret))
+	if ((**last && *last != path) || (*path == '/' && !**ret))
 		ft_stradd(ret, "/");
 	ft_strnadd(ret, *last, idx);
 }
