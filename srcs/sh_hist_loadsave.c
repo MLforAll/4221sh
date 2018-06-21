@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 01:18:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/20 01:56:15 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/21 17:02:07 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ void		write_history(t_dlist *hist)
 
 	if (!(histbuff = ft_strnew(0)))
 		return ;
-	while (hist)
+	while (hist->next)
+		hist = hist->next;
+	while (hist->prev)
 	{
 		if (hist->content && (!ft_stradd(&histbuff, (char*)hist->content)
 			|| !ft_stradd(&histbuff, "\n")))
@@ -48,7 +50,7 @@ void		write_history(t_dlist *hist)
 			free(histbuff);
 			return ;
 		}
-		hist = hist->next;
+		hist = hist->prev;
 	}
 	if ((fd = open_hist_file(O_WRONLY | O_CREAT | O_TRUNC, 0644)) == -1)
 	{

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 04:46:03 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/18 23:54:59 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/21 16:36:17 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define SH_JOBS_H
 
 # include "libft.h"
+
+# define SHJBS_LOCK_USE_PTHREAD	FALSE
 
 /*
 ** job control struct
@@ -58,7 +60,12 @@ void			sh_jb_sighdl(int sigc);
 
 int				ft_wait(t_list **jobnode);
 
-void			sh_jobop_getlock(void);
+/*
+** async
+*/
+
+void			sh_jobop_lock(void);
+void			sh_jobop_unlock(void);
 
 /*
 ** utilities

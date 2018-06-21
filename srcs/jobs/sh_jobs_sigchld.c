@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 04:41:14 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/20 04:05:34 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/21 16:31:27 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include "sh.h"
 
 extern t_list		*g_jobslst;
-extern uint8_t		g_jobop;
 
 static void			insert_job_msg(t_jobctrl *jdat, const char *state_str)
 {
@@ -96,8 +95,7 @@ void				sh_jb_sighdl(int sigc)
 	if (sigc != SIGCHLD || !(tmp = g_jobslst))
 		return ;
 	signal(SIGCHLD, SIG_DFL);
-	sh_jobop_getlock();
-	g_jobop = YES;
+	sh_jobop_lock();
 	while (tmp)
 	{
 		jdat = (t_jobctrl*)tmp->content;
@@ -106,6 +104,6 @@ void				sh_jb_sighdl(int sigc)
 			act_upon(jdat, exval);
 		tmp = tmp->next;
 	}
-	g_jobop = NO;
+	sh_jobop_unlock();
 	signal(SIGCHLD, &sh_jb_sighdl);
 }

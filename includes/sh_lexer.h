@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/26 09:26:16 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/21 17:44:45 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,13 @@ int				create_less_tok(void *data);
 int				create_dless_tok(void *data);
 int				create_pipe_tok(void *data);
 int				create_semi_tok(void *data);
+
+/*
+** Expansion
+*/
+
+int				lexer_expand_var(char **s);
+int				lexer_expand_tilde(char **s);
 
 /*
 ** State functions used throughout

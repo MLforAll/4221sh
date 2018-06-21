@@ -6,15 +6,13 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/01 02:21:25 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/20 04:05:31 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/21 16:31:58 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 #include "sh_jobs.h"
-
-extern uint8_t	g_jobop;
 
 void			ft_joblstdel(void *data, size_t datsize)
 {
@@ -63,17 +61,9 @@ int				ft_wait(t_list **jobnode)
 	ret = jdat->j_exval;
 	if (jdat->j_state == kJobStateExited)
 	{
-		sh_jobop_getlock();
-		g_jobop = YES;
+		sh_jobop_lock();
 		ft_lstdelone(jobnode, &ft_joblstdel);
-		g_jobop = NO;
+		sh_jobop_unlock();
 	}
 	return ((int)ret);
-}
-
-void			sh_jobop_getlock(void)
-{
-	while (TRUE)
-		if (!g_jobop)
-			break ;
 }

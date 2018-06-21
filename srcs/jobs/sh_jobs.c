@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/31 02:55:01 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/20 04:18:17 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/21 16:30:53 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "sh_jobs.h"
 
 t_list		*g_jobslst = NULL;
-uint8_t		g_jobop = NO;
 
 uint8_t		sh_job_put(int n)
 {
@@ -24,8 +23,7 @@ uint8_t		sh_job_put(int n)
 	t_jobctrl	*dat;
 	uint8_t		ret;
 
-	sh_jobop_getlock();
-	g_jobop = YES;
+	sh_jobop_lock();
 	tmp = &g_jobslst;
 	ret = FALSE;
 	while (*tmp)
@@ -45,7 +43,7 @@ uint8_t		sh_job_put(int n)
 		}
 		tmp = &(*tmp)->next;
 	}
-	g_jobop = NO;
+	sh_jobop_unlock();
 	return (ret);
 }
 
@@ -55,11 +53,10 @@ t_list		**sh_job_idx(int idx)
 
 	if (!(tmp = &g_jobslst))
 		return (NULL);
-	sh_jobop_getlock();
-	g_jobop = YES;
+	sh_jobop_lock();
 	while ((*tmp) && idx--)
 		tmp = &(*tmp)->next;
-	g_jobop = NO;
+	sh_jobop_unlock();
 	return ((idx > 0) ? NULL : tmp);
 }
 
@@ -70,11 +67,10 @@ t_list		**sh_job_lastest(void)
 	tmp = &g_jobslst;
 	if (!*tmp)
 		return (NULL);
-	sh_jobop_getlock();
-	g_jobop = YES;
+	sh_jobop_lock();
 	while ((*tmp)->next)
 		tmp = &(*tmp)->next;
-	g_jobop = NO;
+	sh_jobop_unlock();
 	return (tmp);
 }
 
@@ -84,8 +80,7 @@ t_list		**sh_job_add(char *cmd, pid_t pid)
 	t_list		*node;
 	t_list		**tmp;
 
-	sh_jobop_getlock();
-	g_jobop = YES;
+	sh_jobop_lock();
 	tmp = &g_jobslst;
 	while (*tmp && (*tmp)->next)
 		tmp = &(*tmp)->next;
@@ -103,6 +98,6 @@ t_list		**sh_job_add(char *cmd, pid_t pid)
 	}
 	tmp = (*tmp) ? &(*tmp)->next : tmp;
 	*tmp = node;
-	g_jobop = NO;
+	sh_jobop_unlock();
 	return (tmp);
 }

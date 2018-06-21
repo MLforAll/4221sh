@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/06/20 01:55:24 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/06/21 16:56:04 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,10 @@ INCDIR = includes
 INCFILES = sh.h \
 		   sh_data.h \
 		   sh_prompt.h \
+		   sh_lexer.h \
+		   sh_parser.h \
+		   sh_builtins.h \
+		   sh_jobs.h
 INCLUDES = $(addprefix $(INCDIR)/, $(INCFILES))
 
 SRCDIR = srcs
@@ -30,14 +34,15 @@ SRCFILES = sh_main.c \
 	sh_eshell.c \
 	sh_ishell.c \
 	sh_eval.c \
+	sh_err.c \
+	sh_hist_loadsave.c \
 	exec/sh_cmdexec.c \
 	exec/sh_cmdredirs.c \
 	exec/sh_cmdpipes.c \
 	jobs/sh_jobs.c \
 	jobs/sh_jobs_helper.c \
 	jobs/sh_jobs_sigchld.c \
-	sh_err.c \
-	sh_hist_loadsave.c \
+	jobs/sh_jobs_async.c \
 	autocompletion/sh_acget.c \
 	autocompletion/sh_acshow.c \
 	parser/parser_start.c \
@@ -54,6 +59,7 @@ SRCFILES = sh_main.c \
 	lexer/lexer_semipipe.c \
 	lexer/lexer_ampersand.c \
 	lexer/lexer_switch.c \
+	lexer/lexer_expansion.c \
 	prompt/sh_prompt.c \
 	prompt/sh_prompt_helpers.c \
 	vars/sh_env.c \
