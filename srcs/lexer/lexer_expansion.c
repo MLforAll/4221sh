@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:39:19 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/21 17:58:29 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/24 23:46:52 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int		lexer_expand_var(char **s)
 	len = 0;
 	while (ft_isalnum(chr[len + 1]))
 		len++;
+	if (len == 0)
+		return (FALSE);
 	if (!(new = ft_strndup(*s, chr - (const char*)*s))
 		|| !(var = ft_strndup(chr + 1, len)))
 		return (-1);
