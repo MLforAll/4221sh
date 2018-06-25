@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/23 16:15:34 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/20 01:56:20 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/25 23:43:36 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,9 @@ inline static void	do_history(t_dlist **hist, char *line)
 inline static void	init_ishell(t_rl_opts *opts, t_dlist **hist)
 {
 	launch_rc();
+	if (!getenv("TERM"))
+		ft_putstr("WARNING: You terminal hasn't been recognized.\n"
+					"ft_readline() will offer a one-line editing instead.\n\n");
 	ft_bzero(opts, sizeof(t_rl_opts));
 	opts->ac_get_result = &sh_get_acres;
 	opts->ac_show_result = &sh_show_acres;

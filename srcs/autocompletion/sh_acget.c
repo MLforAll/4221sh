@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 04:23:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/20 02:08:53 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/25 21:50:28 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,14 @@ t_list				*sh_get_acres(char *line, t_cursor *csr)
 		region = tmp;
 	}
 	if (type == 1)
+	{
 		ret = get_res_with_path(region);
+		ft_lstadd(&ret, sh_get_bltn_ac((const char*)region));
+	}
 	else
 		ret = search_files_begin(region, NULL, FALSE);
+	if (ret)
+		ft_aclst_rmdups(&ret);
 	free(region);
 	return (ret);
 }

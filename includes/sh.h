@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/20 01:59:25 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/25 21:33:38 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int		eval_line(char **line, uint8_t ragain);
 
 t_list	*sh_get_acres(char *line, t_cursor *csr);
 char	*sh_show_acres(t_list **chs);
+void	ft_aclst_rmdups(t_list **lst);
 
 /*
 ** history load/save
@@ -106,7 +107,6 @@ int		free_return(void **data, int retv);
 void	switch_traps(int ign);
 
 void	free_tlist(void *content, size_t size);
-void	ft_lstrmdups(t_list **lst);
-int		ft_lstsortalpha(t_list *a, t_list *b);
+//int		ft_lstsortalpha(t_list *a, t_list *b);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/06/21 16:56:04 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/06/25 21:32:16 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ SRCFILES = sh_main.c \
 	jobs/sh_jobs_async.c \
 	autocompletion/sh_acget.c \
 	autocompletion/sh_acshow.c \
+	autocompletion/sh_ac_lstsupport.c \
 	parser/parser_start.c \
 	parser/parser_cmd.c \
 	parser/parser_pathget.c \
@@ -76,7 +77,6 @@ SRCFILES = sh_main.c \
 	bltns/sh_jobs_bltncmd.c \
 	misc/sh_misc.c \
 	misc/sh_misc_str.c \
-	misc/tlist_support.c \
 	fsexp_functions.c
 SRCS = $(addprefix $(SRCDIR)/, $(SRCFILES))
 NSRC = $(shell echo "$(SRCFILES)" | awk '{print NF}')

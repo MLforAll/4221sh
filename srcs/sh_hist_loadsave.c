@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 01:18:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/21 17:02:07 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/25 23:42:48 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void		write_history(t_dlist *hist)
 	char	*histbuff;
 	int		fd;
 
-	if (!(histbuff = ft_strnew(0)))
+	if (!hist || !(histbuff = ft_strnew(0)))
 		return ;
 	while (hist->next)
 		hist = hist->next;

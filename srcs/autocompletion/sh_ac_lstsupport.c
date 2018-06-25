@@ -1,25 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tlist_support.c                                    :+:      :+:    :+:   */
+/*   sh_ac_lstsupport.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 21:55:07 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/02/23 14:28:43 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/25 21:49:16 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
+#include "ftrl_dev.h"
 
-void	free_tlist(void *content, size_t size)
+void		free_tlist(void *content, size_t size)
 {
 	(void)size;
 	free(content);
 }
 
-void	ft_lstrmdups(t_list **lst)
+static void	free_aclst(void *content, size_t size)
+{
+	t_acres	*dat;
+
+	if (size == 0)
+		return ;
+	dat = (t_acres*)content;
+	free(dat->str);
+	free(dat->visible_str);
+	free(content);
+}
+
+void		ft_aclst_rmdups(t_list **lst)
 {
 	t_list	*bw;
 	t_list	*prev;
@@ -33,11 +46,11 @@ void	ft_lstrmdups(t_list **lst)
 		chk = *lst;
 		while (chk && bw && bw->content && chk != bw)
 		{
-			if (chk->content && ft_strcmp(bw->content, chk->content) == 0)
+			if (ft_strequ(((t_acres*)bw->content)->str, ((t_acres*)chk->content)->str))
 			{
 				ptr = (!prev) ? lst : &prev->next;
 				*ptr = bw->next;
-				ft_lstdelone(&bw, &free_tlist);
+				ft_lstdelone(&bw, &free_aclst);
 				bw = prev;
 			}
 			else
@@ -48,7 +61,8 @@ void	ft_lstrmdups(t_list **lst)
 	}
 }
 
-int		ft_lstsortalpha(t_list *a, t_list *b)
+/*
+int			ft_lstsortalpha(t_list *a, t_list *b)
 {
 	int		diff;
 
@@ -57,3 +71,4 @@ int		ft_lstsortalpha(t_list *a, t_list *b)
 	diff = ft_strcmp(a->content, b->content);
 	return ((diff > 0));
 }
+*/

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/24 23:35:25 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/10 02:36:12 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/25 21:34:16 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@
 
 int		get_bltn_opts(int ac, char **av, int *idx, const char *charset);
 
-int		sh_get_bltn(char **buff, char *chk);
+int		sh_get_bltn(char **buff, const char *chk);
+t_list	*sh_get_bltn_ac(const char *region);
+
 char	*getset_pwd_env(void);
 
 /*
