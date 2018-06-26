@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 14:42:44 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/24 22:53:45 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/26 17:07:51 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,12 @@ static void	do_str_to_stdin(t_redirect *redir, t_cmdnode *cmddat)
 	close(cfd[1]);
 }
 
-void		exec_redir(t_cmdnode *cmddat)
+void		exec_redir(t_cmdnode *cmddat, t_tab *bakptr)
 {
 	t_list		*bw;
 	t_redirect	*redir;
 
+	(void)bakptr;
 	bw = cmddat->c_redirects;
 	while (bw)
 	{
