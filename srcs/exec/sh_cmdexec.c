@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/26 20:13:52 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/26 20:17:34 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	exec_core(t_cmdnode *cmddat, uint8_t forkdes, char **env)
 	if (!forkdes)
 		bakfds = ft_ttabnew(sizeof(t_bakfds));
 	bakfds_ptr = (forkdes) ? NULL : &bakfds;
-	exec_pipe(cmddat, bakfds_ptr);
+	exec_pipe(cmddat);
 	exec_redir(cmddat, bakfds_ptr);
 	if (cmddat->builtin)
 	{

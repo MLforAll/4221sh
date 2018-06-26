@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 01:55:50 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/26 17:09:57 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/26 20:17:11 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 #include <unistd.h>
 #include "sh.h"
 
-void	exec_pipe(t_cmdnode *cmddat, t_tab *bakptr)
+void	exec_pipe(t_cmdnode *cmddat)
 {
-	(void)bakptr;
 	if (cmddat->stdin_fd != -1)
 	{
 		close(STDIN_FILENO);
