@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/26 20:17:34 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/27 00:01:08 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,19 @@ static void	restore_bakfds(t_tab *bakfds)
 
 	if (!bakfds)
 		return ;
-	idx = 0;
-	while (idx < bakfds->oc_size)
+	if (bakfds->oc_size > 0)
 	{
-		curr = (t_bakfds*)bakfds->data + idx;
-		close(curr->orig);
-		dup2(curr->bak, curr->orig);
-		close(curr->bak);
-		idx += bakfds->data_size;
+		idx = bakfds->oc_size - bakfds->data_size;
+		while (TRUE)
+		{
+			curr = (t_bakfds*)(bakfds->data + idx);
+			close(curr->orig);
+			dup2(curr->bak, curr->orig);
+			close(curr->bak);
+			if (idx == 0)
+				break ;
+			idx -= bakfds->data_size;
+		}
 	}
 	ft_ttabdel(bakfds);
 }
