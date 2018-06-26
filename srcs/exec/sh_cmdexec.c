@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/20 01:59:34 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/26 02:45:14 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,36 @@ static int	cmd_chk(char *path)
 	return (code);
 }
 
+static int	exec_core(t_cmdnode *cmddat, char **env)
+{
+	int		errval;
+
+	exec_pipe(cmddat);
+	exec_redir(cmddat);
+	if (cmddat->builtin)
+		return ((cmddat->builtin)((int)ft_tablen(cmddat->c_av), cmddat->c_av,
+			STDOUT_FILENO));
+	chg_env_var(env, "_", cmddat->c_path);
+	execve(cmddat->c_path, cmddat->c_av, env);
+	if ((errval = cmd_chk(cmddat->c_path)) >= 0)
+		return (sh_err_ret(errval, NULL, cmddat->c_path, 127));
+	return ((exec_shell(cmddat->c_path) == EXIT_SUCCESS) ? EXIT_SUCCESS : 127);
+}
+
 static int	exec_bincmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 {
+	uint8_t	forkdes;
 	pid_t	pid;
-	int		exval;
 	t_list	**jobnode;
 
+	if (!(forkdes = (async || spid || cmddat->c_path)))
+		return (exec_core(cmddat, env));
 	if ((pid = fork()) == -1)
 		return (ft_returnmsg("fork(): Out of resource!", STDERR_FILENO, -1));
 	if (pid == 0)
 	{
 		switch_traps(FALSE);
-		exec_pipe(cmddat);
-		exec_redir(cmddat);
-		chg_env_var(env, "_", cmddat->c_path);
-		execve(cmddat->c_path, cmddat->c_av, env);
-		if ((exval = cmd_chk(cmddat->c_path)) >= 0)
-			exit(sh_err_ret(exval, NULL, cmddat->c_path, 127));
-		exit((exec_shell(cmddat->c_path) == EXIT_SUCCESS) ? EXIT_SUCCESS : 127);
+		exit(exec_core(cmddat, env));
 	}
 	exec_pipe_clean(cmddat);
 	if (spid)
@@ -67,22 +79,13 @@ static int	exec_bincmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 	return (ft_wait(jobnode));
 }
 
-/*
-**	waitpid(pid, &exval, WUNTRACED);
-**	if (WIFSTOPPED(exval))
-**		sh_job_add(cmddat->c_path, pid);
-**	if (WIFSIGNALED(exval))
-**		sh_child_signaled(WTERMSIG(exval));
-**	return (WEXITSTATUS(exval));
-*/
-
 int			exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 {
 	extern char	**g_lvars;
 	extern char	**environ;
 	char		**tmp;
 	uint8_t		is_cmd;
-	int			exval;
+	//int			exval;
 
 	if (!cmddat)
 		return (EXIT_FAILURE);
@@ -95,10 +98,11 @@ int			exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 	}
 	if (!is_cmd)
 		return (EXIT_SUCCESS);
-	if (cmddat->builtin)
+	/*if (cmddat->builtin)
 		exval = (cmddat->builtin)((int)ft_tablen(cmddat->c_av), cmddat->c_av,
 			(cmddat->stdout_fd == -1) ? STDOUT_FILENO : cmddat->stdout_fd);
 	else
 		exval = exec_bincmd(cmddat, async, spid, (env) ? env : environ);
-	return (exval);
+	return (exval);*/
+	return (exec_bincmd(cmddat, async, spid, (env) ? env : environ));
 }

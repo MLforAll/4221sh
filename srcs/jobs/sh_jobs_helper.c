@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/01 02:21:25 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/21 16:31:58 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/25 23:53:01 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,3 +67,12 @@ int				ft_wait(t_list **jobnode)
 	}
 	return ((int)ret);
 }
+
+/*
+**	waitpid(pid, &exval, WUNTRACED);
+**	if (WIFSTOPPED(exval))
+**		sh_job_add(cmddat->c_path, pid);
+**	if (WIFSIGNALED(exval))
+**		sh_child_signaled(WTERMSIG(exval));
+**	return (WEXITSTATUS(exval));
+*/
