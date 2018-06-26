@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/24 23:48:25 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/26 19:00:52 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 #include <unistd.h>
 #include "sh.h"
 
-int		source_bltn(int ac, char **av, int outfd)
+int		source_bltn(int ac, char **av)
 {
-	(void)outfd;
 	if (ac == 1)
 	{
 		sh_err(SH_ERR_ARGREQ, *av, NULL);

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/03 20:21:10 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/02 04:49:39 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/26 19:27:06 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,15 @@ typedef enum	e_errs
 	SH_ERR_NOJOB,
 	SH_ERR_MAX
 }				t_errs;
+
+/*
+** bakfds struct
+*/
+
+typedef struct	s_bakfds
+{
+	int		bak;
+	int		orig;
+}				t_bakfds;
 
 #endif

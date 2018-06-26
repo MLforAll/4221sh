@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/26 17:08:27 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/26 19:59:57 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,5 @@ int		free_return(void **data, int retv);
 void	switch_traps(int ign);
 
 void	free_tlist(void *content, size_t size);
-//int		ft_lstsortalpha(t_list *a, t_list *b);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:39:19 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/24 23:46:52 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/26 19:51:44 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int		lexer_expand_var(char **s)
 	if (!(new = ft_strndup(*s, chr - (const char*)*s))
 		|| !(var = ft_strndup(chr + 1, len)))
 		return (-1);
-	if (((tmp = get_lvar(var)) || (tmp = getenv(var))) && !ft_stradd(&new, tmp))
+	if (((tmp = get_lvar(var))
+		|| (tmp = getenv(var))) && !ft_stradd(&new, tmp))
 		return (-1);
 	if (!ft_stradd(&new, chr + len + 1))
 		return (-1);

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/24 23:29:47 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/26 19:00:00 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 #include <unistd.h>
 #include "sh.h"
 
-int		exit_bltn(int ac, char **av, int outfd)
+int		exit_bltn(int ac, char **av)
 {
 	char	*last_cmd_ret;
 
-	(void)outfd;
 	if (ac > 2)
 		return (sh_err(SH_ERR_TMARG, av[0], NULL));
 	if (ac == 1)

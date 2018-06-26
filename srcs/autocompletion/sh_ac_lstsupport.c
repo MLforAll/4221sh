@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 21:55:07 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/25 21:49:16 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/26 19:58:40 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,43 +32,38 @@ static void	free_aclst(void *content, size_t size)
 	free(content);
 }
 
+static void	ft_aclst_rmdups_check(t_list **lst, t_list *bw, t_list *prev)
+{
+	t_list	**ptr;
+	t_list	*chk;
+
+	chk = *lst;
+	while (chk && bw && bw->content && chk != bw)
+	{
+		if (ft_strequ(((t_acres*)bw->content)->str,
+			((t_acres*)chk->content)->str))
+		{
+			ptr = (!prev) ? lst : &prev->next;
+			*ptr = bw->next;
+			ft_lstdelone(&bw, &free_aclst);
+			bw = prev;
+		}
+		else
+			chk = chk->next;
+	}
+}
+
 void		ft_aclst_rmdups(t_list **lst)
 {
 	t_list	*bw;
 	t_list	*prev;
-	t_list	*chk;
-	t_list	**ptr;
 
 	bw = (lst) ? *lst : NULL;
 	prev = NULL;
 	while (bw)
 	{
-		chk = *lst;
-		while (chk && bw && bw->content && chk != bw)
-		{
-			if (ft_strequ(((t_acres*)bw->content)->str, ((t_acres*)chk->content)->str))
-			{
-				ptr = (!prev) ? lst : &prev->next;
-				*ptr = bw->next;
-				ft_lstdelone(&bw, &free_aclst);
-				bw = prev;
-			}
-			else
-				chk = chk->next;
-		}
+		ft_aclst_rmdups_check(lst, bw, prev);
 		prev = bw;
 		bw = bw->next;
 	}
 }
-
-/*
-int			ft_lstsortalpha(t_list *a, t_list *b)
-{
-	int		diff;
-
-	if (!a || !b || !a->content || !b->content)
-		return (0);
-	diff = ft_strcmp(a->content, b->content);
-	return ((diff > 0));
-}
-*/

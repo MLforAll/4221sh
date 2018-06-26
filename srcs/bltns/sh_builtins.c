@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/25 21:53:28 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/26 19:53:41 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@
 #include "ftrl_dev.h"
 
 static char	*g_bltn_names[10] = {
-		"echo", "cd", "exit", "source",
-		"env", "setenv", "unsetenv", "jobs", "fg", "bg"};
+	"echo", "cd", "exit", "source",
+	"env", "setenv", "unsetenv",
+	"jobs", "fg", "bg"};
 
 int			sh_get_bltn(char **buff, const char *chk)
 {
 	int			idx;
-	
+
 	idx = 0;
 	while (idx < (int)(sizeof(g_bltn_names) / sizeof(*g_bltn_names)))
 	{
@@ -43,7 +44,7 @@ t_list		*sh_get_bltn_ac(const char *region)
 	t_list		*ret;
 	t_acres		*curr_dat;
 	t_list		*curr;
-	
+
 	idx = 0;
 	ret = NULL;
 	while (idx < (int)(sizeof(g_bltn_names) / sizeof(*g_bltn_names)))

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/24 23:35:25 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/25 21:34:16 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/26 19:06:06 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,17 @@ char	*getset_pwd_env(void);
 ** builtins functions
 */
 
-int		echo_bltn(int ac, char **av, int outfd);
-int		exit_bltn(int ac, char **av, int outfd);
-int		source_bltn(int ac, char **av, int outfd);
-int		cd_bltn(int ac, char **av, int outfd);
+int		echo_bltn(int ac, char **av);
+int		exit_bltn(int ac, char **av);
+int		source_bltn(int ac, char **av);
+int		cd_bltn(int ac, char **av);
 
-int		jobs_bltn(int ac, char **av, int outfd);
-int		fg_bltn(int ac, char **av, int outfd);
-int		bg_bltn(int ac, char **av, int outfd);
+int		jobs_bltn(int ac, char **av);
+int		fg_bltn(int ac, char **av);
+int		bg_bltn(int ac, char **av);
 
-int		env_bltn(int ac, char **av, int outfd);
-int		setenv_bltn(int ac, char **av, int outfd);
-int		unsetenv_bltn(int ac, char **av, int outfd);
+int		env_bltn(int ac, char **av);
+int		setenv_bltn(int ac, char **av);
+int		unsetenv_bltn(int ac, char **av);
 
 #endif

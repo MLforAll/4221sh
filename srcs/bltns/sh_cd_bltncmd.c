@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/20 03:59:25 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/26 19:03:40 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ static void		chg_ret(char **ret, char **last, char *path, unsigned int idx)
 		*last += ((*last)[2] != '\0') + 2;
 		return ;
 	}
-	if ((**last && *last != path) || (*path == '/' && !**ret))
+	//if ((**last && *last != path) || (*path == '/' && !**ret))
+	if (**last || (*path == '/' && !**ret))
 		ft_stradd(ret, "/");
 	ft_strnadd(ret, *last, idx);
 }
@@ -109,7 +110,7 @@ static char		*get_cd_path(int idx, int opts, char **av, char *pwd)
 	return (ft_strdup(av[idx]));
 }
 
-int				cd_bltn(int ac, char **av, int outfd)
+int				cd_bltn(int ac, char **av)
 {
 	char			*path_cd;
 	char			*pwd;
@@ -126,7 +127,7 @@ int				cd_bltn(int ac, char **av, int outfd)
 		sh_err(get_errcode_for_path(path_cd, X_OK, YES), av[0], path_cd);
 		return (free_return((void**)&path_cd, EXIT_FAILURE));
 	}
-	(cd_opts & CD_DASH_OPT) ? ft_putendl_fd(path_cd, outfd) : 0;
+	(cd_opts & CD_DASH_OPT) ? ft_putendl(path_cd) : 0;
 	set_env_var(NULL, "OLDPWD", pwd);
 	if (cd_opts & 0x1)
 	{

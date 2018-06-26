@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/31 02:55:01 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/21 16:30:53 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/26 20:15:54 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,30 @@
 
 t_list		*g_jobslst = NULL;
 
-uint8_t		sh_job_put(int n)
+static uint8_t	sh_job_put_action(int n, t_list ***tmp, uint8_t *ret)
 {
-	t_list		**tmp;
 	t_list		**bak;
 	t_jobctrl	*dat;
+
+	dat = (t_jobctrl*)(**tmp)->content;
+	if (n < 1 || n == dat->j_idx)
+	{
+		*ret = TRUE;
+		ft_jobputnode(dat);
+		if (dat->j_state == kJobStateTerminated)
+		{
+			bak = *tmp;
+			*tmp = &(**tmp)->next;
+			ft_lstdelone(bak, &ft_joblstdel);
+			return (TRUE);
+		}
+	}
+	return (FALSE);
+}
+
+uint8_t			sh_job_put(int n)
+{
+	t_list		**tmp;
 	uint8_t		ret;
 
 	sh_jobop_lock();
@@ -28,26 +47,15 @@ uint8_t		sh_job_put(int n)
 	ret = FALSE;
 	while (*tmp)
 	{
-		dat = (t_jobctrl*)(*tmp)->content;
-		if (n < 1 || n == dat->j_idx)
-		{
-			ret = TRUE;
-			ft_jobputnode(dat);
-			if (dat->j_state == kJobStateTerminated)
-			{
-				bak = tmp;
-				tmp = &(*tmp)->next;
-				ft_lstdelone(bak, &ft_joblstdel);
-				continue ;
-			}
-		}
+		if (sh_job_put_action(n, &tmp, &ret))
+			continue ;
 		tmp = &(*tmp)->next;
 	}
 	sh_jobop_unlock();
 	return (ret);
 }
 
-t_list		**sh_job_idx(int idx)
+t_list			**sh_job_idx(int idx)
 {
 	t_list	**tmp;
 
@@ -60,7 +68,7 @@ t_list		**sh_job_idx(int idx)
 	return ((idx > 0) ? NULL : tmp);
 }
 
-t_list		**sh_job_lastest(void)
+t_list			**sh_job_lastest(void)
 {
 	t_list	**tmp;
 
@@ -74,7 +82,7 @@ t_list		**sh_job_lastest(void)
 	return (tmp);
 }
 
-t_list		**sh_job_add(char *cmd, pid_t pid)
+t_list			**sh_job_add(char *cmd, pid_t pid)
 {
 	t_jobctrl	*jdat;
 	t_list		*node;

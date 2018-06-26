@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/20 01:47:55 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/26 19:04:37 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct	s_astnode
 typedef	struct	s_cmdnode
 {
 	char	**c_vars;
-	int		(*builtin)(int, char **, int);
+	int		(*builtin)(int, char **);
 	char	*c_path;
 	char	**c_av;
 	t_list	*c_redirects;

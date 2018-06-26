@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/26 17:09:33 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/26 20:13:52 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,25 +38,49 @@ static int	cmd_chk(char *path)
 	return (code);
 }
 
+static void	restore_bakfds(t_tab *bakfds)
+{
+	unsigned long	idx;
+	t_bakfds		*curr;
+
+	if (!bakfds)
+		return ;
+	idx = 0;
+	while (idx < bakfds->oc_size)
+	{
+		curr = (t_bakfds*)bakfds->data + idx;
+		close(curr->orig);
+		dup2(curr->bak, curr->orig);
+		close(curr->bak);
+		idx += bakfds->data_size;
+	}
+	ft_ttabdel(bakfds);
+}
+
 static int	exec_core(t_cmdnode *cmddat, uint8_t forkdes, char **env)
 {
-	int		errval;
+	int		tmp;
 	t_tab	bakfds;
+	t_tab	*bakfds_ptr;
 
-
-	if (forkdes)
-		bakfds = ft_ttabnew(sizeof(int));
-	exec_pipe(cmddat, (forkdes) ? &bakfds : NULL);
-	exec_redir(cmddat, (forkdes) ? &bakfds : NULL);
-	ft_ttabdel(&bakfds);
+	if (!forkdes)
+		bakfds = ft_ttabnew(sizeof(t_bakfds));
+	bakfds_ptr = (forkdes) ? NULL : &bakfds;
+	exec_pipe(cmddat, bakfds_ptr);
+	exec_redir(cmddat, bakfds_ptr);
 	if (cmddat->builtin)
-		return ((cmddat->builtin)((int)ft_tablen(cmddat->c_av), cmddat->c_av,
-			STDOUT_FILENO));
+	{
+		tmp = (cmddat->builtin)((int)ft_tablen(cmddat->c_av), cmddat->c_av);
+		restore_bakfds(bakfds_ptr);
+		return (tmp);
+	}
 	chg_env_var(env, "_", cmddat->c_path);
 	execve(cmddat->c_path, cmddat->c_av, env);
-	if ((errval = cmd_chk(cmddat->c_path)) >= 0)
-		return (sh_err_ret(errval, NULL, cmddat->c_path, 127));
-	return ((exec_shell(cmddat->c_path) == EXIT_SUCCESS) ? EXIT_SUCCESS : 127);
+	if ((tmp = cmd_chk(cmddat->c_path)) >= 0)
+		return (sh_err_ret(tmp, NULL, cmddat->c_path, 127));
+	tmp = (exec_shell(cmddat->c_path) == EXIT_SUCCESS) ? EXIT_SUCCESS : 127;
+	restore_bakfds(bakfds_ptr);
+	return (tmp);
 }
 
 static int	exec_bincmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
@@ -90,7 +114,6 @@ int			exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 	extern char	**environ;
 	char		**tmp;
 	uint8_t		is_cmd;
-	//int			exval;
 
 	if (!cmddat)
 		return (EXIT_FAILURE);
@@ -103,11 +126,14 @@ int			exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 	}
 	if (!is_cmd)
 		return (EXIT_SUCCESS);
-	/*if (cmddat->builtin)
-		exval = (cmddat->builtin)((int)ft_tablen(cmddat->c_av), cmddat->c_av,
-			(cmddat->stdout_fd == -1) ? STDOUT_FILENO : cmddat->stdout_fd);
-	else
-		exval = exec_bincmd(cmddat, async, spid, (env) ? env : environ);
-	return (exval);*/
 	return (exec_bincmd(cmddat, async, spid, (env) ? env : environ));
 }
+
+/*
+**	if (cmddat->builtin)
+**		exval = (cmddat->builtin)((int)ft_tablen(cmddat->c_av), cmddat->c_av,
+**			(cmddat->stdout_fd == -1) ? STDOUT_FILENO : cmddat->stdout_fd);
+**	else
+**		exval = exec_bincmd(cmddat, async, spid, (env) ? env : environ);
+**	return (exval);
+*/

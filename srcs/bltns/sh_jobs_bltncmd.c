@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/28 01:25:14 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/20 04:19:12 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/26 19:55:16 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@
 #include "sh_jobs.h"
 #include "sh.h"
 
-int				jobs_bltn(int ac, char **av, int outfd)
+int				jobs_bltn(int ac, char **av)
 {
 	int		jn;
 
-	(void)outfd;
 	if (ac == 1)
 	{
 		sh_job_put(0);
@@ -53,7 +52,8 @@ static t_list	**kick_job_back(int ac, char **av)
 	}
 	if (!(jtowake = (idx == -1) ? sh_job_lastest() : sh_job_idx(idx)))
 	{
-		ft_putendl_fd("kick_job_back(): such job does not exist!", STDERR_FILENO);
+		ft_putendl_fd("kick_job_back(): such job does not exist!",
+			STDERR_FILENO);
 		return (NULL);
 	}
 	kill(((t_jobctrl*)(*jtowake)->content)->j_pid, SIGCONT);
@@ -61,21 +61,19 @@ static t_list	**kick_job_back(int ac, char **av)
 	return (jtowake);
 }
 
-int				fg_bltn(int ac, char **av, int outfd)
+int				fg_bltn(int ac, char **av)
 {
 	t_list	**jtowake;
 
-	(void)outfd;
 	if (!(jtowake = kick_job_back(ac, av)))
 		return (EXIT_FAILURE);
 	return (ft_wait(jtowake));
 }
 
-int				bg_bltn(int ac, char **av, int outfd)
+int				bg_bltn(int ac, char **av)
 {
 	t_list	**jtowake;
 
-	(void)outfd;
 	if (!(jtowake = kick_job_back(ac, av)))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/28 23:46:20 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/31 04:01:02 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/26 19:04:14 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char				*get_cmd_path(char *line_cmd, char **env)
 int					fill_bltn(t_cmdnode *cmddat, char *line_cmd)
 {
 	int			idx;
-	static int	(*bltns_funcs[10])(int, char **, int) = {&echo_bltn,
+	static int	(*bltns_funcs[10])(int, char **) = {&echo_bltn,
 		&cd_bltn, &exit_bltn, &source_bltn,
 		&env_bltn, &setenv_bltn, &unsetenv_bltn,
 		&jobs_bltn, &fg_bltn, &bg_bltn};

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 23:00:55 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/09 23:17:59 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/26 19:00:40 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	usage(char a)
 	return (EXIT_FAILURE);
 }
 
-int			env_bltn(int ac, char **av, int outfd)
+int			env_bltn(int ac, char **av)
 {
 	extern char		**environ;
 	char			**new_env;
@@ -61,7 +61,7 @@ int			env_bltn(int ac, char **av, int outfd)
 		set_env_from_str(&new_env, av[idx]);
 		idx++;
 	}
-	(!av[idx]) ? ft_puttab_fd(new_env, NULL, outfd) \
+	(!av[idx]) ? ft_puttab_fd(new_env, NULL, STDOUT_FILENO) \
 		: (exval = launch_utility(av, idx, new_env));
 	ft_tabfree(&new_env);
 	return (exval);

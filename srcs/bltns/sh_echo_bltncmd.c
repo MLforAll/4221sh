@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/24 23:30:06 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/26 19:01:38 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include "sh.h"
 
-int		echo_bltn(int ac, char **av, int outfd)
+int		echo_bltn(int ac, char **av)
 {
 	int		nonl;
 
@@ -26,11 +26,11 @@ int		echo_bltn(int ac, char **av, int outfd)
 	}
 	while (*(++av))
 	{
-		ft_putstr_fd(*av, outfd);
+		ft_putstr_fd(*av, STDOUT_FILENO);
 		if (*(av + 1))
-			ft_putchar_fd(' ', outfd);
+			ft_putchar_fd(' ', STDOUT_FILENO);
 	}
 	if (!nonl)
-		ft_putchar_fd('\n', outfd);
+		ft_putchar_fd('\n', STDOUT_FILENO);
 	return (EXIT_SUCCESS);
 }

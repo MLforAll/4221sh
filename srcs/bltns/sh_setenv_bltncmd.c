@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/27 21:43:13 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/26 19:06:24 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,15 @@ static uint8_t	is_id_valid(int ac, char **av)
 	return (TRUE);
 }
 
-int				setenv_bltn(int ac, char **av, int outfd)
+int				setenv_bltn(int ac, char **av)
 {
 	extern char	**environ;
 
 	if (ac > 3)
-		return (sh_err(SH_ERR_TMARG, "setenv", NULL));
+		return (sh_err(SH_ERR_TMARG, av[0], NULL));
 	if (ac == 1)
 	{
-		ft_puttab_fd(environ, NULL, outfd);
+		ft_puttab(environ, NULL);
 		return (EXIT_SUCCESS);
 	}
 	if (!is_id_valid(ac, av))
@@ -42,11 +42,10 @@ int				setenv_bltn(int ac, char **av, int outfd)
 	return (EXIT_SUCCESS);
 }
 
-int				unsetenv_bltn(int ac, char **av, int outfd)
+int				unsetenv_bltn(int ac, char **av)
 {
 	int		idx;
 
-	(void)outfd;
 	if (ac == 1)
 		return (EXIT_FAILURE);
 	if (!is_id_valid(ac, av))
