@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/31 02:55:01 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/26 20:15:54 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/27 15:09:22 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_list			**sh_job_lastest(void)
 	return (tmp);
 }
 
-t_list			**sh_job_add(char *cmd, pid_t pid)
+t_list			**sh_job_add(char *cmd, pid_t pid, enum e_jobstate state)
 {
 	t_jobctrl	*jdat;
 	t_list		*node;
@@ -95,8 +95,8 @@ t_list			**sh_job_add(char *cmd, pid_t pid)
 	if (!(jdat = ft_memalloc(sizeof(t_jobctrl))))
 		return (NULL);
 	jdat->j_idx = (!*tmp) ? 1 : ((t_jobctrl*)(*tmp)->content)->j_idx;
-	jdat->j_state = kJobStateRunning;
-	jdat->j_cmd = ft_strdup(cmd);
+	jdat->j_state = state;
+	jdat->j_cmd = ft_strdup((cmd) ? cmd : "builtin");
 	jdat->j_pid = pid;
 	if (!(node = ft_lstnew_nomalloc(jdat, sizeof(t_jobctrl))))
 	{
