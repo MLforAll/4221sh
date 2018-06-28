@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/23 16:15:34 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/25 23:43:36 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/28 03:37:31 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ inline static char	*ishell_get_prompt(void)
 	if ((mshp_entry = getenv("SH_PROMPT")) && *mshp_entry)
 		pr = get_prompt_from_str(mshp_entry);
 	else
-		pr = get_prompt_from_str("\\u:\\W$ ");
+		pr = get_prompt_from_str("\033[1;36m\\u:\033[0;33m\\W\033[0;39m$ ");
 	return ((pr) ? pr : ft_strdup("21sh-1.0$ "));
 }
 

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/26 19:03:40 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/28 03:42:57 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ static void		chg_ret(char **ret, char **last, char *path, unsigned int idx)
 		*last += ((*last)[2] != '\0') + 2;
 		return ;
 	}
-	//if ((**last && *last != path) || (*path == '/' && !**ret))
-	if (**last || (*path == '/' && !**ret))
+	if ((**last && *last != path) || (*path == '/' && !**ret))
 		ft_stradd(ret, "/");
 	ft_strnadd(ret, *last, idx);
 }
@@ -97,13 +96,13 @@ static char		*get_cd_path(int idx, int opts, char **av, char *pwd)
 	{
 		if (!(oldpwd = getenv("OLDPWD")))
 			sh_err(SH_ERR_NOSET, av[0], "OLDPWD");
-		return (ft_strdup(oldpwd));
+		return ((oldpwd) ? ft_strdup(oldpwd) : NULL);
 	}
 	if (!av[idx])
 	{
 		if (!(ret = getenv("HOME")))
 			sh_err(SH_ERR_NOSET, av[0], "HOME");
-		return (ft_strdup(ret));
+		return ((ret) ? ft_strdup(ret) : NULL);
 	}
 	if (!(opts & CD_P_OPT))
 		return (get_newpath(pwd, av[idx]));

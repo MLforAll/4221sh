@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/27 15:09:42 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/28 03:41:54 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static int	exec_bincmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 	t_list	**jobnode;
 
 	if (!(forkdes = (async || cmddat->c_path
-		|| cmddat->stdin_fd || cmddat->stdout_fd)))
+		|| cmddat->stdin_fd != -1 || cmddat->stdout_fd != -1)))
 		return (exec_core(cmddat, forkdes, env));
 	if ((pid = fork()) == -1)
 		return (ft_returnmsg("fork(): Out of resource!", STDERR_FILENO, -1));
