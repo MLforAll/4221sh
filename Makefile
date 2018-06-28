@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/06/25 21:32:16 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/06/28 21:27:29 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -117,7 +117,7 @@ fsanitize:
 	@ printf "\r------------------------------\033[0;39m\n"
 	@ make all LD_FLAGS="$(LD_FLAGS) -fsanitize=address"
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
+$(OBJDIR)/%.o: $(SRCDIR)/%.c $(INCLUDES)
 	@ if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	@ printf "\033[K$(PROJTEXT)Compiling \033[1;33m$<"
 ifneq ($(CSRC),0)
