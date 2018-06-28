@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include "sh_parser.h"
 
-uint8_t		parser_check_syntax(t_list *tokens, uint8_t ragain)
+t_uint8		parser_check_syntax(t_list *tokens, t_uint8 ragain)
 {
 	t_token	*prev;
 	t_token	*curr;

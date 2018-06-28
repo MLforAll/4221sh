@@ -76,7 +76,7 @@ static t_cmdnode	*eval_ast(t_btree *node, t_tab *pids)
 	return (NULL);
 }
 
-int					eval_line(char **line, uint8_t ragain)
+int					eval_line(char **line, t_uint8 ragain)
 {
 	int		ret;
 	t_list	*tokens;

@@ -43,7 +43,7 @@ static void			add_redirect(t_cmdnode *cmddat, t_list **tok, int *io_nbr)
 	ft_lstpush(&cmddat->c_redirects, nr);
 }
 
-inline static int	word_action(t_cmdnode *cmddat, t_token *tokdat, uint8_t *fw)
+inline static int	word_action(t_cmdnode *cmddat, t_token *tokdat, t_uint8 *fw)
 {
 	if (ft_strchr(tokdat->toks, '=') && *fw)
 		return (ft_tabaddstr(&cmddat->c_vars, tokdat->toks));
@@ -61,7 +61,7 @@ inline static int	word_action(t_cmdnode *cmddat, t_token *tokdat, uint8_t *fw)
 void				fill_cmd_data(t_cmdnode *cmddat, t_list *tokens)
 {
 	t_token	*tokdat;
-	uint8_t	first_word;
+	t_uint8	first_word;
 	int		io_nbr;
 
 	first_word = TRUE;

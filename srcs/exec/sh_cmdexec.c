@@ -62,7 +62,7 @@ static void	restore_bakfds(t_tab *bakfds)
 	ft_ttabdel(bakfds);
 }
 
-static int	exec_core(t_cmdnode *cmddat, uint8_t forkdes, char **env)
+static int	exec_core(t_cmdnode *cmddat, t_uint8 forkdes, char **env)
 {
 	int		tmp;
 	t_tab	bakfds;
@@ -90,7 +90,7 @@ static int	exec_core(t_cmdnode *cmddat, uint8_t forkdes, char **env)
 
 static int	exec_bincmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 {
-	uint8_t	forkdes;
+	t_uint8	forkdes;
 	pid_t	pid;
 	t_list	**jobnode;
 
@@ -119,7 +119,7 @@ int			exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 	extern char	**g_lvars;
 	extern char	**environ;
 	char		**tmp;
-	uint8_t		is_cmd;
+	t_uint8		is_cmd;
 
 	if (!cmddat)
 		return (EXIT_FAILURE);

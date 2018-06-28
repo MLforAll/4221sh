@@ -22,7 +22,7 @@ void			ft_joblstdel(void *data, size_t datsize)
 	free(data);
 }
 
-const char		*ft_jobputstate(enum e_jobstate state, uint8_t print)
+const char		*ft_jobputstate(enum e_jobstate state, t_uint8 print)
 {
 	const char	*jobstates[] = {"Running", "Stopped", "Terminated", "Exited"};
 
@@ -46,7 +46,7 @@ void			ft_jobputnode(t_jobctrl *data)
 int				ft_wait(t_list **jobnode)
 {
 	t_jobctrl	*jdat;
-	uint8_t		ret;
+	t_uint8		ret;
 
 	if (!jobnode)
 		return (-1);

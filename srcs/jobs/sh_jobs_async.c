@@ -31,7 +31,7 @@ void		sh_jobop_unlock(void)
 
 #else
 
-uint8_t			g_jobop = NO;
+t_uint8			g_jobop = NO;
 
 void		sh_jobop_lock(void)
 {

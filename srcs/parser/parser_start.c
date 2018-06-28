@@ -89,7 +89,7 @@ static t_btree			*parse_tokens_core(t_list *tokens)
 
 t_btree					*parse_tokens(char **line, t_list *tokens)
 {
-	uint8_t	chk_again;
+	t_uint8	chk_again;
 
 	chk_again = TRUE;
 	while (chk_again)

@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include "sh.h"
 
-static uint8_t	is_id_valid(int ac, char **av)
+static t_uint8	is_id_valid(int ac, char **av)
 {
 	if (!ft_isalpha(*av[1]) || ft_strchrf(av[1], '=')
 		|| (ac == 3 && ft_strchr(av[1], '=')))

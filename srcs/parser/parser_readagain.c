@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include "sh.h"
 
-static char	*read_till_delim(const char *prompt, char *delim, uint8_t whole)
+static char	*read_till_delim(const char *prompt, char *delim, t_uint8 whole)
 {
 	char		*ret;
 	char		*line;
@@ -56,7 +56,7 @@ void		parser_check_heredocs(t_list *tokens)
 	}
 }
 
-uint8_t		parser_check_inclist(char **line, t_list **tokens)
+t_uint8		parser_check_inclist(char **line, t_list **tokens)
 {
 	t_toktype	ttype;
 	t_list		*tmp;

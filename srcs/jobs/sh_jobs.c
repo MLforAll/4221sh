@@ -16,7 +16,7 @@
 
 t_list		*g_jobslst = NULL;
 
-static uint8_t	sh_job_put_action(int n, t_list ***tmp, uint8_t *ret)
+static t_uint8	sh_job_put_action(int n, t_list ***tmp, t_uint8 *ret)
 {
 	t_list		**bak;
 	t_jobctrl	*dat;
@@ -37,10 +37,10 @@ static uint8_t	sh_job_put_action(int n, t_list ***tmp, uint8_t *ret)
 	return (FALSE);
 }
 
-uint8_t			sh_job_put(int n)
+t_uint8			sh_job_put(int n)
 {
 	t_list		**tmp;
-	uint8_t		ret;
+	t_uint8		ret;
 
 	sh_jobop_lock();
 	tmp = &g_jobslst;
