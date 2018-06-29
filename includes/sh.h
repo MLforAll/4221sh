@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/28 21:28:09 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/29 01:54:31 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	del_lvar(const char *var);
 ** errors
 */
 
-int		sh_err(int errc, const char *bltn, const char *path);
+void	sh_err(int errc, const char *bltn, const char *path);
 int		sh_err_ret(int errc, const char *bltn, const char *path, int retv);
 int		get_errcode_for_path(const char *path, int mode, int dir);
 

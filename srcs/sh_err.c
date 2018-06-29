@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 21:23:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/28 03:40:11 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/29 01:54:21 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <sys/param.h>
 #include "sh.h"
 
-int			sh_err(int errc, const char *bltn, const char *path)
+void		sh_err(int errc, const char *bltn, const char *path)
 {
 	const char		*errs[] = {
 		"Undefined error", "command not found", "No such file or directory",
@@ -40,7 +40,6 @@ int			sh_err(int errc, const char *bltn, const char *path)
 	}
 	if (errc >= 0 && errc < SH_ERR_MAX)
 		ft_putendl_fd(errs[errc], STDERR_FILENO);
-	return (1);
 }
 
 int			sh_err_ret(int errc, const char *bltn, const char *path, int retv)

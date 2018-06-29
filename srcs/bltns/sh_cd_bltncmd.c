@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/28 03:42:57 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/29 03:04:20 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,16 @@
 #include <unistd.h>
 #include "sh.h"
 
-char			*getset_pwd_env(void)
-{
-	char			*ret;
-	char			*pwd;
-
-	if ((ret = getenv("PWD")))
-		return (ret);
-	if (!(pwd = getcwd(NULL, 0)))
-		ft_putendl_fd("getset_pwd_env: getcwd failed!", STDERR_FILENO);
-	ret = set_env_var(NULL, "PWD", pwd);
-	ft_strdel(&pwd);
-	return (ret);
-}
-
 /*
-** path = argv of cd (e.g cd misc => misc is path)
+** chg_ret (static)
+**
+** char **ret        -> ref of return value for get_newpath()
+** char **last       -> ref of last var in get_newpath()
+** char *path        -> cd's argument
+** unsigned int idx  -> counter
 */
 
-static void		chg_ret(char **ret, char **last, char *path, unsigned int idx)
+static void			chg_ret(char **ret, char **last, char *path, unsigned int idx)
 {
 	char			*rchr;
 	char			*tmp;
@@ -53,18 +44,39 @@ static void		chg_ret(char **ret, char **last, char *path, unsigned int idx)
 		*last += ((*last)[2] != '\0') + 2;
 		return ;
 	}
-	if ((**last && *last != path) || (*path == '/' && !**ret))
+	if (**last || (*path == '/' && !**ret))
 		ft_stradd(ret, "/");
 	ft_strnadd(ret, *last, idx);
 }
 
-static char		*get_newpath(char *curr, char *path)
+/*
+** get_newpath_init (static)
+**
+** char *curr -> pwd
+** char *path -> cd's argument
+*/
+
+inline static char	*get_newpath_init(char *curr, char *path)
+{
+	if ((*path == '/' || !curr || ft_strequ(curr, "/")))
+		return (ft_strdup(""));
+	return (ft_strdup(curr));
+}
+
+/*
+** get_newpath (static)
+**
+** char *curr -> pwd
+** char *path -> cd's argument
+*/
+
+static char			*get_newpath(char *curr, char *path)
 {
 	char			*ret;
 	char			*last;
 	unsigned int	idx;
 
-	if (!path || !(ret = ft_strdup((!curr || *curr == '/') ? "" : curr)))
+	if (!path || !(ret = get_newpath_init(curr, path)))
 		return (NULL);
 	last = path + (*path == '/');
 	idx = 0;
@@ -87,7 +99,16 @@ static char		*get_newpath(char *curr, char *path)
 	return (ret);
 }
 
-static char		*get_cd_path(int idx, int opts, char **av, char *pwd)
+/*
+** get_cd_path (static)
+**
+** int idx   -> ac counter
+** int opts  -> opts bitwise-OR
+** char **av
+** char *pwd
+*/
+
+static char			*get_cd_path(int idx, int opts, char **av, char *pwd)
 {
 	char			*ret;
 	char			*oldpwd;
@@ -109,7 +130,14 @@ static char		*get_cd_path(int idx, int opts, char **av, char *pwd)
 	return (ft_strdup(av[idx]));
 }
 
-int				cd_bltn(int ac, char **av)
+/*
+** cd_bltn
+**
+** int ac
+** char	**av
+*/
+
+int					cd_bltn(int ac, char **av)
 {
 	char			*path_cd;
 	char			*pwd;

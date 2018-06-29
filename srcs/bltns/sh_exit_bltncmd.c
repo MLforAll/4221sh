@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/26 19:00:00 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/29 01:55:06 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		exit_bltn(int ac, char **av)
 	char	*last_cmd_ret;
 
 	if (ac > 2)
-		return (sh_err(SH_ERR_TMARG, av[0], NULL));
+		return (sh_err_ret(SH_ERR_TMARG, av[0], NULL, EXIT_FAILURE));
 	if (ac == 1)
 	{
 		last_cmd_ret = getenv("?");
