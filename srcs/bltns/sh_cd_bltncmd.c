@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/30 16:21:38 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/30 16:30:16 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,24 @@ static int			cd_usage(char a)
 }
 
 /*
+** cd_set_env (inline static) -> set PWD and OLDPWD env vars
+** char *pwd
+** char *path_cd              -> path to cd to
+** int cd_opts                -> cd user options (switches)
+*/
+
+inline static void	cd_set_env(char *pwd, char *path_cd, int cd_opts)
+{
+	(void)set_env_var(NULL, "OLDPWD", pwd);
+	if (cd_opts & CD_P_OPT)
+	{
+		ft_strdel(&path_cd);
+		path_cd = getcwd(NULL, 0);
+	}
+	(void)set_env_var(NULL, "PWD", path_cd);
+}
+
+/*
 ** cd_bltn
 **
 ** int ac
@@ -86,13 +104,7 @@ int					cd_bltn(int ac, char **av)
 		return (free_return((void**)&path_cd, EXIT_FAILURE));
 	}
 	(cd_opts & CD_DASH_OPT) ? ft_putendl(path_cd) : 0;
-	(void)set_env_var(NULL, "OLDPWD", pwd);
-	if (cd_opts & 0x1)
-	{
-		ft_strdel(&path_cd);
-		path_cd = getcwd(NULL, 0);
-	}
-	(void)set_env_var(NULL, "PWD", path_cd);
+	cd_set_env(pwd, path_cd, cd_opts);
 	ft_strdel(&path_cd);
 	return (EXIT_SUCCESS);
 }

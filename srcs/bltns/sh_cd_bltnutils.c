@@ -6,13 +6,13 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/30 16:17:07 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/30 16:21:34 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/30 16:31:02 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
-#include "libft.h"
+#include "sh.h"
 
 /*
 ** chg_ret (static)
