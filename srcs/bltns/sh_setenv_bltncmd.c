@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/29 01:55:36 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/30 15:37:27 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int				setenv_bltn(int ac, char **av)
 	if (!is_id_valid(ac, av))
 		return (sh_err_ret(SH_ERR_INVID, av[0], av[1], EXIT_FAILURE));
 	if (ac == 3)
-		set_env_var(NULL, av[1], av[2]);
+		(void)set_env_var(NULL, av[1], av[2]);
 	else
-		set_env_from_str(NULL, av[1]);
+		(void)set_env_from_str(NULL, av[1]);
 	return (EXIT_SUCCESS);
 }
 

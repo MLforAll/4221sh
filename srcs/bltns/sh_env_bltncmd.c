@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 23:00:55 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/26 19:00:40 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/30 16:16:40 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,12 @@ static int	launch_utility(char **av, int idx, char **new_env)
 	return (ret);
 }
 
-static int	usage(char a)
+static int	env_usage(char a)
 {
 	ft_putstr_fd("env: illegal option -- ", STDERR_FILENO);
 	ft_putchar_fd(a, STDERR_FILENO);
-	ft_putendl_fd("\nusage: [-i]", STDERR_FILENO);
-	ft_putendl_fd("       [name=value ...] [utility [argument ...]]", \
-														STDERR_FILENO);
+	ft_putendl_fd("\nusage: [-i]\n"
+			"       [name=value ...] [utility [argument ...]]", STDERR_FILENO);
 	return (EXIT_FAILURE);
 }
 
@@ -51,8 +50,8 @@ int			env_bltn(int ac, char **av)
 
 	exval = EXIT_SUCCESS;
 	idx = 1;
-	if ((opts = get_bltn_opts(ac, av, &idx, "i")) < 0)
-		return (usage(-opts));
+	if ((opts = get_bltn_opts(av, &idx, "i", NULL)) < 0)
+		return (env_usage(-opts));
 	new_env = (opts & 0x1) ? ft_tabnew() : ft_tabdup(environ);
 	while (ac > 1 && av[idx])
 	{

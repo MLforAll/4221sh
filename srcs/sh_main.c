@@ -6,27 +6,13 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/21 19:45:50 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/29 02:35:27 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/06/30 16:18:49 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
 #include "sh.h"
-
-char		*getset_pwd_env(void)
-{
-	char			*ret;
-	char			*pwd;
-
-	if ((ret = getenv("PWD")))
-		return (ret);
-	if (!(pwd = getcwd(NULL, 0)))
-		ft_putendl_fd("getset_pwd_env: getcwd failed!", STDERR_FILENO);
-	ret = set_env_var(NULL, "PWD", pwd);
-	ft_strdel(&pwd);
-	return (ret);
-}
 
 static void	set_shlvl(void)
 {
