@@ -6,14 +6,14 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/28 23:46:20 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/26 19:04:14 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 05:35:58 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "sh.h"
 
-char				*get_cmd_path(char *line_cmd, char **env)
+char		*get_cmd_path(char *line_cmd, char **env)
 {
 	char			*env_path;
 	char			**paths;
@@ -37,11 +37,11 @@ char				*get_cmd_path(char *line_cmd, char **env)
 	return ((!ret) ? ft_strdup(line_cmd) : ret);
 }
 
-int					fill_bltn(t_cmdnode *cmddat, char *line_cmd)
+int			fill_bltn(t_cmdnode *cmddat, char *line_cmd)
 {
 	int			idx;
-	static int	(*bltns_funcs[10])(int, char **) = {&echo_bltn,
-		&cd_bltn, &exit_bltn, &source_bltn,
+	static int	(*bltns_funcs[])(int, char **) = {&echo_bltn,
+		&cd_bltn, &exit_bltn, &source_bltn, &source_bltn,
 		&env_bltn, &setenv_bltn, &unsetenv_bltn,
 		&jobs_bltn, &fg_bltn, &bg_bltn};
 

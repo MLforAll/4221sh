@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/06/30 16:30:42 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/07/03 05:33:57 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRCFILES = sh_main.c \
 	jobs/sh_jobs.c \
 	jobs/sh_jobs_helper.c \
 	jobs/sh_jobs_sigchld.c \
+	jobs/sh_job_put.c \
 	jobs/sh_jobs_async.c \
 	autocompletion/sh_acget.c \
 	autocompletion/sh_acshow.c \

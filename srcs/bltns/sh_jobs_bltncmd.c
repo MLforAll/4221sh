@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/28 01:25:14 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/26 19:55:16 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 05:45:08 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int				jobs_bltn(int ac, char **av)
 	}
 	if (ft_secatoi(&jn, av[1]) == 0)
 	{
-		ft_putendl_fd("ft_secatoi(): n is out of range!", STDERR_FILENO);
+		ft_putendl_fd("ft_secatoi(): out of range!", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
 	if (!sh_job_put(jn))
@@ -47,12 +47,12 @@ static t_list	**kick_job_back(int ac, char **av)
 		idx = -1;
 	else if (ft_secatoi(&idx, av[1]) == 0)
 	{
-		ft_putendl_fd("ft_secatoi(): n is out of range!", STDERR_FILENO);
+		ft_putendl_fd("ft_secatoi(): out of range!", STDERR_FILENO);
 		return (NULL);
 	}
 	if (!(jtowake = (idx == -1) ? sh_job_lastest() : sh_job_idx(idx)))
 	{
-		ft_putendl_fd("kick_job_back(): such job does not exist!",
+		ft_putendl_fd("kick_job_back(): no such job!",
 			STDERR_FILENO);
 		return (NULL);
 	}

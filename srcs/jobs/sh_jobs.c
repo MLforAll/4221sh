@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/31 02:55:01 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 05:02:34 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 05:33:32 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,46 +16,7 @@
 
 t_list		*g_jobslst = NULL;
 
-static t_uint8	sh_job_put_action(int n, t_list ***tmp, t_uint8 *ret)
-{
-	t_list		**bak;
-	t_jobctrl	*dat;
-
-	dat = (t_jobctrl*)(**tmp)->content;
-	if (n < 1 || n == dat->j_idx)
-	{
-		*ret = TRUE;
-		ft_jobputnode(dat);
-		if (dat->j_state == kJobStateTerminated)
-		{
-			bak = *tmp;
-			*tmp = &(**tmp)->next;
-			ft_lstdelone(bak, &ft_joblstdel);
-			return (TRUE);
-		}
-	}
-	return (FALSE);
-}
-
-t_uint8			sh_job_put(int n)
-{
-	t_list		**tmp;
-	t_uint8		ret;
-
-	sh_jobop_lock();
-	tmp = &g_jobslst;
-	ret = FALSE;
-	while (*tmp)
-	{
-		if (sh_job_put_action(n, &tmp, &ret))
-			continue ;
-		tmp = &(*tmp)->next;
-	}
-	sh_jobop_unlock();
-	return (ret);
-}
-
-t_list			**sh_job_idx(int idx)
+t_list		**sh_job_idx(int idx)
 {
 	t_list	**tmp;
 
@@ -68,7 +29,7 @@ t_list			**sh_job_idx(int idx)
 	return ((idx > 0) ? NULL : tmp);
 }
 
-t_list			**sh_job_lastest(void)
+t_list		**sh_job_lastest(void)
 {
 	t_list	**tmp;
 
@@ -82,7 +43,7 @@ t_list			**sh_job_lastest(void)
 	return (tmp);
 }
 
-t_list			**sh_job_add(char *cmd, pid_t pid, enum e_jobstate state)
+t_list		**sh_job_add(char *cmd, pid_t pid, enum e_jobstate state)
 {
 	t_jobctrl	*jdat;
 	t_list		*node;
@@ -110,7 +71,7 @@ t_list			**sh_job_add(char *cmd, pid_t pid, enum e_jobstate state)
 	return (tmp);
 }
 
-void			sh_jobs_rmall(void)
+void		sh_jobs_rmall(void)
 {
 	extern t_uint8	g_jobop;
 
