@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/24 23:35:25 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/30 16:18:42 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 05:50:36 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ int		bg_bltn(int ac, char **av);
 int		env_bltn(int ac, char **av);
 int		setenv_bltn(int ac, char **av);
 int		unsetenv_bltn(int ac, char **av);
+int		unset_bltn(int ac, char **av);
 
 #endif

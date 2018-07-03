@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_setenv_bltncmd.c                                :+:      :+:    :+:   */
+/*   sh_setunset_bltncmds.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/30 15:37:27 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 05:52:07 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int				setenv_bltn(int ac, char **av)
 	return (EXIT_SUCCESS);
 }
 
-int				unsetenv_bltn(int ac, char **av)
+static int		unset_bltns(int ac, char **av, t_uint8 strict)
 {
 	int		idx;
 
@@ -55,8 +55,18 @@ int				unsetenv_bltn(int ac, char **av)
 	{
 		if (getenv(av[idx]))
 			del_env_var(NULL, av[idx]);
-		else
+		else if (!strict)
 			del_lvar(av[idx]);
 	}
 	return (EXIT_SUCCESS);
+}
+
+int				unsetenv_bltn(int ac, char **av)
+{
+	return (unset_bltns(ac, av, YES));
+}
+
+int				unset_bltn(int ac, char **av)
+{
+	return (unset_bltns(ac, av, NO));
 }

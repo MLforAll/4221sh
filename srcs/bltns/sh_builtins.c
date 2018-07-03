@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 05:44:26 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 05:50:45 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 static char	*g_bltn_names[] = {
 	"echo", "cd", "exit", "source", ".",
-	"env", "setenv", "unsetenv",
+	"env", "setenv", "unsetenv", "unset",
 	"jobs", "fg", "bg"};
 
 int			sh_get_bltn(char **buff, const char *chk)
