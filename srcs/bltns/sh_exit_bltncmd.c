@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/29 01:55:06 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 05:57:28 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		exit_bltn(int ac, char **av)
 		return (sh_err_ret(SH_ERR_TMARG, av[0], NULL, EXIT_FAILURE));
 	if (ac == 1)
 	{
-		last_cmd_ret = getenv("?");
+		last_cmd_ret = get_lvar("?");
 		exit((last_cmd_ret) ? ft_atoi(last_cmd_ret) : EXIT_SUCCESS);
 	}
 	if (!ft_strisnumeric(av[1]))
