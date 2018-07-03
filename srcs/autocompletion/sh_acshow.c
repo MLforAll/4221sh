@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/28 01:38:20 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 08:30:41 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 08:32:43 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void			draw_chs(t_list *chs, unsigned int selidx)
 }
 
 /*
-** clr_chs (static)
+** clr_chs (inline static) -> clears choices (rm from screen)
 **
 ** size_t len
 */
