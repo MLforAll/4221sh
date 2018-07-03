@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 14:42:44 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 05:02:42 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 08:30:08 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,17 @@ void		exec_redir(t_cmdnode *cmddat, t_tab *bakptr)
 	{
 		redir = (t_redirect*)bw->content;
 		save_fd(bakptr, redir->io_nbr);
-		if (redir->rtype == GREAT)
+		if (redir->rtype == GREAT || redir->rtype == LESS)
 		{
 			if (redir->filename)
-				do_redir_action(redir, O_WRONLY | O_CREAT | O_TRUNC);
+				do_redir_action(redir, (redir->rtype == LESS)
+									? O_RDONLY : O_WRONLY | O_CREAT | O_TRUNC);
 			else
 				do_agreg(redir);
 		}
-		if (redir->rtype == DGREAT)
+		else if (redir->rtype == DGREAT)
 			do_redir_action(redir, O_WRONLY | O_CREAT | O_APPEND);
-		if (redir->rtype == LESS)
-			do_redir_action(redir, O_RDONLY);
-		if (redir->rtype == DLESS)
+		else if (redir->rtype == DLESS)
 			do_str_to_stdin(redir, cmddat);
 		bw = bw->next;
 	}

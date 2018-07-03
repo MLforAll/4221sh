@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/28 01:38:20 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 07:14:32 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 08:30:41 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ inline static void	clr_chs(size_t len)
 
 /*
 ** get_ret (static)
-
+**
 ** t_list *chs      -> linked list of choices
 ** unsigned int idx -> currently selected idex
 */
@@ -77,7 +77,7 @@ static char			*get_ret(t_list *chs, unsigned int idx)
 
 /*
 ** move_keys (static)
-
+**
 ** t_cursor *csr -> cursor struct ref
 ** char *buff    -> read buffer
 */
