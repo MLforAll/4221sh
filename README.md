@@ -1,11 +1,11 @@
 # 21sh
 42 school's 21sh project
 
-Continuation of the prebvious shell project -- minishell
+Continuation of the previous shell project -- minishell
 
 # Main goals:
 
-- Proper pipeline
+- Proper pipeline (lexer, parser, AST)
 - Rewritten ft_readline
 - ft_readline as a separate lib (deps on libft)
 
@@ -27,7 +27,14 @@ Continuation of the prebvious shell project -- minishell
 - Automatic color removal for prompt
 - Dumb mode with one-line editing
 
-# Tuesday 3 July 2018:
+# Example usages:
 
+`$> 21sh /path/to/script` or `$> cat /path/to/script | 21sh` runs the script with 21sh. It exists after the script ran.
+
+`$> 21sh` runs an interactive shell.
+
+# Changelog:
+
+_Tuesday 3rd July 2018:_
 21sh is almost finished!
 Features from minishell are kept.
