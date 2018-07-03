@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/28 03:41:54 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 05:03:10 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,13 @@ static void	restore_bakfds(t_tab *bakfds)
 		return ;
 	if (bakfds->oc_size > 0)
 	{
-		idx = bakfds->oc_size - bakfds->data_size;
-		while (TRUE)
+		idx = bakfds->count;
+		while (idx--)
 		{
-			curr = (t_bakfds*)(bakfds->data + idx);
+			curr = (t_bakfds*)bakfds->data + idx;
 			close(curr->orig);
 			dup2(curr->bak, curr->orig);
 			close(curr->bak);
-			if (idx == 0)
-				break ;
-			idx -= bakfds->data_size;
 		}
 	}
 	ft_ttabdel(bakfds);
@@ -83,12 +80,14 @@ static int	exec_core(t_cmdnode *cmddat, t_uint8 forkdes, char **env)
 	execve(cmddat->c_path, cmddat->c_av, env);
 	if ((tmp = cmd_chk(cmddat->c_path)) >= 0)
 		return (sh_err_ret(tmp, NULL, cmddat->c_path, 127));
+	signal(SIGCHLD, &sh_jb_sighdl);
+	sh_jobs_rmall();
 	tmp = (exec_shell(cmddat->c_path) == EXIT_SUCCESS) ? EXIT_SUCCESS : 127;
 	restore_bakfds(bakfds_ptr);
 	return (tmp);
 }
 
-static int	exec_bincmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
+static int	exec_setup(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 {
 	t_uint8	forkdes;
 	pid_t	pid;
@@ -132,7 +131,7 @@ int			exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 	}
 	if (!is_cmd)
 		return (EXIT_SUCCESS);
-	return (exec_bincmd(cmddat, async, spid, (env) ? env : environ));
+	return (exec_setup(cmddat, async, spid, (env) ? env : environ));
 }
 
 /*

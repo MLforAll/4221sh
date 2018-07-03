@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 02:03:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/02 03:38:11 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 04:29:24 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ static void			add_redirect(t_cmdnode *cmddat, t_list **tok, int *io_nbr)
 	if ((*tok)->next)
 	{
 		if (((t_token*)(*tok)->next->content)->type == WORD)
-			nrdat.filename = ft_strdup(((t_token*)(*tok)->next->content)->toks);
+			nrdat.filename = ft_strdup(((t_token*)(*tok)->next->content)->s);
 		else if (((t_token*)(*tok)->next->content)->type == IO_NUMBER)
-			nrdat.agreg = ft_atoi(((t_token*)(*tok)->next->content)->toks);
+			nrdat.agreg = ft_atoi(((t_token*)(*tok)->next->content)->s);
 		*tok = (*tok)->next;
 	}
 	*io_nbr = -1;
@@ -45,9 +45,9 @@ static void			add_redirect(t_cmdnode *cmddat, t_list **tok, int *io_nbr)
 
 inline static int	word_action(t_cmdnode *cmddat, t_token *tokdat, t_uint8 *fw)
 {
-	if (ft_strchr(tokdat->toks, '=') && *fw)
-		return (ft_tabaddstr(&cmddat->c_vars, tokdat->toks));
-	if (!ft_tabaddstr(&cmddat->c_av, tokdat->toks))
+	if (ft_strchr(tokdat->s, '=') && *fw)
+		return (ft_tabaddstr(&cmddat->c_vars, tokdat->s));
+	if (!ft_tabaddstr(&cmddat->c_av, tokdat->s))
 		return (FALSE);
 	if (!*fw)
 		return (TRUE);
@@ -72,7 +72,7 @@ void				fill_cmd_data(t_cmdnode *cmddat, t_list *tokens)
 		if (tokdat->type == WORD)
 			word_action(cmddat, tokdat, &first_word);
 		else if (tokdat->type == IO_NUMBER)
-			io_nbr = ft_atoi(tokdat->toks);
+			io_nbr = ft_atoi(tokdat->s);
 		else if (tokdat->type >= GREAT && tokdat->type <= DLESS)
 			add_redirect(cmddat, &tokens, &io_nbr);
 		tokens = tokens->next;

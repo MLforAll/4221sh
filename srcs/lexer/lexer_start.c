@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/21 17:44:58 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 05:22:50 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void				tokens_lstdel(void *data, size_t datsize)
 {
 	(void)datsize;
-	free(((t_token*)data)->toks);
+	free(((t_token*)data)->s);
 	free(data);
 }
 
@@ -49,23 +49,31 @@ static size_t		get_charstate(t_charstate *cs, char *s)
 	return (1);
 }
 
-void				add_token(t_list **toks, char *s, t_toktype type, int prio)
+void				add_token(t_list **tokens,
+							t_str *vs,
+							t_toktype type,
+							int prio)
 {
 	t_list	*newtok;
 	t_token	tokdat;
+	char	*cpy;
+	int		cpy_isalloced;
 
-	if (!s || (ft_strlen(s) < 1))
+	if (!vs || (ft_strlen(vs->s) < 1))
 		return ;
 	ft_bzero(&tokdat, sizeof(t_token));
-	if (lexer_expand_tilde(&s) > 0 || lexer_expand_var(&s) > 0)
-		tokdat.toks = s;
-	else if (!(tokdat.toks = ft_strdup(s)))
+	cpy = vs->s;
+	cpy_isalloced = (lexer_expand_tilde(&cpy) || lexer_expand_var(&cpy));
+	if (!(tokdat.s = ft_strdup(cpy)))
 		return ;
 	tokdat.type = type;
 	tokdat.priority = prio;
 	if (!(newtok = ft_lstnew(&tokdat, sizeof(t_token))))
 		return ;
-	ft_lstpush(toks, newtok);
+	if (cpy_isalloced)
+		free(cpy);
+	ft_lstpush(tokens, newtok);
+	ft_tstrclr(vs);
 }
 
 static t_lexstate	get_nextstate(t_lexdat *dat)
@@ -92,18 +100,18 @@ t_list				*lex_line(char *line)
 		return (NULL);
 	ret = NULL;
 	ft_bzero(&dat, sizeof(t_lexdat));
-	dat.currtoks = ft_strnew(0);
+	dat.currtoks = ft_tstrnew();
 	dat.ret = &ret;
 	dat.curr_state = kLexStateGeneral;
 	while (42)
 	{
-		dat.c = *line;
+		dat.linep = line;
 		jmp = get_charstate(&dat.cs, line);
 		dat.curr_state = get_nextstate(&dat);
 		if (!*line)
 			break ;
 		line += jmp;
 	}
-	ft_strdel(&dat.currtoks);
+	ft_tstrdel(&dat.currtoks);
 	return (ret);
 }

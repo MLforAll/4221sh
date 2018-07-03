@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/21 17:44:45 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 05:23:00 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,18 +77,18 @@ typedef enum	e_toktype
 
 typedef struct	s_token
 {
-	char		*toks;
-	t_toktype	type;
+	char		*s;
 	int			priority;
+	t_toktype	type;
 }				t_token;
 
 typedef struct	s_lexdat
 {
+	t_str		currtoks;
 	t_list		**ret;
-	char		*currtoks;
+	char		*linep;
 	t_lexstate	curr_state;
 	t_charstate	cs;
-	char		c;
 }				t_lexdat;
 
 t_list			*lex_line(char *line);
@@ -140,7 +140,7 @@ int				switch_to_ampersand(void *data);
 ** Utilities
 */
 
-void			add_token(t_list **tokens, char *s, t_toktype type, int prio);
+void			add_token(t_list **tokens, t_str *vs, t_toktype type, int prio);
 int				ft_swcmp(void *p1, void *p2);
 void			tokens_lstdel(void *data, size_t datsize);
 

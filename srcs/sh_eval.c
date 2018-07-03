@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/26 19:23:00 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 05:08:56 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void			clean_pipes(t_tab *pids)
 	unsigned long	idx;
 	pid_t			*curr;
 
-	idx = pids->oc_size / sizeof(pid_t);
+	idx = pids->count;
 	while (idx--)
 	{
 		curr = &((pid_t*)pids->data)[idx];
@@ -43,7 +43,7 @@ static t_cmdnode	*eval_pipe(t_cmdnode *a, t_cmdnode *b, t_tab *pids)
 	b->stdin_fd = pfd[0];
 	ft_memcpy(b->pfd, pfd, sizeof(pfd));
 	exec_cmd(a, YES, &pid, NULL);
-	ft_ttabcat(pids, &pid, sizeof(pid_t));
+	ft_ttabcat(pids, &pid, 1);
 	return (b);
 }
 
@@ -93,6 +93,6 @@ int					eval_line(char **line, t_uint8 ragain)
 	ft_ttabdel(&pids);
 	ft_btdel(&ast, &ast_btdel);
 	ft_lstdel(&tokens, &tokens_lstdel);
-	set_env_var_n(NULL, "?", ret);
+	(void)set_lvar_n("?", ret);
 	return (ret);
 }

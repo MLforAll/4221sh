@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/30 16:17:07 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/30 16:31:02 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 01:31:34 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@
 ** unsigned int idx  -> counter
 */
 
-static void			chg_ret(char **ret, char **last, char *path, unsigned int idx)
+static void			chg_ret(char **ret, char **last, char *path,
+							unsigned int idx)
 {
 	char			*rchr;
 	char			*tmp;

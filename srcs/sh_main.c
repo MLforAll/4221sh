@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/21 19:45:50 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/30 16:18:49 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 05:08:30 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,13 @@ int			main(int ac, char **av)
 	switch_traps(TRUE);
 	environ = ft_tabdup(environ);
 	g_lvars = ft_tabnew();
-	set_env_var(NULL, "SHELL", av[0]);
+	(void)set_env_var(NULL, "SHELL", av[0]);
 	set_shlvl();
+	(void)set_lvar_n("?", 0);
 	getset_pwd_env();
 	if (!getenv("PATH"))
-		set_env_var(NULL, "PATH", SH_DEFAULT_PATH);
-	set_env_var(NULL, "_", av[0]);
+		(void)set_env_var(NULL, "PATH", SH_DEFAULT_PATH);
+	(void)set_env_var(NULL, "_", av[0]);
 	if (ac > 1 || !ft_isatty(STDIN_FILENO))
 		exval = exec_shell((ac > 1) ? av[1] : NULL);
 	else

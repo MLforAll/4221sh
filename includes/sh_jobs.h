@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 04:46:03 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/27 15:09:18 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 01:26:31 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ uint8_t			sh_job_put(int n);
 t_list			**sh_job_idx(int idx);
 t_list			**sh_job_lastest(void);
 t_list			**sh_job_add(char *cmd, pid_t pid, enum e_jobstate state);
+void			sh_jobs_rmall(void);
 
 /*
 ** signal hdl

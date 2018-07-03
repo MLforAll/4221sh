@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/26 09:19:07 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 04:59:28 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int			add_to_curr(void *data)
 	if (!data)
 		return ((int)kLexStateUndefined);
 	cdat = (t_lexdat*)data;
-	ft_strnadd(&cdat->currtoks, &cdat->c, 1);
+	(void)ft_tstrncat(&cdat->currtoks, cdat->linep, 1);
 	return ((int)cdat->curr_state);
 }
 
@@ -31,9 +31,7 @@ int			add_token_to_ret(void *data)
 	if (!data)
 		return ((int)kLexStateUndefined);
 	cdat = (t_lexdat*)data;
-	add_token(cdat->ret, cdat->currtoks, WORD, 0);
-	free(cdat->currtoks);
-	cdat->currtoks = ft_strnew(0);
+	add_token(cdat->ret, &cdat->currtoks, WORD, 0);
 	return ((int)cdat->curr_state);
 }
 

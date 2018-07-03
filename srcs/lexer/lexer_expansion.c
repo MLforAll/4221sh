@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:39:19 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/29 03:21:23 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 05:06:29 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int					lexer_expand_var(char **s)
 	if (!(chr = (const char*)ft_strchr(*s, '$')) || !chr[1])
 		return (FALSE);
 	len = 0;
-	while (ft_isalnum(chr[len + 1]))
+	while (ft_isalnum(chr[len + 1]) || chr[len + 1] == '?')
 		len++;
 	if (len == 0)
 		return (FALSE);

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 14:42:44 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/26 23:54:48 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 05:02:42 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	save_fd(t_tab *bakptr, int fd_to_save)
 		return ;
 	bak.orig = fd_to_save;
 	bak.bak = dup(fd_to_save);
-	ft_ttabcat(bakptr, &bak, sizeof(t_bakfds));
+	ft_ttabcat(bakptr, &bak, 1);
 }
 
 void		exec_redir(t_cmdnode *cmddat, t_tab *bakptr)

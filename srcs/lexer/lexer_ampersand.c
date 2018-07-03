@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/15 02:24:04 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/26 09:00:25 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 04:58:51 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@ static int	create_dash_tok(void *data)
 {
 	t_lexdat	*cdat;
 	char		tokc[2];
+	t_str		vdumb;
 
 	if (!data)
 		return ((int)kLexStateUndefined);
 	cdat = (t_lexdat*)data;
-	tokc[0] = cdat->c;
+	tokc[0] = *cdat->linep;
 	tokc[1] = '\0';
-	add_token(cdat->ret, tokc, DASH, 0);
+	vdumb.s = tokc;
+	add_token(cdat->ret, &vdumb, DASH, 0);
 	return ((int)kLexStateGeneral);
 }
 
@@ -34,18 +36,16 @@ int			lex_ampersand(void *data)
 	if (!data)
 		return ((int)kLexStateUndefined);
 	cdat = (t_lexdat*)data;
-	if (cdat->cs == kCharDash && !*cdat->currtoks)
+	if (cdat->cs == kCharDash && !*cdat->currtoks.s)
 		return (create_dash_tok(data));
 	if (cdat->cs != kCharSpace && cdat->cs != kCharNull)
 	{
 		lex_general(data);
 		return ((int)kLexStateAmpersand);
 	}
-	if (!ft_strisnumeric(cdat->currtoks))
-		add_token(cdat->ret, cdat->currtoks, WORD, 0);
+	if (!ft_strisnumeric(cdat->currtoks.s))
+		add_token(cdat->ret, &cdat->currtoks, WORD, 0);
 	else
-		add_token(cdat->ret, cdat->currtoks, IO_NUMBER, 0);
-	free(cdat->currtoks);
-	cdat->currtoks = ft_strnew(0);
+		add_token(cdat->ret, &cdat->currtoks, IO_NUMBER, 0);
 	return ((int)kLexStateGeneral);
 }

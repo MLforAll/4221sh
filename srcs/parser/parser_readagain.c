@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/27 21:17:32 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 04:29:34 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void		parser_check_heredocs(t_list *tokens)
 			&& tokens->next->content
 			&& ((t_token*)tokens->next->content)->type == WORD)
 		{
-			toks_dest = &((t_token*)tokens->next->content)->toks;
+			toks_dest = &((t_token*)tokens->next->content)->s;
 			tmp = read_till_delim(SH_HEREDOC_PR, *toks_dest, YES);
 			free(*toks_dest);
 			*toks_dest = tmp;
