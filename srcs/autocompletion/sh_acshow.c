@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/28 01:38:20 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 07:10:03 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 07:14:32 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <term.h>
 
 /*
-** draw_chs (static) -> draw choices
+** draw_chs (static)   -> draw choices
 **
 ** t_list *chs         -> linked list of choices
 ** unsigned int selidx -> currently selected idex
