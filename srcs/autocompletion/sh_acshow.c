@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/28 01:38:20 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 07:04:09 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/03 07:10:03 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@
 #include <term.h>
 
 /*
-** ft_putstr((idx == selidx) ? "--> " : "    ");
+** draw_chs (static) -> draw choices
+**
+** t_list *chs         -> linked list of choices
+** unsigned int selidx -> currently selected idex
 */
 
 static void			draw_chs(t_list *chs, unsigned int selidx)
@@ -42,6 +45,12 @@ static void			draw_chs(t_list *chs, unsigned int selidx)
 	}
 }
 
+/*
+** clr_chs (static)
+**
+** size_t len
+*/
+
 inline static void	clr_chs(size_t len)
 {
 	while (len--)
@@ -52,12 +61,26 @@ inline static void	clr_chs(size_t len)
 	outcap("ce");
 }
 
+/*
+** get_ret (static)
+
+** t_list *chs      -> linked list of choices
+** unsigned int idx -> currently selected idex
+*/
+
 static char			*get_ret(t_list *chs, unsigned int idx)
 {
 	while (idx-- && chs)
 		chs = chs->next;
 	return ((chs) ? ((t_acres*)chs->content)->str : NULL);
 }
+
+/*
+** move_keys (static)
+
+** t_cursor *csr -> cursor struct ref
+** char *buff    -> read buffer
+*/
 
 static void			move_keys(t_cursor *csr, char *buff)
 {
@@ -66,6 +89,13 @@ static void			move_keys(t_cursor *csr, char *buff)
 	if (ft_strequ(buff, "\033[A") && csr->pos)
 		csr->pos--;
 }
+
+/*
+** sh_show_acres
+**
+** sh_show_acres
+** t_list **chs -> linked list of choices ref
+*/
 
 char				*sh_show_acres(t_list **chs)
 {
