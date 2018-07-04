@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 05:08:56 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/04 02:55:28 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int					eval_line(char **line, t_uint8 ragain)
 	pids = ft_ttabnew(sizeof(pid_t));
 	ret = exec_cmd(eval_ast(ast, &pids), NO, NULL, NULL);
 	clean_pipes(&pids);
-	ft_ttabdel(&pids);
+	ft_ttabdel(&pids, NULL);
 	ft_btdel(&ast, &ast_btdel);
 	ft_lstdel(&tokens, &tokens_lstdel);
 	(void)set_lvar_n("?", ret);

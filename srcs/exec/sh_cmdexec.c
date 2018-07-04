@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 05:03:10 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/04 03:02:43 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	restore_bakfds(t_tab *bakfds)
 			close(curr->bak);
 		}
 	}
-	ft_ttabdel(bakfds);
+	ft_ttabdel(bakfds, NULL);
 }
 
 static int	exec_core(t_cmdnode *cmddat, t_uint8 forkdes, char **env)
@@ -80,8 +80,8 @@ static int	exec_core(t_cmdnode *cmddat, t_uint8 forkdes, char **env)
 	execve(cmddat->c_path, cmddat->c_av, env);
 	if ((tmp = cmd_chk(cmddat->c_path)) >= 0)
 		return (sh_err_ret(tmp, NULL, cmddat->c_path, 127));
-	signal(SIGCHLD, &sh_jb_sighdl);
 	sh_jobs_rmall();
+	signal(SIGCHLD, &sh_jb_sighdl);
 	tmp = (exec_shell(cmddat->c_path) == EXIT_SUCCESS) ? EXIT_SUCCESS : 127;
 	restore_bakfds(bakfds_ptr);
 	return (tmp);
@@ -97,7 +97,7 @@ static int	exec_setup(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 		|| cmddat->stdin_fd != -1 || cmddat->stdout_fd != -1)))
 		return (exec_core(cmddat, forkdes, env));
 	if ((pid = fork()) == -1)
-		return (ft_returnmsg("fork(): Out of resource!", STDERR_FILENO, -1));
+		return (sh_err_ret(SH_ERR_FORK, "fork()", NULL, -1));
 	if (pid == 0)
 	{
 		switch_traps(FALSE);

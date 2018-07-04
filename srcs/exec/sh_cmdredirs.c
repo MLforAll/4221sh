@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 14:42:44 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 08:30:08 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/04 02:12:39 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <fcntl.h>
 #include "sh.h"
 
-static void	do_redir_action(t_redirect *redir, int oflags)
+static void			do_redir_action(t_redirect *redir, int oflags)
 {
 	int		fd;
 
@@ -27,15 +27,26 @@ static void	do_redir_action(t_redirect *redir, int oflags)
 	}
 }
 
-static void	do_agreg(t_redirect *redir)
+static void			do_agreg(t_redirect *redir)
 {
-	close(redir->io_nbr);
+	char	*n_str;
+
 	if (redir->agreg == -1)
+	{
+		close(redir->io_nbr);
 		return ;
-	dup2(redir->agreg, redir->io_nbr);
+	}
+	if (dup2(redir->agreg, redir->io_nbr) == -1)
+	{
+		if (!(n_str = ft_itoa(redir->agreg)))
+			sh_err(SH_ERR_MALLOC, NULL, NULL);
+		sh_err(SH_ERR_BADFD, NULL, n_str);
+		free(n_str);
+		exit(1);
+	}
 }
 
-static void	do_str_to_stdin(t_redirect *redir, t_cmdnode *cmddat)
+static void			do_str_to_stdin(t_redirect *redir, t_cmdnode *cmddat)
 {
 	int		cfd[2];
 	char	buff[32];
@@ -51,18 +62,16 @@ static void	do_str_to_stdin(t_redirect *redir, t_cmdnode *cmddat)
 	close(cfd[1]);
 }
 
-static void	save_fd(t_tab *bakptr, int fd_to_save)
+inline static void	save_fd(t_tab *bakptr, int fd_to_save)
 {
 	t_bakfds	bak;
 
-	if (!bakptr)
-		return ;
 	bak.orig = fd_to_save;
 	bak.bak = dup(fd_to_save);
 	ft_ttabcat(bakptr, &bak, 1);
 }
 
-void		exec_redir(t_cmdnode *cmddat, t_tab *bakptr)
+void				exec_redir(t_cmdnode *cmddat, t_tab *bakptr)
 {
 	t_list		*bw;
 	t_redirect	*redir;
@@ -71,7 +80,8 @@ void		exec_redir(t_cmdnode *cmddat, t_tab *bakptr)
 	while (bw)
 	{
 		redir = (t_redirect*)bw->content;
-		save_fd(bakptr, redir->io_nbr);
+		if (bakptr)
+			save_fd(bakptr, redir->io_nbr);
 		if (redir->rtype == GREAT || redir->rtype == LESS)
 		{
 			if (redir->filename)

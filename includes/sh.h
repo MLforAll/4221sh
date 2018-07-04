@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 05:08:10 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/04 02:23:13 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,19 @@
 ** macros
 */
 
-# define SH_NAME			"21sh"
 # define SH_PLAIN_PROMPT	SH_NAME "$ "
 # define SH_RC				".21shrc"
 # define SH_HISTFILE		".21sh_history"
 # define SH_MAXHIST			100
 
 # define SH_DEFAULT_PATH	"/usr/local/bin:/usr/bin:/bin:/usr/sbin"
+
+/*
+** globals
+*/
+
+extern const char	*g_sh_name;
+const char			*g_sh_name;
 
 /*
 ** shell types
@@ -66,13 +72,6 @@ void	write_history(t_dlist *hist);
 void	load_history(t_dlist **hist);
 
 /*
-** fsexp utilities
-*/
-
-char	*search_dir_for_file(const char *d_path, const char *name);
-t_list	*search_files_begin(const char *f_path, const char *s_dir, int exec);
-
-/*
 ** variables mgmt
 */
 
@@ -94,19 +93,24 @@ void	del_lvar(const char *var);
 ** errors
 */
 
-void	sh_err(int errc, const char *bltn, const char *path);
-int		sh_err_ret(int errc, const char *bltn, const char *path, int retv);
+void	sh_err(t_errs errc, const char *bltn, const char *path);
+int		sh_err_ret(t_errs errc, const char *bltn, const char *path, int retv);
 int		get_errcode_for_path(const char *path, int mode, int dir);
+
+/*
+** fsexp utilities
+*/
+
+char	*search_dir_for_file(const char *d_path, const char *name);
+t_list	*search_files_begin(const char *f_path, const char *s_dir, int exec);
 
 /*
 ** misc functions / utilities
 */
 
-int		ft_strchrf(char *s, char c);
+int		ft_strchrf(const char *s, char c);
 
 int		free_return(void **data, int retv);
 void	switch_traps(int ign);
-
-void	free_tlist(void *content, size_t size);
 
 #endif

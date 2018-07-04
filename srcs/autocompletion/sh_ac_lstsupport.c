@@ -6,19 +6,13 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 21:55:07 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/26 19:58:40 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/04 01:59:21 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 #include "ftrl_dev.h"
-
-void		free_tlist(void *content, size_t size)
-{
-	(void)size;
-	free(content);
-}
 
 static void	free_aclst(void *content, size_t size)
 {

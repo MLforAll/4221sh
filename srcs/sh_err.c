@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 21:23:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/29 01:54:21 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/04 02:41:49 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,18 @@
 #include <sys/param.h>
 #include "sh.h"
 
-void		sh_err(int errc, const char *bltn, const char *path)
+void		sh_err(t_errs errc, const char *bltn, const char *path)
 {
 	const char		*errs[] = {
 		"Undefined error", "command not found", "No such file or directory",
 		"Can't cd to directory", "not set", "too many arguments",
-		"Permission denied", "Fork failed", "Too many symbolic links",
-		"Not a directory", "numeric argument required",
-		"not a valid identifier", "argument required", "no such job",
-		"Undefined error", NULL};
+		"Permission denied", "fork(): Out of resource",
+		"Too many symbolic links", "Not a directory",
+		"numeric argument required", "not a valid identifier",
+		"argument required", "no such job", "Bad file descriptor",
+		"malloc(): failure", "Undefined error"};
 
-	ft_putstr_fd(SH_NAME, STDERR_FILENO);
+	ft_putstrsec_fd(g_sh_name, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	if (bltn)
 	{
@@ -42,7 +43,7 @@ void		sh_err(int errc, const char *bltn, const char *path)
 		ft_putendl_fd(errs[errc], STDERR_FILENO);
 }
 
-int			sh_err_ret(int errc, const char *bltn, const char *path, int retv)
+inline int	sh_err_ret(t_errs errc, const char *bltn, const char *path, int retv)
 {
 	sh_err(errc, bltn, path);
 	return (retv);

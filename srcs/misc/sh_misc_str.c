@@ -6,14 +6,14 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 18:31:09 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/14 05:20:35 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/04 02:01:15 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 
-int		ft_strchrf(char *s, char c)
+int		ft_strchrf(const char *s, char c)
 {
 	unsigned int	last;
 	unsigned int	idx;
