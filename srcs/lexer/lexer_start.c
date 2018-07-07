@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 05:22:50 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/06 21:07:25 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ t_list				*lex_line(char *line)
 	dat.currtoks = ft_tstrnew();
 	dat.ret = &ret;
 	dat.curr_state = kLexStateGeneral;
-	while (42)
+	while (*line != '#')
 	{
 		dat.linep = line;
 		jmp = get_charstate(&dat.cs, line);
