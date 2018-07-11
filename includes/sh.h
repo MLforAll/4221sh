@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/04 02:23:13 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/11 03:18:46 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	exec_pipe(t_cmdnode *cmddat);
 void	exec_pipe_clean(t_cmdnode *cmddat);
 void	exec_redir(t_cmdnode *cmddat, t_tab *bakptr);
 int		exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env);
-int		eval_line(char **line, uint8_t ragain);
+int		eval_line(char **line, t_uint8 ragain);
 
 /*
 ** autocompletion

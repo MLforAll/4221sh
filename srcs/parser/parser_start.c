@@ -6,13 +6,13 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 16:55:22 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/27 21:17:21 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/11 03:19:39 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
-#include "sh_parser.h"
+#include "sh.h"
 
 inline static t_btree	*create_cmd_node(t_list *tokens)
 {
@@ -90,12 +90,19 @@ static t_btree			*parse_tokens_core(t_list *tokens)
 t_btree					*parse_tokens(char **line, t_list *tokens)
 {
 	t_uint8	chk_again;
+	char	*syntax_err;
 
 	chk_again = TRUE;
 	while (chk_again)
 	{
-		if (!parser_check_syntax(tokens, (line != NULL)))
+		if ((syntax_err = parser_check_syntax(tokens, (line != NULL))))
+		{
+			ft_putstr_fd(g_sh_name, STDERR_FILENO);
+			ft_putstr_fd(": syntax error near unexpected token `", STDERR_FILENO);
+			ft_putstr_fd(syntax_err, STDERR_FILENO);
+			ft_putendl_fd("`", STDERR_FILENO);
 			return (NULL);
+		}
 		parser_check_heredocs(tokens);
 		chk_again = parser_check_inclist(line, &tokens);
 	}

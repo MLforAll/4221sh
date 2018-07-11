@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/07 21:10:26 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/11 03:12:14 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static t_cmdnode	*eval_pipe(t_cmdnode *a, t_cmdnode *b, t_tab *pids)
 	int		pfd[2];
 	pid_t	pid;
 
+	if (!a || !b)
+		return (NULL);
 	pipe(pfd);
 	a->stdout_fd = pfd[1];
 	ft_memcpy(a->pfd, pfd, sizeof(pfd));
@@ -86,7 +88,7 @@ int					eval_line(char **line, t_uint8 ragain)
 	if (!line || !(tokens = lex_line(*line)))
 		return (EXIT_SUCCESS);
 	if (!(ast = parse_tokens((ragain) ? line : NULL, tokens)))
-		return (ft_returnmsg("eval_line: ast error", STDERR_FILENO, 258));
+		return (258);
 	pids = ft_ttabnew(sizeof(pid_t));
 	ret = exec_cmd(eval_ast(ast, &pids), NO, NULL, NULL);
 	clean_pipes(&pids);

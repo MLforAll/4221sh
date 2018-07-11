@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/26 19:04:37 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/11 03:18:55 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ typedef struct	s_redirect
 ** parser
 */
 
-uint8_t			parser_check_syntax(t_list *tokens, uint8_t ragain);
+char			*parser_check_syntax(t_list *tokens, t_uint8 ragain);
 void			parser_check_heredocs(t_list *tokens);
-uint8_t			parser_check_inclist(char **line, t_list **tokens);
+t_uint8			parser_check_inclist(char **line, t_list **tokens);
 
 t_btree			*parse_tokens(char **line, t_list *tokens);
 
