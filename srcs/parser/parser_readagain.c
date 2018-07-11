@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 04:29:34 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/11 04:23:10 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*read_till_delim(const char *prompt, char *delim, t_uint8 whole)
 	return (ret);
 }
 
-void		parser_check_heredocs(t_list *tokens)
+t_uint8		parser_check_heredocs(t_list *tokens, t_uint8 ragain)
 {
 	char	**toks_dest;
 	char	*tmp;
@@ -47,6 +47,8 @@ void		parser_check_heredocs(t_list *tokens)
 			&& tokens->next->content
 			&& ((t_token*)tokens->next->content)->type == WORD)
 		{
+			if (ragain)
+				return (FALSE);
 			toks_dest = &((t_token*)tokens->next->content)->s;
 			tmp = read_till_delim(SH_HEREDOC_PR, *toks_dest, YES);
 			free(*toks_dest);
@@ -54,6 +56,7 @@ void		parser_check_heredocs(t_list *tokens)
 		}
 		tokens = tokens->next;
 	}
+	return (TRUE);
 }
 
 t_uint8		parser_check_inclist(char **line, t_list **tokens)

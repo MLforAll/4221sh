@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 16:55:22 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/11 03:19:39 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/11 04:29:38 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,13 @@ static t_btree			*parse_tokens_core(t_list *tokens)
 
 t_btree					*parse_tokens(char **line, t_list *tokens)
 {
-	t_uint8	chk_again;
+	t_uint8	changes;
 	char	*syntax_err;
 
-	chk_again = TRUE;
-	while (chk_again)
+	changes = FALSE;
+	while (!changes)
 	{
-		if ((syntax_err = parser_check_syntax(tokens, (line != NULL))))
+		if ((syntax_err = parser_check_syntax(tokens)))
 		{
 			ft_putstr_fd(g_sh_name, STDERR_FILENO);
 			ft_putstr_fd(": syntax error near unexpected token `", STDERR_FILENO);
@@ -103,8 +103,13 @@ t_btree					*parse_tokens(char **line, t_list *tokens)
 			ft_putendl_fd("`", STDERR_FILENO);
 			return (NULL);
 		}
-		parser_check_heredocs(tokens);
-		chk_again = parser_check_inclist(line, &tokens);
+		changes |= parser_check_heredocs(tokens, (line != NULL));
+		changes |= parser_check_inclist(line, &tokens);
+		if (changes && !line)
+		{
+			ft_putendl_fd("Interactive mode not enabled!", STDERR_FILENO);
+			return (NULL);
+		}
 	}
 	return (parse_tokens_core(tokens));
 }
