@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/11 04:23:10 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/13 05:32:07 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ static char	*read_till_delim(const char *prompt, char *delim, t_uint8 whole)
 	{
 		if (!(line = ft_readline(prompt, &opts, NULL))
 			|| (delim && ft_strcmp(line, delim) == 0 && whole))
+		{
+			free(line);
 			break ;
+		}
 		ft_stradd(&ret, line);
 		ft_strdel(&line);
 		if (!delim || (delim && !whole && ft_strstr(line, delim)))
@@ -47,7 +50,7 @@ t_uint8		parser_check_heredocs(t_list *tokens, t_uint8 ragain)
 			&& tokens->next->content
 			&& ((t_token*)tokens->next->content)->type == WORD)
 		{
-			if (ragain)
+			if (!ragain)
 				return (FALSE);
 			toks_dest = &((t_token*)tokens->next->content)->s;
 			tmp = read_till_delim(SH_HEREDOC_PR, *toks_dest, YES);
