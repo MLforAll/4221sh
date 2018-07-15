@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/07/03 05:51:40 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/07/15 04:35:11 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,23 +36,11 @@ SRCFILES = sh_main.c \
 	sh_eval.c \
 	sh_err.c \
 	sh_hist_loadsave.c \
-	exec/sh_cmdexec.c \
-	exec/sh_cmdredirs.c \
-	exec/sh_cmdpipes.c \
-	jobs/sh_jobs.c \
-	jobs/sh_jobs_helper.c \
-	jobs/sh_jobs_sigchld.c \
-	jobs/sh_job_put.c \
-	jobs/sh_jobs_async.c \
+	prompt/sh_prompt.c \
+	prompt/sh_prompt_helpers.c \
 	autocompletion/sh_acget.c \
 	autocompletion/sh_acshow.c \
 	autocompletion/sh_ac_lstsupport.c \
-	parser/parser_start.c \
-	parser/parser_cmd.c \
-	parser/parser_pathget.c \
-	parser/parser_free.c \
-	parser/parser_readagain.c \
-	parser/parser_syntax.c \
 	lexer/lexer_start.c \
 	lexer/lexer_general.c \
 	lexer/lexer_dquote.c \
@@ -62,8 +50,21 @@ SRCFILES = sh_main.c \
 	lexer/lexer_ampersand.c \
 	lexer/lexer_switch.c \
 	lexer/lexer_expansion.c \
-	prompt/sh_prompt.c \
-	prompt/sh_prompt_helpers.c \
+	parser/parser_start.c \
+	parser/parser_ast_start.c \
+	parser/parser_cmd.c \
+	parser/parser_pathget.c \
+	parser/parser_free.c \
+	parser/parser_readagain.c \
+	parser/parser_syntax.c \
+	exec/sh_cmdexec.c \
+	exec/sh_cmdredirs.c \
+	exec/sh_cmdpipes.c \
+	jobs/sh_jobs.c \
+	jobs/sh_jobs_helper.c \
+	jobs/sh_jobs_sigchld.c \
+	jobs/sh_job_put.c \
+	jobs/sh_jobs_async.c \
 	vars/sh_env.c \
 	vars/sh_env_helpers.c \
 	vars/sh_lvars.c \

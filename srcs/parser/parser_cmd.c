@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 02:03:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 04:29:24 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/14 23:31:36 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ inline static int	get_dfl_io_nbr(t_toktype type)
 	return ((type == LESS || type == DLESS) ? STDIN_FILENO : STDOUT_FILENO);
 }
 
-static void			add_redirect(t_cmdnode *cmddat, t_list **tok, int *io_nbr)
+static void			add_redirect(t_cmdnode *cmddat, t_dlist **tok, int *io_nbr)
 {
 	t_list		*nr;
 	t_redirect	nrdat;
@@ -58,7 +58,7 @@ inline static int	word_action(t_cmdnode *cmddat, t_token *tokdat, t_uint8 *fw)
 	return (TRUE);
 }
 
-void				fill_cmd_data(t_cmdnode *cmddat, t_list *tokens)
+void				fill_cmd_data(t_cmdnode *cmddat, t_dlist *tokens)
 {
 	t_token	*tokdat;
 	t_uint8	first_word;

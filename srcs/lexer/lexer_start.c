@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/06 21:07:25 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/14 23:32:27 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ static size_t		get_charstate(t_charstate *cs, char *s)
 	return (1);
 }
 
-void				add_token(t_list **tokens,
+void				add_token(t_dlist **tokens,
 							t_str *vs,
 							t_toktype type,
 							int prio)
 {
-	t_list	*newtok;
+	t_dlist	*newtok;
 	t_token	tokdat;
 	char	*cpy;
 	int		cpy_isalloced;
@@ -68,11 +68,11 @@ void				add_token(t_list **tokens,
 		return ;
 	tokdat.type = type;
 	tokdat.priority = prio;
-	if (!(newtok = ft_lstnew(&tokdat, sizeof(t_token))))
+	if (!(newtok = ft_dlstnew(&tokdat, sizeof(t_token))))
 		return ;
 	if (cpy_isalloced)
 		free(cpy);
-	ft_lstpush(tokens, newtok);
+	ft_dlstpush(tokens, newtok);
 	ft_tstrclr(vs);
 }
 
@@ -90,9 +90,9 @@ static t_lexstate	get_nextstate(t_lexdat *dat)
 	return ((ret > 0) ? (t_lexstate)ret : kLexStateUndefined);
 }
 
-t_list				*lex_line(char *line)
+t_dlist				*lex_line(char *line)
 {
-	t_list		*ret;
+	t_dlist		*ret;
 	t_lexdat	dat;
 	size_t		jmp;
 

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/21 17:10:58 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/11 04:30:56 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/15 04:11:18 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include "sh_parser.h"
 
-static char	*check_next_token(t_list *ntoken, t_toktype toktype)
+static char	*check_next_token(t_dlist *ntoken, t_toktype toktype)
 {
 	t_token	*ncurr;
 
@@ -27,7 +27,7 @@ static char	*check_next_token(t_list *ntoken, t_toktype toktype)
 	return (NULL);
 }
 
-char		*parser_check_syntax(t_list *tokens)
+/*char		*parser_check_syntax(t_dlist *tokens)
 {
 	t_token	*prev;
 	t_token	*curr;
@@ -45,5 +45,23 @@ char		*parser_check_syntax(t_list *tokens)
 		prev = curr;
 		tokens = tokens->next;
 	}
+	return (NULL);
+}*/
+
+char		*parser_check_syntax(t_dlist *tokens)
+{
+	t_token	*prev;
+	t_token	*curr;
+	char	*tmp;
+
+	curr = (t_token*)tokens->content;
+	prev = (tokens->prev) ? (t_token*)tokens->prev->content : NULL;
+	if (curr->type == PIPE && (!prev || !tokens->next || prev->priority != 0))
+		return (curr->s);
+	if (curr->type >= GREAT && curr->type <= DLESS
+		&& (tmp = check_next_token(tokens->next, WORD)))
+		return (tmp);
+	prev = curr;
+	tokens = tokens->next;
 	return (NULL);
 }

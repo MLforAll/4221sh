@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/11 04:23:30 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/15 04:33:24 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,20 @@ typedef struct	s_redirect
 ** parser
 */
 
-char			*parser_check_syntax(t_list *tokens);
-t_uint8			parser_check_heredocs(t_list *tokens, t_uint8 ragain);
-t_uint8			parser_check_inclist(char **line, t_list **tokens);
+char			*parser_check_syntax(t_dlist *tokens);
+t_uint8			parser_check_inclist(char **line, t_dlist **tokens, t_dlist *tmp);
+int				parser_check_heredocs(t_dlist *tokens, t_uint8 ragain);
 
-t_btree			*parse_tokens(char **line, t_list *tokens);
+t_btree			*parser_create_ast(t_dlist *tokens);
+t_btree			*parse_tokens(char **line, t_dlist *tokens);
 
 /*
 ** parser utilities
 */
 
-void			fill_cmd_data(t_cmdnode *cmddat, t_list *tokens);
+void			fill_cmd_data(t_cmdnode *cmddat, t_dlist *tokens);
 char			*get_cmd_path(char *line_cmd, char **env);
-int				ft_splitquote(t_list **dest, char *s, char *charset, char *cs);
+int				ft_splitquote(t_dlist **dest, char *s, char *charset, char *cs);
 char			*ft_strrmquote(char *s, char *cset);
 
 /*

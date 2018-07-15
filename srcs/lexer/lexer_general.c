@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 04:59:28 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/15 04:36:59 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ int			add_token_to_ret(void *data)
 
 static int	switch_to_dquote(void *data)
 {
-	if (!add_to_curr(data))
-		return ((int)kLexStateUndefined);
+	(void)data;
 	return ((int)kLexStateDQuote);
 }
 

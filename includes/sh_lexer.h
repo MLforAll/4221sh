@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/11 04:18:19 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/14 23:25:25 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,13 @@ typedef struct	s_token
 typedef struct	s_lexdat
 {
 	t_str		currtoks;
-	t_list		**ret;
+	t_dlist		**ret;
 	char		*linep;
 	t_lexstate	curr_state;
 	t_charstate	cs;
 }				t_lexdat;
 
-t_list			*lex_line(char *line);
+t_dlist			*lex_line(char *line);
 
 /*
 ** Lexer State functions
@@ -140,7 +140,7 @@ int				switch_to_ampersand(void *data);
 ** Utilities
 */
 
-void			add_token(t_list **tokens, t_str *vs, t_toktype type, int prio);
+void			add_token(t_dlist **tokens, t_str *vs, t_toktype type, int prio);
 int				ft_swcmp(void *p1, void *p2);
 void			tokens_lstdel(void *data, size_t datsize);
 

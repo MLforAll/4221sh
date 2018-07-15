@@ -6,14 +6,16 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/13 05:32:07 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/15 04:30:15 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "sh.h"
 
-static char	*read_till_delim(const char *prompt, char *delim, t_uint8 whole)
+static char					*read_till_delim(const char *prompt,
+											char *delim,
+											t_uint8 whole)
 {
 	char		*ret;
 	char		*line;
@@ -39,44 +41,51 @@ static char	*read_till_delim(const char *prompt, char *delim, t_uint8 whole)
 	return (ret);
 }
 
-t_uint8		parser_check_heredocs(t_list *tokens, t_uint8 ragain)
+int							parser_check_heredocs(t_dlist *tokens,
+												t_uint8 ragain)
 {
+	t_token	*tok;
 	char	**toks_dest;
 	char	*tmp;
 
-	while (tokens)
+	tok = (t_token*)tokens->content;
+	if (tok->type != DLESS)
+		return (FALSE);
+	if (!tokens->next || !tokens->next->content)
+		return (-1);
+	if (((t_token*)tokens->next->content)->type == WORD && ragain)
 	{
-		if (((t_token*)tokens->content)->type == DLESS
-			&& tokens->next->content
-			&& ((t_token*)tokens->next->content)->type == WORD)
-		{
-			if (!ragain)
-				return (FALSE);
-			toks_dest = &((t_token*)tokens->next->content)->s;
-			tmp = read_till_delim(SH_HEREDOC_PR, *toks_dest, YES);
-			free(*toks_dest);
-			*toks_dest = tmp;
-		}
-		tokens = tokens->next;
+		toks_dest = &((t_token*)tokens->next->content)->s;
+		tmp = read_till_delim(SH_HEREDOC_PR, *toks_dest, YES);
+		free(*toks_dest);
+		*toks_dest = tmp;
+		return (TRUE);
 	}
-	return (TRUE);
+	return (FALSE);
 }
 
-t_uint8		parser_check_inclist(char **line, t_list **tokens)
+inline static const char	*parser_inclist_types(t_toktype ttype)
 {
-	t_toktype	ttype;
-	t_list		*tmp;
-	char		*extraline;
-	t_list		*extra;
-
-	tmp = *tokens;
-	while (tmp->next)
-		tmp = tmp->next;
-	extra = NULL;
-	extraline = NULL;
-	ttype = ((t_token*)tmp->content)->type;
 	if (ttype == PIPE)
-		extraline = read_till_delim(SH_PIPE_PR, NULL, NO);
+		return (SH_PIPE_PR);
+	return (NULL);
+}
+
+
+t_uint8						parser_check_inclist(char **line,
+												t_dlist **tokens,
+												t_dlist *tmp)
+{
+	const char	*extraprompt;
+	char		*extraline;
+	t_dlist		*extra;
+
+	extraline = NULL;
+	if (!(extraprompt = parser_inclist_types(((t_token*)tmp->content)->type)))
+		return (TRUE);
+	if (!line)
+		return (FALSE);
+	extraline = read_till_delim(extraprompt, NULL, NO);
 	if (!extraline)
 		return (FALSE);
 	if (!*extraline)
@@ -84,11 +93,11 @@ t_uint8		parser_check_inclist(char **line, t_list **tokens)
 	ft_stradd(line, extraline);
 	extra = lex_line(extraline);
 	free(extraline);
-	ft_lstpush(tokens, extra);
+	ft_dlstpush(tokens, extra);
 	return ((extra != NULL));
 }
 
-void		parser_check_quote(t_list *tokens)
+void		parser_check_quote(t_dlist *tokens)
 {
 	(void)tokens;
 }

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/11 03:12:14 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/14 23:29:51 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static t_cmdnode	*eval_ast(t_btree *node, t_tab *pids)
 int					eval_line(char **line, t_uint8 ragain)
 {
 	int		ret;
-	t_list	*tokens;
+	t_dlist	*tokens;
 	t_btree	*ast;
 	t_tab	pids;
 
@@ -94,7 +94,7 @@ int					eval_line(char **line, t_uint8 ragain)
 	clean_pipes(&pids);
 	ft_ttabdel(&pids, NULL);
 	ft_btdel(&ast, &ast_btdel);
-	ft_lstdel(&tokens, &tokens_lstdel);
+	ft_dlstdel(&tokens, &tokens_lstdel);
 	(void)set_lvar_n("?", ret);
 	return (ret);
 }
