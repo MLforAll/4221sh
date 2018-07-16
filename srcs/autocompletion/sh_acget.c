@@ -6,13 +6,14 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 04:23:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/26 19:58:42 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/16 17:30:31 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 #include "libftreadline.h"
+#include "ftrl_dev.h"
 #include "sh.h"
 
 static t_list		*get_res_with_path(char *base)

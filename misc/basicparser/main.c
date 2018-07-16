@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 19:30:28 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/27 20:30:14 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/16 17:40:57 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 static void	do_stuff(char *line)
 {
-	t_list		*tokens;
+	t_dlist		*tokens;
 	t_btree		*ast;
 
 	if (!(tokens = lex_line(line)))
@@ -29,10 +29,10 @@ static void	do_stuff(char *line)
 	ast = parse_tokens(NULL, tokens);
 	ft_putubt(ast, &astputelem);
 	ft_btdel(&ast, &ast_btdel);
-	ft_lstdel(&tokens, &tokens_lstdel);
+	ft_dlstdel(&tokens, &tokens_lstdel);
 }
 
-static void	read_loop(const char *pr, t_rl_opts *opts, t_rl_hist **hist)
+static void	read_loop(const char *pr, t_rl_opts *opts, t_dlist **hist)
 {
 	char		*line;
 	int			limit;
@@ -44,10 +44,10 @@ static void	read_loop(const char *pr, t_rl_opts *opts, t_rl_hist **hist)
 		{
 			do_stuff(line);
 			if (--limit)
-				ft_histadd(hist, line);
+				ftrl_histadd(hist, line);
 			else
 			{
-				ft_histdel(hist);
+				ft_dlstdel(hist, &ftrl_histdelf);
 				limit = 100;
 			}
 		}
@@ -59,12 +59,12 @@ int			main(void)
 {
 	const char	*pr = "\033[1;31mbasicparser\033[0;39m$ ";
 	t_rl_opts	opts;
-	t_rl_hist	*hist;
+	t_dlist		*hist;
 
 	ft_bzero(&opts, sizeof(t_rl_opts));
 	opts.bell = YES;
 	hist = NULL;
 	read_loop(pr, &opts, &hist);
-	ft_histdel(&hist);
+	ft_dlstdel(&hist, &ftrl_histdelf);
 	return (0);
 }

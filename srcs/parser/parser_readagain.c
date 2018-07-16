@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/16 17:06:26 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/16 17:12:46 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,17 @@ int							parser_check_heredocs(t_dlist *tokens,
 
 inline static const char	*parser_inclist_types(t_toktype ttype)
 {
-	if (ttype == PIPE)
-		return (SH_PIPE_PR);
+	const t_toktype	types[] = {PIPE, AND_IF, OR_IF};
+	const char		*prs[] = {SH_PIPE_PR, SH_ANDIF_PR, SH_ORIF_PR};
+	t_uint8			idx;
+
+	idx = 0;
+	while (idx < sizeof(types) / sizeof(t_toktype))
+	{
+		if (ttype == types[idx])
+			return (prs[idx]);
+		idx++;
+	}
 	return (NULL);
 }
 

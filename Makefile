@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/07/16 17:04:19 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/07/16 17:30:45 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,14 +33,12 @@ SRCDIR = srcs
 SRCFILES = sh_main.c \
 	sh_eshell.c \
 	sh_ishell.c \
-	sh_eval.c \
 	sh_err.c \
 	sh_hist_loadsave.c \
 	prompt/sh_prompt.c \
 	prompt/sh_prompt_helpers.c \
 	autocompletion/sh_acget.c \
 	autocompletion/sh_acshow.c \
-	autocompletion/sh_ac_lstsupport.c \
 	lexer/lexer_start.c \
 	lexer/lexer_general.c \
 	lexer/lexer_dquote.c \
@@ -57,6 +55,8 @@ SRCFILES = sh_main.c \
 	parser/parser_free.c \
 	parser/parser_readagain.c \
 	parser/parser_syntax.c \
+	eval/sh_eval.c \
+	eval/sh_evaluators.c \
 	exec/sh_cmdexec.c \
 	exec/sh_cmdredirs.c \
 	exec/sh_cmdpipes.c \

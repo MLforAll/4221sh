@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/16 17:08:39 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/16 17:19:22 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 
 # include <stdlib.h>
 # include "sh_lexer.h"
-
-# define SH_HEREDOC_PR		"heredoc> "
-# define SH_PIPE_PR			"pipe> "
-# define SH_ANDIF_PR		"andif> "
-# define SH_ORIF_PR			"orif> "
 
 /*
 ** data types

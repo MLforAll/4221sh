@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/16 17:08:22 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/16 17:13:23 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef enum	e_toktype
 	PIPE,
 	SEMI,
 	AND_IF,
-	AND_OR,
+	OR_IF,
 	GREAT,
 	DGREAT,
 	LESS,

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 14:42:44 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/04 02:12:39 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/16 17:23:07 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ static void			do_redir_action(t_redirect *redir, int oflags)
 {
 	int		fd;
 
-	close(redir->io_nbr);
+	(void)close(redir->io_nbr);
 	if ((fd = open(redir->filename, oflags, 0644)) != redir->io_nbr)
 	{
-		dup2(fd, redir->io_nbr);
-		close(fd);
+		(void)dup2(fd, redir->io_nbr);
+		(void)close(fd);
 	}
 }
 
@@ -33,7 +33,7 @@ static void			do_agreg(t_redirect *redir)
 
 	if (redir->agreg == -1)
 	{
-		close(redir->io_nbr);
+		(void)close(redir->io_nbr);
 		return ;
 	}
 	if (dup2(redir->agreg, redir->io_nbr) == -1)
@@ -52,14 +52,15 @@ static void			do_str_to_stdin(t_redirect *redir, t_cmdnode *cmddat)
 	char	buff[32];
 	ssize_t	rb;
 
-	pipe(cfd);
+	if (pipe(cfd) == -1)
+		return ;
 	if (cmddat->stdin_fd != -1)
 		while ((rb = read(redir->io_nbr, buff, 32)) > 0)
-			write(cfd[1], buff, rb);
+			(void)write(cfd[1], buff, rb);
 	ft_putstr_fd(redir->filename, cfd[1]);
-	close(redir->io_nbr);
-	dup2(cfd[0], redir->io_nbr);
-	close(cfd[1]);
+	(void)close(redir->io_nbr);
+	(void)dup2(cfd[0], redir->io_nbr);
+	(void)close(cfd[1]);
 }
 
 inline static void	save_fd(t_tab *bakptr, int fd_to_save)

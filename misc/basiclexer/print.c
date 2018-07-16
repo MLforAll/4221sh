@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 22:27:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/15 03:23:10 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/16 17:58:15 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ static void	print_tok(t_token *tok)
 		ft_putstr("Undefined");
 	ft_putnchar_limit(' ', 9 - ft_strlen(g_typedesc[(int)tok->type]));
 	ft_putstr(" | Value: ");
-	ft_putstr((tok->toks) ? tok->toks : "(null)");
+	ft_putstr((tok->s) ? tok->s : "(null)");
 	ft_putchar('\n');
 }
 
 void		print_tokens(char *line)
 {
-	t_list		*tokens;
-	t_list		*tokbw;
+	t_dlist		*tokens;
+	t_dlist		*tokbw;
 
 	if (!(tokens = lex_line(line)))
 	{
@@ -60,5 +60,5 @@ void		print_tokens(char *line)
 		tokbw = tokbw->next;
 	}
 	ft_putendl("------------------------------------");
-	ft_lstdel(&tokens, &tokens_lstdel);
+	ft_dlstdel(&tokens, &tokens_lstdel);
 }
