@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/15 04:30:15 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/16 17:06:26 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ inline static const char	*parser_inclist_types(t_toktype ttype)
 	return (NULL);
 }
 
-
 t_uint8						parser_check_inclist(char **line,
 												t_dlist **tokens,
 												t_dlist *tmp)
@@ -95,9 +94,4 @@ t_uint8						parser_check_inclist(char **line,
 	free(extraline);
 	ft_dlstpush(tokens, extra);
 	return ((extra != NULL));
-}
-
-void		parser_check_quote(t_dlist *tokens)
-{
-	(void)tokens;
 }

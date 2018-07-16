@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/04 03:02:43 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/16 17:00:27 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static int	exec_core(t_cmdnode *cmddat, t_uint8 forkdes, char **env)
 	if ((tmp = cmd_chk(cmddat->c_path)) >= 0)
 		return (sh_err_ret(tmp, NULL, cmddat->c_path, 127));
 	sh_jobs_rmall();
-	signal(SIGCHLD, &sh_jb_sighdl);
+	(void)signal(SIGCHLD, &sh_jb_sighdl);
 	tmp = (exec_shell(cmddat->c_path) == EXIT_SUCCESS) ? EXIT_SUCCESS : 127;
 	restore_bakfds(bakfds_ptr);
 	return (tmp);
@@ -123,7 +123,7 @@ int			exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 	if (!cmddat)
 		return (EXIT_FAILURE);
 	is_cmd = (cmddat->builtin || cmddat->c_path);
-	if (cmddat->c_vars)
+	if (cmddat->c_vars && cmddat->c_path)
 	{
 		tmp = cmddat->c_vars;
 		while (*tmp)
@@ -133,12 +133,3 @@ int			exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 		return (EXIT_SUCCESS);
 	return (exec_setup(cmddat, async, spid, (env) ? env : environ));
 }
-
-/*
-**	if (cmddat->builtin)
-**		exval = (cmddat->builtin)((int)ft_tablen(cmddat->c_av), cmddat->c_av,
-**			(cmddat->stdout_fd == -1) ? STDOUT_FILENO : cmddat->stdout_fd);
-**	else
-**		exval = exec_bincmd(cmddat, async, spid, (env) ? env : environ);
-**	return (exval);
-*/

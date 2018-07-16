@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/15 04:33:24 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/16 17:08:39 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ typedef struct	s_redirect
 */
 
 char			*parser_check_syntax(t_dlist *tokens);
-t_uint8			parser_check_inclist(char **line, t_dlist **tokens, t_dlist *tmp);
+t_uint8			parser_check_inclist(char **line, t_dlist **tokens,
+									t_dlist *tmp);
 int				parser_check_heredocs(t_dlist *tokens, t_uint8 ragain);
 
 t_btree			*parser_create_ast(t_dlist *tokens);

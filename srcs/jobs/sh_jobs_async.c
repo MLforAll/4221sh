@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:28:04 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/24 23:38:01 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/16 16:55:37 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <assert.h>
 #include "sh_jobs.h"
 
-#if SHJBS_LOCK_USE_PTHREADS == TRUE
+#ifdef SHJBS_LOCK_USE_PTHREADS
 
 pthread_mutex_t *g_jobmutex = PTHREAD_MUTEX_INITIALIZER;
 

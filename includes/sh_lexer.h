@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/16 05:16:57 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/16 17:08:22 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,15 @@ typedef struct	s_lexdat
 t_dlist			*lex_line(char *line);
 
 /*
+** Tokens mgmt
+*/
+
+void			add_token(t_dlist **tokens,
+						t_str *vs,
+						t_toktype type,
+						int prio);
+
+/*
 ** Lexer State functions
 */
 
@@ -141,7 +150,6 @@ int				switch_to_ampersand(void *data);
 ** Utilities
 */
 
-void			add_token(t_dlist **tokens, t_str *vs, t_toktype type, int prio);
 int				ft_swcmp(void *p1, void *p2);
 void			tokens_lstdel(void *data, size_t datsize);
 

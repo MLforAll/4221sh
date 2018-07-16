@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 21:23:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/04 02:41:49 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/16 17:05:52 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void		sh_err(t_errs errc, const char *bltn, const char *path)
 		ft_putendl_fd(errs[errc], STDERR_FILENO);
 }
 
-inline int	sh_err_ret(t_errs errc, const char *bltn, const char *path, int retv)
+inline int	sh_err_ret(t_errs errc, const char *bltn, const char *path, int rvl)
 {
 	sh_err(errc, bltn, path);
-	return (retv);
+	return (rvl);
 }
 
 static int	check_too_much_links(const char *path)

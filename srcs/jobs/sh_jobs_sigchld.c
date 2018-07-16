@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 04:41:14 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/21 16:31:27 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/16 16:56:27 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void				sh_jb_sighdl(int sigc)
 
 	if (sigc != SIGCHLD || !(tmp = g_jobslst))
 		return ;
-	signal(SIGCHLD, SIG_DFL);
+	(void)signal(SIGCHLD, SIG_DFL);
 	sh_jobop_lock();
 	while (tmp)
 	{
@@ -105,5 +105,5 @@ void				sh_jb_sighdl(int sigc)
 		tmp = tmp->next;
 	}
 	sh_jobop_unlock();
-	signal(SIGCHLD, &sh_jb_sighdl);
+	(void)signal(SIGCHLD, &sh_jb_sighdl);
 }

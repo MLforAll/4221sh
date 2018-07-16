@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_misc_str.c                                      :+:      :+:    :+:   */
+/*   sh_signals.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 18:31:09 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/04 02:01:15 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/16 17:04:03 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "libft.h"
+#include <unistd.h>
+#include <signal.h>
+#include "sh_jobs.h"
+#include "sh.h"
 
-int		ft_strchrf(const char *s, char c)
+void		switch_traps(int ign)
 {
-	unsigned int	last;
-	unsigned int	idx;
+	void	(*act)(int);
 
-	idx = 0;
-	last = 0;
-	while (s[idx])
-	{
-		if (s[idx] == c && idx == last + 1)
-			return (TRUE);
-		if (s[idx] == c)
-			last = idx;
-		idx++;
-	}
-	return (FALSE);
+	act = (ign) ? SIG_IGN : SIG_DFL;
+	(void)signal(SIGINT, act);
+	(void)signal(SIGTERM, act);
+	(void)signal(SIGTSTP, act);
+	(void)signal(SIGCHLD, (ign) ? &sh_jb_sighdl : SIG_DFL);
 }

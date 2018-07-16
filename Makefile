@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/07/15 04:35:11 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/07/16 17:04:19 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,8 +78,8 @@ SRCFILES = sh_main.c \
 	bltns/sh_bltn_utils.c \
 	bltns/sh_setunset_bltncmds.c \
 	bltns/sh_jobs_bltncmd.c \
-	misc/sh_misc.c \
-	misc/sh_misc_str.c \
+	sh_signals.c \
+	sh_misc.c \
 	fsexp_functions.c
 SRCS = $(addprefix $(SRCDIR)/, $(SRCFILES))
 NSRC = $(shell echo "$(SRCFILES)" | awk '{print NF}')

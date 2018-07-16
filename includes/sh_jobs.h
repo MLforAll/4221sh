@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 04:46:03 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/11 03:17:53 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/16 16:55:16 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define SH_JOBS_H
 
 # include "libft.h"
-
-# define SHJBS_LOCK_USE_PTHREADS	FALSE
 
 /*
 ** job control struct

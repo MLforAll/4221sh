@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/14 23:29:51 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/16 16:54:20 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void			clean_pipes(t_tab *pids)
 		curr = &((pid_t*)pids->data)[idx];
 		if (*curr > 0)
 		{
-			waitpid(*curr, NULL, WUNTRACED);
+			(void)waitpid(*curr, NULL, WUNTRACED);
 			*curr = 0;
 		}
 	}
@@ -39,12 +39,13 @@ static t_cmdnode	*eval_pipe(t_cmdnode *a, t_cmdnode *b, t_tab *pids)
 
 	if (!a || !b)
 		return (NULL);
-	pipe(pfd);
+	if (pipe(pfd) == -1)
+		return (NULL);
 	a->stdout_fd = pfd[1];
-	ft_memcpy(a->pfd, pfd, sizeof(pfd));
+	(void)ft_memcpy(a->pfd, pfd, sizeof(pfd));
 	b->stdin_fd = pfd[0];
-	ft_memcpy(b->pfd, pfd, sizeof(pfd));
-	exec_cmd(a, YES, &pid, NULL);
+	(void)ft_memcpy(b->pfd, pfd, sizeof(pfd));
+	(void)exec_cmd(a, YES, &pid, NULL);
 	ft_ttabcat(pids, &pid, 1);
 	return (b);
 }
