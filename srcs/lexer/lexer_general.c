@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/15 04:36:59 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/16 05:18:16 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int			add_to_curr(void *data)
 	if (!data)
 		return ((int)kLexStateUndefined);
 	cdat = (t_lexdat*)data;
-	(void)ft_tstrncat(&cdat->currtoks, cdat->linep, 1);
+	(void)ft_tstrncat(&cdat->currtoks, *cdat->linep, 1);
 	return ((int)cdat->curr_state);
 }
 
@@ -41,12 +41,19 @@ static int	switch_to_dquote(void *data)
 	return ((int)kLexStateDQuote);
 }
 
+static int	switch_to_squote(void *data)
+{
+	(void)data;
+	return ((int)kLexStateSQuote);
+}
+
 int			lex_general(void *data)
 {
 	const t_equi		eq[] = {
 	{kCharGeneral, &add_to_curr, (void*)data},
 	{kCharDash, &add_to_curr, (void*)data},
 	{kCharDQuote, &switch_to_dquote, (void*)data},
+	{kCharSQuote, &switch_to_squote, (void*)data},
 	{kCharSpace, &add_token_to_ret, (void*)data},
 	{kCharNull, &add_token_to_ret, (void*)data},
 	{kCharDGreat, &create_dgreat_tok, (void*)data},

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/15 02:24:04 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 04:58:51 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/16 05:08:34 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	create_dash_tok(void *data)
 	if (!data)
 		return ((int)kLexStateUndefined);
 	cdat = (t_lexdat*)data;
-	tokc[0] = *cdat->linep;
+	tokc[0] = **cdat->linep;
 	tokc[1] = '\0';
 	vdumb.s = tokc;
 	add_token(cdat->ret, &vdumb, DASH, 0);

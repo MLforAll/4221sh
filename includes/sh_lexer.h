@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/14 23:25:25 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/16 05:16:57 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ typedef struct	s_lexdat
 {
 	t_str		currtoks;
 	t_dlist		**ret;
-	char		*linep;
+	char		**linep;
 	t_lexstate	curr_state;
 	t_charstate	cs;
 }				t_lexdat;
@@ -99,6 +99,7 @@ t_dlist			*lex_line(char *line);
 
 int				lex_general(void *data);
 int				lex_dquote(void *data);
+int				lex_squote(void *data);
 int				lex_less(void *data);
 int				lex_ampersand(void *data);
 

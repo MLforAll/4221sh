@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/14 23:32:27 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/16 05:18:53 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,10 @@ void				add_token(t_dlist **tokens,
 
 static t_lexstate	get_nextstate(t_lexdat *dat)
 {
-	const t_equi		eq[6] = {
+	const t_equi		eq[] = {
 	{kLexStateGeneral, &lex_general, (void*)dat},
 	{kLexStateDQuote, &lex_dquote, (void*)dat},
+	{kLexStateSQuote, &lex_squote, (void*)dat},
 	{kLexStateAmpersand, &lex_ampersand, (void*)dat},
 	{0, NULL, NULL}};
 	const int			cmpdat = dat->curr_state;
@@ -103,9 +104,9 @@ t_dlist				*lex_line(char *line)
 	dat.currtoks = ft_tstrnew();
 	dat.ret = &ret;
 	dat.curr_state = kLexStateGeneral;
+	dat.linep = &line;
 	while (*line != '#')
 	{
-		dat.linep = line;
 		jmp = get_charstate(&dat.cs, line);
 		dat.curr_state = get_nextstate(&dat);
 		if (!*line)
