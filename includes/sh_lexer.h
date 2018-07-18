@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/18 05:05:41 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/18 18:53:20 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,10 @@ typedef struct	s_token
 
 typedef struct	s_lexdat
 {
-	t_str		currtoks;
 	t_dlist		**ret;
 	char		**linep;
+	t_str		currtoks;
+	size_t		jmp;
 	t_lexstate	curr_state;
 	t_charstate	cs;
 }				t_lexdat;

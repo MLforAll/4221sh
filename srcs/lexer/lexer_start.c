@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/18 05:25:15 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/18 18:53:57 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ int					lex_line(t_dlist **dest, char *line)
 {
 	int			ret;
 	t_lexdat	dat;
-	size_t		jmp;
 
 	if (!line || !dest)
 		return (-1);
@@ -112,11 +111,11 @@ int					lex_line(t_dlist **dest, char *line)
 	dat.linep = &line;
 	while (*line != '#')
 	{
-		jmp = get_charstate(&dat.cs, line);
+		dat.jmp = get_charstate(&dat.cs, line);
 		dat.curr_state = get_nextstate(&dat);
 		if (!*line)
 			break ;
-		line += jmp;
+		line += dat.jmp;
 	}
 	if (*dat.currtoks.s)
 	{

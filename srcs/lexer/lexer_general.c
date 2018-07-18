@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/18 05:25:52 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/18 19:13:21 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int			add_to_curr(void *data)
 	if (!data)
 		return ((int)kLexStateUndefined);
 	cdat = (t_lexdat*)data;
-	(void)ft_tstrncat(&cdat->currtoks, *cdat->linep, 1);
+	(void)ft_tstrncat(&cdat->currtoks, *cdat->linep, cdat->jmp);
 	return ((int)cdat->curr_state);
 }
 

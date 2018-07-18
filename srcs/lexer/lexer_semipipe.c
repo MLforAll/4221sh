@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/26 09:17:53 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/18 05:26:41 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/18 19:24:39 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,16 @@ static void	create_tok_from_curr(void *data, t_toktype type, int prio)
 {
 	t_lexdat	*cdat;
 	t_str		vdumb;
-	char		tokc[2];
 
 	if (!data)
 		return ;
 	cdat = (t_lexdat*)data;
 	if (cdat->currtoks.s)
 		(void)add_token_to_ret(data);
-	tokc[0] = **cdat->linep;
-	tokc[1] = '\0';
-	vdumb.s = tokc;
+	vdumb = ft_tstrnew();
+	ft_tstrncpy(&vdumb, *cdat->linep, cdat->jmp);
 	add_token(cdat->ret, &vdumb, type, prio);
+	ft_tstrdel(&vdumb);
 }
 
 int			create_pipe_tok(void *data)
