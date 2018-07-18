@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/15 02:24:04 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/18 05:26:12 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/18 21:13:43 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,10 @@ int			lex_ampersand(void *data)
 	else
 		add_token(cdat->ret, &cdat->currtoks, IO_NUMBER, 0);
 	return ((int)kLexStateGeneral);
+}
+
+int			switch_to_ampersand(void *data)
+{
+	(void)data;
+	return ((int)kLexStateAmpersand);
 }

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 23:11:41 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/26 09:16:35 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/18 21:13:40 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,3 @@ int			ft_swcmp(void *p1, void *p2)
 **	return ((int)kLexStateLess);
 **}
 */
-
-int			switch_to_ampersand(void *data)
-{
-	(void)data;
-	return ((int)kLexStateAmpersand);
-}

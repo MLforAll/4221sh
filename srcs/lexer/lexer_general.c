@@ -6,34 +6,12 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/18 19:13:21 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/18 21:17:46 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "sh_lexer.h"
-
-int			add_to_curr(void *data)
-{
-	t_lexdat	*cdat;
-
-	if (!data)
-		return ((int)kLexStateUndefined);
-	cdat = (t_lexdat*)data;
-	(void)ft_tstrncat(&cdat->currtoks, *cdat->linep, cdat->jmp);
-	return ((int)cdat->curr_state);
-}
-
-int			add_token_to_ret(void *data)
-{
-	t_lexdat	*cdat;
-
-	if (!data)
-		return ((int)kLexStateUndefined);
-	cdat = (t_lexdat*)data;
-	(void)add_token(cdat->ret, &cdat->currtoks, WORD, 0);
-	return ((int)cdat->curr_state);
-}
 
 static int	switch_to_dquote(void *data)
 {
@@ -50,12 +28,13 @@ static int	switch_to_squote(void *data)
 int			lex_general(void *data)
 {
 	const t_equi		eq[] = {
-	{kCharGeneral, &add_to_curr, (void*)data},
-	{kCharDash, &add_to_curr, (void*)data},
+	{kCharGeneral, &lexact_append_current, (void*)data},
+	{kCharDash, &lexact_append_current, (void*)data},
 	{kCharDQuote, &switch_to_dquote, (void*)data},
 	{kCharSQuote, &switch_to_squote, (void*)data},
-	{kCharSpace, &add_token_to_ret, (void*)data},
-	{kCharNull, &add_token_to_ret, (void*)data},
+	{kCharSpace, &lexact_add_token, (void*)data},
+	{kCharTab, &lexact_add_token, (void*)data},
+	{kCharNull, &lexact_add_token, (void*)data},
 	{kCharDGreat, &create_dgreat_tok, (void*)data},
 	{kCharGreat, &create_great_tok, (void*)data},
 	{kCharDLess, &create_dless_tok, (void*)data},

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/18 18:53:57 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/18 21:16:56 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ static size_t		get_charstate(t_charstate *cs, char *s)
 {
 	unsigned short		idx;
 	const char			*chars[] = {">>", ">", "<<", "<", "&", "-",
-									";", "|", "\"", "'", "\\", " "};
+									";", "|", "\"", "'", "\\", " ", "\t"};
 	const t_charstate	st[] = {kCharDGreat, kCharGreat, kCharDLess, kCharLess,
 								kCharAmpersand, kCharDash, kCharSemi, kCharPipe,
 								kCharDQuote, kCharSQuote, kCharEscape,
-								kCharSpace};
+								kCharSpace, kCharTab};
 
 	if (!*s)
 	{

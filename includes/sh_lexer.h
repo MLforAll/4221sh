@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/18 18:53:20 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/18 21:16:50 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef enum	e_charstate
 	kCharNull,
 	kCharGeneral,
 	kCharSpace,
+	kCharTab,
 	kCharDQuote,
 	kCharSQuote,
 	kCharEscape,
@@ -135,9 +136,9 @@ int				lexer_expand_tilde(char **s);
 ** State functions used throughout
 */
 
-int				add_to_curr(void *data);
-int				add_token_to_ret(void *data);
-void			add_io_nbr(t_lexdat *cdat);
+int				lexact_append_current(void *data);
+int				lexact_add_token(void *data);
+void			lexact_add_io_nbr(t_lexdat *cdat);
 
 /*
 ** State switchers

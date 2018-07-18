@@ -6,23 +6,19 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/26 09:17:53 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/18 19:24:39 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/18 21:07:16 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "sh_lexer.h"
 
-static void	create_tok_from_curr(void *data, t_toktype type, int prio)
+static void	create_tok_from_curr(t_lexdat *cdat, t_toktype type, int prio)
 {
-	t_lexdat	*cdat;
 	t_str		vdumb;
 
-	if (!data)
-		return ;
-	cdat = (t_lexdat*)data;
 	if (cdat->currtoks.s)
-		(void)add_token_to_ret(data);
+		(void)add_token(cdat->ret, &cdat->currtoks, WORD, 0);
 	vdumb = ft_tstrnew();
 	ft_tstrncpy(&vdumb, *cdat->linep, cdat->jmp);
 	add_token(cdat->ret, &vdumb, type, prio);
@@ -31,12 +27,12 @@ static void	create_tok_from_curr(void *data, t_toktype type, int prio)
 
 int			create_pipe_tok(void *data)
 {
-	create_tok_from_curr(data, PIPE, 1);
+	create_tok_from_curr((t_lexdat*)data, PIPE, 1);
 	return ((int)kLexStateGeneral);
 }
 
 int			create_semi_tok(void *data)
 {
-	create_tok_from_curr(data, SEMI, 2);
+	create_tok_from_curr((t_lexdat*)data, SEMI, 2);
 	return ((int)kLexStateGeneral);
 }

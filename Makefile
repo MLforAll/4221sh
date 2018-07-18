@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/07/16 17:30:45 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/07/18 21:11:10 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRCFILES = sh_main.c \
 	autocompletion/sh_acget.c \
 	autocompletion/sh_acshow.c \
 	lexer/lexer_start.c \
+	lexer/lexer_acts.c \
 	lexer/lexer_general.c \
 	lexer/lexer_dquote.c \
 	lexer/lexer_great.c \

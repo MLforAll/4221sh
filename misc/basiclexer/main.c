@@ -6,11 +6,12 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 19:30:28 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/16 17:56:39 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/18 21:22:05 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <unistd.h>
 #include "libftreadline.h"
 #include "../../includes/sh_lexer.h"
 #include "blintern.h"
@@ -56,7 +57,14 @@ int				main(void)
 	const char	*pr = "\033[1;31mbasiclexer\033[0;39m$ ";
 	t_rl_opts	opts;
 	t_dlist		*hist;
+	char		*gnl_line;
 
+	if (!isatty(STDIN_FILENO) && get_next_line(STDIN_FILENO, &gnl_line) > 0)
+	{
+		print_tokens(gnl_line);
+		free(gnl_line);
+		return (0);
+	}
 	ft_bzero(&opts, sizeof(t_rl_opts));
 	opts.bell = YES;
 	hist = NULL;

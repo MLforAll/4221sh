@@ -1,40 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_less.c                                       :+:      :+:    :+:   */
+/*   lexer_acts.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/30 14:10:56 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/18 21:14:17 by kdumarai         ###   ########.fr       */
+/*   Created: 2018/07/18 21:09:20 by kdumarai          #+#    #+#             */
+/*   Updated: 2018/07/18 21:12:27 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "sh_lexer.h"
 
-int		create_less_tok(void *data)
+int			lexact_append_current(void *data)
 {
 	t_lexdat	*cdat;
 
 	if (!data)
 		return ((int)kLexStateUndefined);
 	cdat = (t_lexdat*)data;
-	lexact_add_io_nbr(cdat);
-	(void)lexact_append_current(data);
-	add_token(cdat->ret, &cdat->currtoks, LESS, 0);
-	return ((int)kLexStateGeneral);
+	(void)ft_tstrncat(&cdat->currtoks, *cdat->linep, cdat->jmp);
+	return ((int)cdat->curr_state);
 }
 
-int		create_dless_tok(void *data)
+int			lexact_add_token(void *data)
 {
 	t_lexdat	*cdat;
 
 	if (!data)
 		return ((int)kLexStateUndefined);
 	cdat = (t_lexdat*)data;
-	lexact_add_io_nbr(cdat);
-	(void)lexact_append_current(data);
-	add_token(cdat->ret, &cdat->currtoks, DLESS, 0);
-	return ((int)kLexStateGeneral);
+	(void)add_token(cdat->ret, &cdat->currtoks, WORD, 0);
+	return ((int)cdat->curr_state);
+}
+
+void		lexact_add_io_nbr(t_lexdat *cdat)
+{
+	if (!cdat)
+		return ;
+	if (*cdat->currtoks.s)
+	{
+		if (!ft_strisnumeric(cdat->currtoks.s))
+			add_token(cdat->ret, &cdat->currtoks, WORD, 0);
+		else
+			add_token(cdat->ret, &cdat->currtoks, IO_NUMBER, 0);
+	}
 }
