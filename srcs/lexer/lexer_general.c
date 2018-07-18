@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/16 05:18:16 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/18 05:25:52 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int			add_token_to_ret(void *data)
 	if (!data)
 		return ((int)kLexStateUndefined);
 	cdat = (t_lexdat*)data;
-	add_token(cdat->ret, &cdat->currtoks, WORD, 0);
+	(void)add_token(cdat->ret, &cdat->currtoks, WORD, 0);
 	return ((int)cdat->curr_state);
 }
 

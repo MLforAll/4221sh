@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/16 17:20:53 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/18 05:10:16 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,12 @@ static t_cmdnode	*eval_ast(t_btree *node, t_tab *pids)
 int					eval_line(char **line, t_uint8 ragain)
 {
 	int		ret;
+	int		lex_ret;
 	t_dlist	*tokens;
 	t_btree	*ast;
 	t_tab	pids;
 
-	if (!line || !(tokens = lex_line(*line)))
+	if (!line || (lex_ret = lex_line(&tokens, *line)) == -1)
 		return (EXIT_SUCCESS);
 	if (!(ast = parse_tokens((ragain) ? line : NULL, tokens)))
 		return (258);

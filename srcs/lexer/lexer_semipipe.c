@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/26 09:17:53 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/16 05:08:20 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/18 05:26:41 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	create_tok_from_curr(void *data, t_toktype type, int prio)
 		return ;
 	cdat = (t_lexdat*)data;
 	if (cdat->currtoks.s)
-		add_token_to_ret(data);
+		(void)add_token_to_ret(data);
 	tokc[0] = **cdat->linep;
 	tokc[1] = '\0';
 	vdumb.s = tokc;

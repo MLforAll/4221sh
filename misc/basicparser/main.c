@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 19:30:28 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/16 17:40:57 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/18 05:16:40 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,16 @@ static void	do_stuff(char *line)
 	t_dlist		*tokens;
 	t_btree		*ast;
 
-	if (!(tokens = lex_line(line)))
+	if (lex_line(&tokens, line) < 1)
 	{
 		ft_putendl_fd("lexer error", STDERR_FILENO);
 		return ;
 	}
-	ast = parse_tokens(NULL, tokens);
+	if (!(ast = parse_tokens(NULL, tokens)))
+	{
+		ft_putendl_fd("parser error", STDERR_FILENO);
+		return ;
+	}
 	ft_putubt(ast, &astputelem);
 	ft_btdel(&ast, &ast_btdel);
 	ft_dlstdel(&tokens, &tokens_lstdel);
@@ -43,6 +47,7 @@ static void	read_loop(const char *pr, t_rl_opts *opts, t_dlist **hist)
 		if (*line)
 		{
 			do_stuff(line);
+			ft_putchar('\n');
 			if (--limit)
 				ftrl_histadd(hist, line);
 			else

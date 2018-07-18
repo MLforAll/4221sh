@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/16 05:18:53 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/18 05:25:15 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void				tokens_lstdel(void *data, size_t datsize)
 
 static size_t		get_charstate(t_charstate *cs, char *s)
 {
-	unsigned int		idx;
+	unsigned short		idx;
 	const char			*chars[] = {">>", ">", "<<", "<", "&", "-",
 									";", "|", "\"", "'", "\\", " "};
 	const t_charstate	st[] = {kCharDGreat, kCharGreat, kCharDLess, kCharLess,
@@ -91,18 +91,23 @@ static t_lexstate	get_nextstate(t_lexdat *dat)
 	return ((ret > 0) ? (t_lexstate)ret : kLexStateUndefined);
 }
 
-t_dlist				*lex_line(char *line)
+/*
+** to be continued and normed
+*/
+
+int					lex_line(t_dlist **dest, char *line)
 {
-	t_dlist		*ret;
+	int			ret;
 	t_lexdat	dat;
 	size_t		jmp;
 
-	if (!line)
-		return (NULL);
-	ret = NULL;
+	if (!line || !dest)
+		return (-1);
+	ret = 1;
+	*dest = NULL;
 	ft_bzero(&dat, sizeof(t_lexdat));
 	dat.currtoks = ft_tstrnew();
-	dat.ret = &ret;
+	dat.ret = dest;
 	dat.curr_state = kLexStateGeneral;
 	dat.linep = &line;
 	while (*line != '#')
@@ -112,6 +117,11 @@ t_dlist				*lex_line(char *line)
 		if (!*line)
 			break ;
 		line += jmp;
+	}
+	if (*dat.currtoks.s)
+	{
+		add_token(dat.ret, &dat.currtoks, WORD, 0);
+		ret = 0;
 	}
 	ft_tstrdel(&dat.currtoks);
 	return (ret);

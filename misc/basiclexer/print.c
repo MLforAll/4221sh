@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 22:27:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/16 17:58:15 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/18 05:13:49 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static void	ft_putnchar_limit(char c, size_t len)
 
 	if (len > 512 || len == 0)
 		return ;
-	ft_memset(buff, c, len);
-	write(STDOUT_FILENO, buff, len);
+	(void)ft_memset(buff, c, len);
+	(void)write(STDOUT_FILENO, buff, len);
 }
 
 static void	print_tok(t_token *tok)
@@ -42,14 +42,17 @@ static void	print_tok(t_token *tok)
 
 void		print_tokens(char *line)
 {
+	int			lex_ret;
 	t_dlist		*tokens;
 	t_dlist		*tokbw;
 
-	if (!(tokens = lex_line(line)))
+	if ((lex_ret = lex_line(&tokens, line)) == -1)
 	{
 		ft_putendl_fd("tokens error", STDERR_FILENO);
 		return ;
 	}
+	if (lex_ret == 0)
+		ft_putendl_fd("should read again", STDERR_FILENO);
 	ft_putendl("------------------------------------");
 	ft_putendl("|               tokens             |");
 	ft_putendl("------------------------------------");

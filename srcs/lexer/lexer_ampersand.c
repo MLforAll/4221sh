@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/15 02:24:04 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/16 05:08:34 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/18 05:26:12 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	create_dash_tok(void *data)
 	tokc[0] = **cdat->linep;
 	tokc[1] = '\0';
 	vdumb.s = tokc;
-	add_token(cdat->ret, &vdumb, DASH, 0);
+	(void)add_token(cdat->ret, &vdumb, DASH, 0);
 	return ((int)kLexStateGeneral);
 }
 
@@ -40,7 +40,7 @@ int			lex_ampersand(void *data)
 		return (create_dash_tok(data));
 	if (cdat->cs != kCharSpace && cdat->cs != kCharNull)
 	{
-		lex_general(data);
+		(void)lex_general(data);
 		return ((int)kLexStateAmpersand);
 	}
 	if (!ft_strisnumeric(cdat->currtoks.s))
