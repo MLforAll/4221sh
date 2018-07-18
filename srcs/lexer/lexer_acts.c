@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/18 21:09:20 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/18 21:12:27 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/18 21:48:53 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void		lexact_add_io_nbr(t_lexdat *cdat)
 		return ;
 	if (*cdat->currtoks.s)
 	{
-		if (!ft_strisnumeric(cdat->currtoks.s))
+		if (cdat->currtok_quoting != kNoQuote
+			|| !ft_strisnumeric(cdat->currtoks.s))
 			add_token(cdat->ret, &cdat->currtoks, WORD, 0);
 		else
 			add_token(cdat->ret, &cdat->currtoks, IO_NUMBER, 0);

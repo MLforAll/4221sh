@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/18 21:16:50 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/18 21:44:28 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,21 +76,31 @@ typedef enum	e_toktype
 	DASH
 }				t_toktype;
 
+enum 			e_quoting
+{
+	kNoQuote,
+	kSingleQuote,
+	kDoubleQuote,
+	kEscapeQuote
+};
+
 typedef struct	s_token
 {
-	char		*s;
-	int			priority;
-	t_toktype	type;
+	char			*s;
+	int				priority;
+	t_toktype		type;
+	enum e_quoting	quoting;
 }				t_token;
 
 typedef struct	s_lexdat
 {
-	t_dlist		**ret;
-	char		**linep;
-	t_str		currtoks;
-	size_t		jmp;
-	t_lexstate	curr_state;
-	t_charstate	cs;
+	t_dlist			**ret;
+	char			**linep;
+	t_str			currtoks;
+	size_t			jmp;
+	t_lexstate		curr_state;
+	t_charstate		cs;
+	enum e_quoting	currtok_quoting;
 }				t_lexdat;
 
 int				lex_line(t_dlist **dest, char *line);

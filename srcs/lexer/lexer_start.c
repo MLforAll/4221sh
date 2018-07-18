@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/18 21:16:56 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/18 21:52:38 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,13 @@ static size_t		get_charstate(t_charstate *cs, char *s)
 	return (1);
 }
 
+/*
+** 4 args -> problem -> no info on quoting
+** Solutions:
+**	1. rm priority, add a func to parser
+**	2. have a custom t_currtok struct in lexdat_t and pass it instead of vs, type and prio
+*/
+
 void				add_token(t_dlist **tokens,
 							t_str *vs,
 							t_toktype type,
@@ -68,6 +75,7 @@ void				add_token(t_dlist **tokens,
 		return ;
 	tokdat.type = type;
 	tokdat.priority = prio;
+	tokdat.quoting = kNoQuote;
 	if (!(newtok = ft_dlstnew(&tokdat, sizeof(t_token))))
 		return ;
 	if (cpy_isalloced)
@@ -93,6 +101,16 @@ static t_lexstate	get_nextstate(t_lexdat *dat)
 
 /*
 ** to be continued and normed
+**
+** How to manage lexer read-again?
+** 	- special type for unfinished token?
+**	- lexer automatically changes last token if lst isn't empty?
+**
+** 1. Add special type to last token if unfinished
+** 2. When read again, lexer goes to last token and checks if unfinished, then changes
+**		- to change, rm last token from dest and add it as current token
+**		- to change, when add_token, check at that time and modify latest rather than add
+**			- to save perf, only check once (store the result in t_lexdat)
 */
 
 int					lex_line(t_dlist **dest, char *line)
