@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/30 14:10:56 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/16 05:07:04 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/18 05:40:47 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int			create_dgreat_tok(void *data)
 		return ((int)kLexStateUndefined);
 	cdat = (t_lexdat*)data;
 	add_io_nbr(cdat);
-	add_to_curr(data);
+	(void)add_to_curr(data);
 	add_token(cdat->ret, &cdat->currtoks, DGREAT, 0);
 	return ((int)kLexStateGeneral);
 }
