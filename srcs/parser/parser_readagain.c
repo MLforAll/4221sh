@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/18 05:08:16 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/19 06:44:25 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 #include "sh.h"
 
 static char					*read_till_delim(const char *prompt,
-											char *delim,
-											t_uint8 whole)
+											const char *delim,
+											t_uint8 whole, t_uint8 before)
 {
 	char		*ret;
 	char		*line;
 	t_rl_opts	opts;
 
-	ret = NULL;
+	ret = (before) ? ft_strdup("\n") : NULL;
 	ft_bzero(&opts, sizeof(t_rl_opts));
 	line = NULL;
 	while (TRUE)
@@ -33,11 +33,12 @@ static char					*read_till_delim(const char *prompt,
 			break ;
 		}
 		ft_stradd(&ret, line);
-		ft_strdel(&line);
 		if (!delim || (delim && !whole && ft_strstr(line, delim)))
 			break ;
+		ft_strdel(&line);
 		ft_stradd(&ret, "\n");
 	}
+	ft_strdel(&line);
 	return (ret);
 }
 
@@ -56,7 +57,7 @@ int							parser_check_heredocs(t_dlist *tokens,
 	if (((t_token*)tokens->next->content)->type == WORD && ragain)
 	{
 		toks_dest = &((t_token*)tokens->next->content)->s;
-		tmp = read_till_delim(SH_HEREDOC_PR, *toks_dest, YES);
+		tmp = read_till_delim(SH_HEREDOC_PR, *toks_dest, YES, NO);
 		free(*toks_dest);
 		*toks_dest = tmp;
 		return (TRUE);
@@ -86,21 +87,37 @@ t_uint8						parser_check_inclist(char **line,
 {
 	const char	*extraprompt;
 	char		*extraline;
-	t_dlist		*extra;
+	int			lex_ret;
 
 	extraline = NULL;
-	if (!(extraprompt = parser_inclist_types(((t_token*)tmp->content)->type)))
-		return (TRUE);
+	if (tmp)
+		extraprompt = parser_inclist_types(((t_token*)tmp->content)->type);
+	else
+		extraprompt = "> ";
 	if (!line)
 		return (FALSE);
-	extraline = read_till_delim(extraprompt, NULL, NO);
+	extraline = read_till_delim(extraprompt, NULL, NO, NO);
 	if (!extraline)
 		return (FALSE);
 	if (!*extraline)
 		return (free_return((void**)&extraline, TRUE));
 	ft_stradd(line, extraline);
-	(void)lex_line(&extra, extraline); /* to be changed */
+	lex_ret = lex_line(tokens, extraline);
 	free(extraline);
-	ft_dlstpush(tokens, extra);
-	return ((extra != NULL));
+	return (lex_ret == 1);
+}
+
+t_uint8						parser_check_ret(char **line,
+											t_dlist **tokens,
+											const char *delim)
+{
+	char	*extraline;
+	int		lex_ret;
+
+	if (!(extraline = read_till_delim("quote> ", delim, NO, YES)))
+		return (FALSE);
+	lex_ret = lex_line(tokens, extraline);
+	ft_stradd(line, extraline);
+	free(extraline);
+	return (lex_ret == 1);
 }

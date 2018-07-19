@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 22:27:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/18 05:13:49 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/19 05:43:37 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void		print_tokens(char *line)
 	t_dlist		*tokens;
 	t_dlist		*tokbw;
 
+	tokens = NULL;
 	if ((lex_ret = lex_line(&tokens, line)) == -1)
 	{
 		ft_putendl_fd("tokens error", STDERR_FILENO);

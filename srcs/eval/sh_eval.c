@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/18 05:10:16 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/19 06:43:16 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,12 @@ int					eval_line(char **line, t_uint8 ragain)
 	t_btree	*ast;
 	t_tab	pids;
 
+	tokens = NULL;
 	if (!line || (lex_ret = lex_line(&tokens, *line)) == -1)
 		return (EXIT_SUCCESS);
+	if (lex_ret == 0)
+		(void)parser_check_inclist()
+		//(void)parser_check_ret(line, &tokens, "\"");
 	if (!(ast = parse_tokens((ragain) ? line : NULL, tokens)))
 		return (258);
 	pids = ft_ttabnew(sizeof(pid_t));

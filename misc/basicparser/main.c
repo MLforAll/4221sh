@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 19:30:28 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/18 05:16:40 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/19 06:11:17 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	do_stuff(char *line)
 	t_dlist		*tokens;
 	t_btree		*ast;
 
+	tokens = NULL;
 	if (lex_line(&tokens, line) < 1)
 	{
 		ft_putendl_fd("lexer error", STDERR_FILENO);

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/18 21:52:38 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/19 06:19:40 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,41 +49,6 @@ static size_t		get_charstate(t_charstate *cs, char *s)
 	return (1);
 }
 
-/*
-** 4 args -> problem -> no info on quoting
-** Solutions:
-**	1. rm priority, add a func to parser
-**	2. have a custom t_currtok struct in lexdat_t and pass it instead of vs, type and prio
-*/
-
-void				add_token(t_dlist **tokens,
-							t_str *vs,
-							t_toktype type,
-							int prio)
-{
-	t_dlist	*newtok;
-	t_token	tokdat;
-	char	*cpy;
-	int		cpy_isalloced;
-
-	if (!vs || (ft_strlen(vs->s) < 1))
-		return ;
-	ft_bzero(&tokdat, sizeof(t_token));
-	cpy = vs->s;
-	cpy_isalloced = (lexer_expand_tilde(&cpy) || lexer_expand_var(&cpy));
-	if (!(tokdat.s = ft_strdup(cpy)))
-		return ;
-	tokdat.type = type;
-	tokdat.priority = prio;
-	tokdat.quoting = kNoQuote;
-	if (!(newtok = ft_dlstnew(&tokdat, sizeof(t_token))))
-		return ;
-	if (cpy_isalloced)
-		free(cpy);
-	ft_dlstpush(tokens, newtok);
-	ft_tstrclr(vs);
-}
-
 static t_lexstate	get_nextstate(t_lexdat *dat)
 {
 	const t_equi		eq[] = {
@@ -113,6 +78,25 @@ static t_lexstate	get_nextstate(t_lexdat *dat)
 **			- to save perf, only check once (store the result in t_lexdat)
 */
 
+static void			lex_init(t_dlist **lst, t_lexdat *cdat, char **line)
+{
+	ft_bzero(cdat, sizeof(t_lexdat));
+	cdat->ret = lst;
+	cdat->linep = line;
+	cdat->currtoks = ft_tstrnew();
+	cdat->curr_state = kLexStateGeneral;
+	if (!*lst)
+		return ;
+	while ((*lst)->next)
+		lst = &(*lst)->next;
+	if (((t_token*)(*lst)->content)->type == INCOMPLETE)
+	{
+		cdat->curr_state = kLexStateDQuote;
+		ft_tstrcpy(&cdat->currtoks, ((t_token*)(*lst)->content)->s);
+		ft_dlstdelone(lst, &tokens_lstdel);
+	}
+}
+
 int					lex_line(t_dlist **dest, char *line)
 {
 	int			ret;
@@ -121,12 +105,7 @@ int					lex_line(t_dlist **dest, char *line)
 	if (!line || !dest)
 		return (-1);
 	ret = 1;
-	*dest = NULL;
-	ft_bzero(&dat, sizeof(t_lexdat));
-	dat.currtoks = ft_tstrnew();
-	dat.ret = dest;
-	dat.curr_state = kLexStateGeneral;
-	dat.linep = &line;
+	lex_init(dest, &dat, &line);
 	while (*line != '#')
 	{
 		dat.jmp = get_charstate(&dat.cs, line);
@@ -137,7 +116,7 @@ int					lex_line(t_dlist **dest, char *line)
 	}
 	if (*dat.currtoks.s)
 	{
-		add_token(dat.ret, &dat.currtoks, WORD, 0);
+		add_token(dat.ret, &dat.currtoks, INCOMPLETE, 0);
 		ret = 0;
 	}
 	ft_tstrdel(&dat.currtoks);
