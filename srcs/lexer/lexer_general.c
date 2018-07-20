@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/18 21:44:55 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/20 16:38:33 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 
 static int	switch_to_dquote(void *data)
 {
-	((t_lexdat*)data)->currtok_quoting = kDoubleQuote;
+	(void)data;
 	return ((int)kLexStateDQuote);
 }
 
 static int	switch_to_squote(void *data)
 {
-	((t_lexdat*)data)->currtok_quoting = kSingleQuote;
+	(void)data;
 	return ((int)kLexStateSQuote);
 }
 
