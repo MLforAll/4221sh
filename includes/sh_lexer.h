@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/20 16:37:55 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/21 07:00:49 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,13 @@ typedef enum	e_toktype
 	AMPERSAND,
 	DASH
 }				t_toktype;
+
+typedef enum	e_quoting
+{
+	kQuoteNone,
+	kSQuote,
+	kDQuote
+}				t_quoting;
 
 typedef struct	s_token
 {
