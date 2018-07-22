@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/19 06:44:25 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/22 16:50:10 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ t_uint8						parser_check_inclist(char **line,
 		extraprompt = parser_inclist_types(((t_token*)tmp->content)->type);
 	else
 		extraprompt = "> ";
+	if (!extraprompt)
+		return (TRUE);
 	if (!line)
 		return (FALSE);
 	extraline = read_till_delim(extraprompt, NULL, NO, NO);

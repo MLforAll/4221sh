@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/21 06:08:10 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/22 16:11:02 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int			lex_general(void *data)
 	{kCharDash, &lexact_append_current, (void*)data},
 	{kCharDQuote, &switch_to_dquote, (void*)data},
 	{kCharSQuote, &switch_to_squote, (void*)data},
+	{kCharEscape, &lexact_append_current, (void*)data},
 	{kCharSpace, &lexact_add_token, (void*)data},
 	{kCharTab, &lexact_add_token, (void*)data},
 	{kCharNull, &lexact_add_token, (void*)data},

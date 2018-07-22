@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 16:13:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/22 02:18:11 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/22 16:51:47 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,15 @@
 **}
 */
 
-inline static t_quoting	detect_quote(char **s, t_quoting curr)
+inline static t_quoting	detect_quote(char *s, t_quoting curr)
 {
-	if (**s == '\\' && curr == kDQuote)
-	{
-		(*s)++;
-		return (kDQuote);
-	}
-	if (**s == '"')
+	if (*s == '\\'
+		&& ((curr == kDQuote && (s[1] == '$' || s[1] == '\\'))
+			|| curr != kDQuote))
+		return (kEscape);
+	if (*s == '"')
 		return (curr == kDQuote ? kQuoteNone : kDQuote);
-	if (**s == '\'')
+	if (*s == '\'')
 		return (curr == kSQuote ? kQuoteNone : kSQuote);
 	return (curr);
 }
@@ -56,13 +55,15 @@ static char				*get_token_string(char *s)
 	(void)lexer_expand_tilde(&s, &vs);
 	while (*s)
 	{
-		if ((curr = detect_quote(&s, curr)) == old)
+		if ((curr = detect_quote(s, curr)) == old)
 		{
 			if (*s == '$' && curr != kSQuote)
 				(void)lexer_expand_var(&s, &vs);
 			else
 				(void)ft_tstrncat(&vs, s, 1);
 		}
+		if (curr == kEscape)
+			curr = old;
 		old = curr;
 		s++;
 	}

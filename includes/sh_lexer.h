@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/22 02:05:47 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/22 15:57:08 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ typedef enum	e_quoting
 {
 	kQuoteNone,
 	kSQuote,
-	kDQuote
+	kDQuote,
+	kEscape
 }				t_quoting;
 
 typedef struct	s_token
