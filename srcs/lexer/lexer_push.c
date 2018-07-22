@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 16:13:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/22 16:51:47 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/22 17:08:34 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ inline static t_quoting	detect_quote(char *s, t_quoting curr)
 {
 	if (*s == '\\'
 		&& ((curr == kDQuote && (s[1] == '$' || s[1] == '\\'))
-			|| curr != kDQuote))
+			|| (curr != kDQuote && s[1])))
 		return (kEscape);
 	if (*s == '"')
 		return (curr == kDQuote ? kQuoteNone : kDQuote);

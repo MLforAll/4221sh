@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/19 06:19:40 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/22 17:19:00 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,22 @@ static t_lexstate	get_nextstate(t_lexdat *dat)
 	return ((ret > 0) ? (t_lexstate)ret : kLexStateUndefined);
 }
 
+static void		lex_escape_newline(t_dlist *dest, int *ret)
+{
+	t_token	*last;
+	size_t	len;
+
+	while (dest->next)
+		dest = dest->next;
+	last = (t_token*)dest->content;
+	if ((len = ft_strlen(last->s)) > 0 && last->s[len - 1] == '\\')
+	{
+		last->s[len - 1] = '\0';
+		*ret = 0;
+		last->type = INCOMPLETE;
+	}
+}
+
 /*
 ** to be continued and normed
 **
@@ -119,6 +135,7 @@ int					lex_line(t_dlist **dest, char *line)
 		add_token(dat.ret, &dat.currtoks, INCOMPLETE, 0);
 		ret = 0;
 	}
+	lex_escape_newline(*dest, &ret);
 	ft_tstrdel(&dat.currtoks);
 	return (ret);
 }
