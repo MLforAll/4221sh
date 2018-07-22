@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/22 17:19:00 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 00:00:21 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,20 +64,16 @@ static t_lexstate	get_nextstate(t_lexdat *dat)
 	return ((ret > 0) ? (t_lexstate)ret : kLexStateUndefined);
 }
 
-static void		lex_escape_newline(t_dlist *dest, int *ret)
+static int			lex_escape_newline(t_dlist *dest)
 {
 	t_token	*last;
-	size_t	len;
 
 	while (dest->next)
 		dest = dest->next;
 	last = (t_token*)dest->content;
-	if ((len = ft_strlen(last->s)) > 0 && last->s[len - 1] == '\\')
-	{
-		last->s[len - 1] = '\0';
-		*ret = 0;
-		last->type = INCOMPLETE;
-	}
+	if (last->type == INCOMPLETE)
+		return (0);
+	return (1);
 }
 
 /*
@@ -107,6 +103,7 @@ static void			lex_init(t_dlist **lst, t_lexdat *cdat, char **line)
 		lst = &(*lst)->next;
 	if (((t_token*)(*lst)->content)->type == INCOMPLETE)
 	{
+		// todo: fix cet merde (reprendre le bon state)
 		cdat->curr_state = kLexStateDQuote;
 		ft_tstrcpy(&cdat->currtoks, ((t_token*)(*lst)->content)->s);
 		ft_dlstdelone(lst, &tokens_lstdel);
@@ -135,7 +132,8 @@ int					lex_line(t_dlist **dest, char *line)
 		add_token(dat.ret, &dat.currtoks, INCOMPLETE, 0);
 		ret = 0;
 	}
-	lex_escape_newline(*dest, &ret);
+	else
+		ret = lex_escape_newline(*dest);
 	ft_tstrdel(&dat.currtoks);
 	return (ret);
 }

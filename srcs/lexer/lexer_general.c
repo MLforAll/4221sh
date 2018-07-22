@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/22 16:58:33 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/22 23:16:52 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,37 @@
 
 static int	switch_to_dquote(void *data)
 {
-	lexact_append_current(data);
+	(void)lexact_append_current(data);
 	return ((int)kLexStateDQuote);
 }
 
 static int	switch_to_squote(void *data)
 {
-	lexact_append_current(data);
+	(void)lexact_append_current(data);
 	return ((int)kLexStateSQuote);
+}
+
+static int	create_escape(void *data)
+{
+	t_lexdat	*cdat;
+	t_dlist		*tmp;
+
+	cdat = (t_lexdat*)data;
+	if ((*cdat->linep)[1] == '\0')
+	{
+		if (!*cdat->currtoks.s)
+		{
+			tmp = *cdat->ret;
+			while (tmp->next)
+				tmp = tmp->next;
+			((t_token*)tmp->content)->type = INCOMPLETE;
+		}
+		else
+			(void)add_token(cdat->ret, &cdat->currtoks, INCOMPLETE, 0);
+	}
+	else
+		(void)lexact_append_current(data);
+	return (cdat->curr_state);
 }
 
 int			lex_general(void *data)
@@ -32,7 +55,7 @@ int			lex_general(void *data)
 	{kCharDash, &lexact_append_current, (void*)data},
 	{kCharDQuote, &switch_to_dquote, (void*)data},
 	{kCharSQuote, &switch_to_squote, (void*)data},
-	{kCharEscape, &lexact_append_current, (void*)data},
+	{kCharEscape, &create_escape, (void*)data},
 	{kCharSpace, &lexact_add_token, (void*)data},
 	{kCharTab, &lexact_add_token, (void*)data},
 	{kCharNull, &lexact_add_token, (void*)data},

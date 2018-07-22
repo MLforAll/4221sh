@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 22:27:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/19 05:43:37 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/22 23:03:38 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	print_tok(t_token *tok)
 		ft_putstr(g_typedesc[(int)tok->type]);
 	else
 		ft_putstr("Undefined");
-	ft_putnchar_limit(' ', 9 - ft_strlen(g_typedesc[(int)tok->type]));
+	ft_putnchar_limit(' ', 10 - ft_strlen(g_typedesc[(int)tok->type]));
 	ft_putstr(" | Value: ");
 	ft_putstr((tok->s) ? tok->s : "(null)");
 	ft_putchar('\n');
