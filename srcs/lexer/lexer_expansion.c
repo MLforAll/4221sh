@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:39:19 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 05:06:29 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/22 02:19:03 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,40 @@
 #include <unistd.h>
 #include "sh.h"
 
-inline static int	lexer_exp_var_free(char *new, char *var)
+t_uint8				lexer_expand_var(char **s, t_str *vs)
 {
-	free(new);
-	free(var);
-	return (-1);
-}
-
-int					lexer_expand_var(char **s)
-{
-	char		*new;
 	char		*tmp;
-	const char	*chr;
 	size_t		len;
 	char		*var;
 
-	if (!(chr = (const char*)ft_strchr(*s, '$')) || !chr[1])
-		return (FALSE);
-	len = 0;
-	while (ft_isalnum(chr[len + 1]) || chr[len + 1] == '?')
+	len = 1;
+	while (ft_isalnum((*s)[len]) || (*s)[len] == '?')
 		len++;
-	if (len == 0)
+	if (--len == 0)
 		return (FALSE);
 	var = NULL;
-	if (!(new = ft_strndup(*s, chr - (const char*)*s))
-		|| !(var = ft_strndup(chr + 1, len)))
-		return (lexer_exp_var_free(new, var));
+	if (!(var = ft_strndup(*s + 1, len)))
+		return (FALSE);
 	if (((tmp = get_lvar(var))
-		|| (tmp = getenv(var)))
-		&& (!ft_stradd(&new, tmp) || !ft_stradd(&new, chr + len + 1)))
-		return (lexer_exp_var_free(new, var));
-	*s = new;
+		|| (tmp = getenv(var))) && !ft_tstrcat(vs, tmp))
+	{
+		free(var);
+		return (FALSE);
+	}
+	*s += len;
 	free(var);
 	return (TRUE);
 }
 
-int					lexer_expand_tilde(char **s)
+t_uint8				lexer_expand_tilde(char **s, t_str *vs)
 {
 	char	*tmp;
 
-	if ((*s)[0] == '~' && (tmp = getenv("HOME"))
-		&& (tmp = ft_strjoin(tmp, *s + 1)))
+	if ((*s)[0] == '~' && (tmp = getenv("HOME")))
 	{
-		*s = tmp;
+		if (!ft_tstrcpy(vs, tmp))
+			return (FALSE);
+		*s += 1;
 		return (TRUE);
 	}
 	return (FALSE);
