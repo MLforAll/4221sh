@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 04:46:03 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/16 16:55:16 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 14:34:34 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int				ft_wait(t_list **jobnode);
 
 void			sh_jobop_lock(void);
 void			sh_jobop_unlock(void);
+void			sh_jobop_reinit(void);
 
 /*
 ** utilities

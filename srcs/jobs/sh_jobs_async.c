@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:28:04 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/16 16:55:37 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 14:34:09 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,28 @@
 
 #ifdef SHJBS_LOCK_USE_PTHREADS
 
-pthread_mutex_t *g_jobmutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t *g_jobmutex = PTHREAD_MUTEX_INITIALIZER;
 
-void		sh_jobop_lock(void)
+inline void				sh_jobop_lock(void)
 {
 	(void)pthread_mutex_lock(g_jobmutex);
 }
 
-void		sh_jobop_unlock(void)
+inline void				sh_jobop_unlock(void)
 {
 	(void)pthread_mutex_unlock(g_jobmutex);
 }
 
+inline void				sh_jobop_reinit(void)
+{
+	g_jobmutex = PTHREAD_MUTEX_INITIALIZER;
+}
+
 #else
 
-t_uint8			g_jobop = NO;
+static t_uint8			g_jobop = NO;
 
-void		sh_jobop_lock(void)
+inline void				sh_jobop_lock(void)
 {
 	while (TRUE)
 		if (!g_jobop)
@@ -41,7 +46,12 @@ void		sh_jobop_lock(void)
 	g_jobop = YES;
 }
 
-void		sh_jobop_unlock(void)
+inline void				sh_jobop_unlock(void)
+{
+	g_jobop = NO;
+}
+
+inline void				sh_jobop_reinit(void)
 {
 	g_jobop = NO;
 }

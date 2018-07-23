@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 03:17:38 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 14:35:09 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,19 @@ static int	create_escape(void *data)
 
 static int	create_ampersand(void *data)
 {
-	t_str		vs;
-	char		stk_vs[2];
+	create_token_with_buff((t_lexdat*)data, AMPERSAND, 1);
+	return ((int)((t_lexdat*)data)->curr_state);
+}
 
-	vs.s = ft_strncpy(stk_vs, *((t_lexdat*)data)->linep, 1);
-	add_token(((t_lexdat*)data)->ret, &vs, AMPERSAND, 1);
+static int	create_andif(void *data)
+{
+	create_token_with_buff((t_lexdat*)data, AND_IF, 1);
+	return ((int)((t_lexdat*)data)->curr_state);
+}
+
+static int	create_orif(void *data)
+{
+	create_token_with_buff((t_lexdat*)data, OR_IF, 1);
 	return ((int)((t_lexdat*)data)->curr_state);
 }
 
@@ -66,6 +74,8 @@ int			lex_general(void *data)
 	{kCharDLess, &create_dless_tok, (void*)data},
 	{kCharLess, &create_less_tok, (void*)data},
 	{kCharAmpersand, &create_ampersand, (void*)data},
+	{kCharAndIf, &create_andif, (void*)data},
+	{kCharOrIf, &create_orif, (void*)data},
 	{kCharPipe, &create_pipe_tok, (void*)data},
 	{kCharSemi, &create_semi_tok, (void*)data},
 	{0, NULL, NULL}};

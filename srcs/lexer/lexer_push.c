@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 16:13:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 02:31:35 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 17:38:47 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 inline static t_quoting	detect_quote(char *s, t_quoting curr)
 {
 	if (*s == '\\'
-		&& ((curr == kDQuote && (s[1] == '$' || s[1] == '\\'))
+		&& ((curr == kDQuote && (s[1] == '$' || s[1] == '"' || s[1] == '\\'))
 			|| (curr != kDQuote && s[1])))
 		return (kEscape);
 	if (*s == '"')
@@ -43,13 +43,16 @@ inline static t_quoting	detect_quote(char *s, t_quoting curr)
 	return (curr);
 }
 
-static char				*get_token_string(char *s)
+static t_list			*get_tokens_strings(char *s)
 {
+	t_list			*ret;
+	t_list			*new;
 	t_quoting		curr;
 	t_quoting		old;
 	t_str			vs;
 
 	vs = ft_tstrnew();
+	ret = NULL;
 	old = kQuoteNone;
 	curr = kQuoteNone;
 	(void)lexer_expand_tilde(&s, &vs);
@@ -62,11 +65,17 @@ static char				*get_token_string(char *s)
 				(void)ft_tstrncat(&vs, s, 1);
 		}
 		if (curr == kEscape)
+		{
+			if (s[1] == '"')
+				(void)ft_tstrncat(&vs, ++s, 1);
 			curr = old;
+		}
 		old = curr;
 		s++;
 	}
-	return (vs.s);
+	new = ft_lstnew_nomalloc(vs.s, ft_strlen(vs.s) + 1);
+	ft_lstpush(&ret, new);
+	return (ret);
 }
 
 void					add_token(t_dlist **tokens,
@@ -76,16 +85,25 @@ void					add_token(t_dlist **tokens,
 {
 	t_dlist	*newtok;
 	t_token	tokdat;
+	t_list	*tokstrs;
+	t_list	*toksbw;
 
 	if (!vs || (ft_strlen(vs->s) < 1))
 		return ;
-	ft_bzero(&tokdat, sizeof(t_token));
-	if (!(tokdat.s = get_token_string(vs->s)))
-		return ;
-	tokdat.type = type;
-	tokdat.priority = prio;
-	if (!(newtok = ft_dlstnew(&tokdat, sizeof(t_token))))
-		return ;
-	ft_dlstpush(tokens, newtok);
+	tokstrs = get_tokens_strings(vs->s);
+	toksbw = tokstrs;
+	while (toksbw)
+	{
+		ft_bzero(&tokdat, sizeof(t_token));
+		tokdat.s = (char*)toksbw->content;
+		tokdat.type = type;
+		tokdat.priority = prio;
+		if (!(newtok = ft_dlstnew(&tokdat, sizeof(t_token))))
+			return ;
+		ft_dlstpush(tokens, newtok);
+		toksbw = toksbw->next;
+	}
+	// leaks
+	//ft_lstdel(&tokstrs, NULL);
 	ft_tstrclr(vs);
 }

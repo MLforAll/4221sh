@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/18 21:09:20 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 03:16:12 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 14:36:53 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,14 @@ void		lexact_add_io_nbr(t_lexdat *cdat)
 		else
 			add_token(cdat->ret, &cdat->currtoks, IO_NUMBER, 0);
 	}
+}
+
+void		create_token_with_buff(t_lexdat *cdat, t_toktype type, int prio)
+{
+	t_str		vs;
+
+	vs = ft_tstrnew();
+	(void)ft_tstrncpy(&vs, *cdat->linep, cdat->jmp);
+	add_token(cdat->ret, &vs, type, prio);
+	ft_tstrdel(&vs);
 }

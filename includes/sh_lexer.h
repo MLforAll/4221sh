@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 03:36:25 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 14:29:46 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ typedef enum	e_charstate
 	kCharLess,
 	kCharDLess,
 	kCharAmpersand,
+	kCharAndIf,
+	kCharOrIf,
 	kCharDash
 }				t_charstate;
 
@@ -151,6 +153,8 @@ t_uint8			lexer_expand_tilde(char **s, t_str *vs);
 int				lexact_append_current(void *data);
 int				lexact_add_token(void *data);
 void			lexact_add_io_nbr(t_lexdat *cdat);
+
+void			create_token_with_buff(t_lexdat *cdat, t_toktype type, int prio);
 
 /*
 ** Utilities
