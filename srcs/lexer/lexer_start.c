@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 20:08:52 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 23:55:49 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static size_t		get_charstate(t_charstate *cs, char *s)
 	const char			*chars[] = {">>", ">", "<<", "<", "&&", "||", "&", "-",
 									";", "|", "\"", "'", "\\", " ", "\t"};
 	const t_charstate	st[] = {kCharDGreat, kCharGreat, kCharDLess, kCharLess,
-								kCharAndIf, kCharOrIf, kCharAmpersand, kCharDash,
-								kCharSemi, kCharPipe, kCharDQuote, kCharSQuote,
-								kCharEscape, kCharSpace, kCharTab};
+							kCharAndIf, kCharOrIf, kCharAmpersand, kCharDash,
+							kCharSemi, kCharPipe, kCharDQuote, kCharSQuote,
+							kCharEscape, kCharSpace, kCharTab};
 
 	if (!*s)
 	{
@@ -43,7 +43,7 @@ static size_t		get_charstate(t_charstate *cs, char *s)
 			*cs = st[idx];
 			return (ft_strlen(chars[idx]));
 		}
-		++idx;
+		idx++;
 	}
 	*cs = kCharGeneral;
 	return (1);
@@ -55,6 +55,7 @@ static t_lexstate	get_nextstate(t_lexdat *dat)
 	{kLexStateGeneral, &lex_general, (void*)dat},
 	{kLexStateDQuote, &lex_dquote, (void*)dat},
 	{kLexStateSQuote, &lex_squote, (void*)dat},
+	{kLexStateAmpersand, &lex_ampersand, (void*)dat},
 	{kLexStateRedirections, &lex_redirects, (void*)dat},
 	{0, NULL, NULL}};
 	const int			cmpdat = dat->curr_state;
@@ -69,12 +70,14 @@ static t_lexstate	get_nextstate(t_lexdat *dat)
 **
 ** How to manage lexer read-again?
 ** 	- special type for unfinished token?
-**	- lexer automatically changes last token if lst isn't empty?
+**	- lexer automatically changes last token if lst is not empty?
 **
 ** 1. Add special type to last token if unfinished
-** 2. When read again, lexer goes to last token and checks if unfinished, then changes
+** 2. When read again, lexer goes to last token and checks if unfinished,
+**			then changes
 **		- to change, rm last token from dest and add it as current token
-**		- to change, when add_token, check at that time and modify latest rather than add
+**		- to change, when add_token, check at that time and modify latest
+**			rather than add
 **			- to save perf, only check once (store the result in t_lexdat)
 */
 
@@ -122,7 +125,7 @@ int					lex_line(t_dlist **dest, char *line)
 	{
 		add_token(dat.ret, &dat.currtoks,
 				(dat.curr_state == kLexStateDQuote) ? INCOMPD : INCOMPS, 0);
-		ret = 0;
+		ret = 2;
 	}
 	ft_tstrdel(&dat.currtoks);
 	return (ret);

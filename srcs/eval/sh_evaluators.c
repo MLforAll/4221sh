@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/16 17:17:00 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 23:11:32 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,10 @@ t_cmdnode	*eval_orif(t_cmdnode *a, t_cmdnode *b)
 	if (exec_cmd(a, NO, NULL, NULL) != 0)
 		return (b);
 	return (NULL);
+}
+
+t_cmdnode	*eval_background(t_cmdnode *a, t_cmdnode *b)
+{
+	(void)exec_cmd(a, YES, NULL, NULL);
+	return (b);
 }

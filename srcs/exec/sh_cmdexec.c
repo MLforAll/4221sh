@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 19:36:31 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 23:06:06 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,7 @@ static int	exec_setup(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 		*spid = pid;
 	else
 		jobnode = sh_job_add(cmddat->c_path, pid, kJobStateRunning);
-	if (async)
-		return (-1);
-	return (ft_wait(jobnode));
+	return ((async) ? -1 : ft_wait(jobnode));
 }
 
 int			exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:28:04 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 14:34:09 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 22:26:24 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,6 @@ inline void				sh_jobop_unlock(void)
 	(void)pthread_mutex_unlock(g_jobmutex);
 }
 
-inline void				sh_jobop_reinit(void)
-{
-	g_jobmutex = PTHREAD_MUTEX_INITIALIZER;
-}
-
 #else
 
 static t_uint8			g_jobop = NO;
@@ -47,11 +42,6 @@ inline void				sh_jobop_lock(void)
 }
 
 inline void				sh_jobop_unlock(void)
-{
-	g_jobop = NO;
-}
-
-inline void				sh_jobop_reinit(void)
 {
 	g_jobop = NO;
 }

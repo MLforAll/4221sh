@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 02:50:39 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 23:57:20 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ static t_cmdnode	*eval_ast(t_btree *node, t_tab *pids)
 		return (eval_andif(leftnode, rightnode));
 	if (ndat->type == OR_IF)
 		return (eval_orif(leftnode, rightnode));
+	if (ndat->type == AMPERSAND)
+		return (eval_background(leftnode, rightnode));
 	return (NULL);
 }
 
@@ -70,6 +72,8 @@ int					eval_line(char **line, t_uint8 ragain)
 		return (EXIT_SUCCESS);
 	if (lex_ret == 0)
 		(void)parser_check_inclist(line, &tokens, NULL);
+	else if (lex_ret == 2)
+		(void)parser_check_ret(line, &tokens, "\"");
 	if (!(ast = parse_tokens((ragain) ? line : NULL, tokens)))
 		return (258);
 	pids = ft_ttabnew(sizeof(pid_t));

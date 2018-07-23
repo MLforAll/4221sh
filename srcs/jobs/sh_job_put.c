@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/03 05:32:23 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 05:34:10 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 23:16:31 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static t_uint8	sh_job_put_action(int n, t_list ***tmp, t_uint8 *ret)
 	{
 		*ret = TRUE;
 		ft_jobputnode(dat);
-		if (dat->j_state == kJobStateTerminated)
+		if (dat->j_state == kJobStateTerminated
+			|| dat->j_state == kJobStateExited)
 		{
 			bak = *tmp;
 			*tmp = &(**tmp)->next;

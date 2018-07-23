@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 14:29:46 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 22:36:07 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ typedef enum	e_lexstate
 	kLexStateGeneral,
 	kLexStateDQuote,
 	kLexStateSQuote,
-	kLexStateRedirections,
+	kLexStateAmpersand,
+	kLexStateRedirections
 }				t_lexstate;
 
 typedef enum	e_charstate
@@ -127,6 +128,7 @@ int				lex_dquote(void *data);
 int				lex_squote(void *data);
 int				lex_less(void *data);
 int				lex_redirects(void *data);
+int				lex_ampersand(void *data);
 
 /*
 ** Tokens creators
@@ -154,7 +156,7 @@ int				lexact_append_current(void *data);
 int				lexact_add_token(void *data);
 void			lexact_add_io_nbr(t_lexdat *cdat);
 
-void			create_token_with_buff(t_lexdat *cdat, t_toktype type, int prio);
+void			create_token_with_buff(t_lexdat *dat, t_toktype type, int prio);
 
 /*
 ** Utilities
