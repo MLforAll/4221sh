@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 16:13:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 17:38:47 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 19:33:41 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ void					add_token(t_dlist **tokens,
 		ft_dlstpush(tokens, newtok);
 		toksbw = toksbw->next;
 	}
-	// leaks
-	//ft_lstdel(&tokstrs, NULL);
+	ft_lstdel(&tokstrs, NULL);
 	ft_tstrclr(vs);
 }
