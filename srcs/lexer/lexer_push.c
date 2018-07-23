@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 16:13:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 19:33:41 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 20:13:14 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,39 @@ inline static t_quoting	detect_quote(char *s, t_quoting curr)
 	return (curr);
 }
 
+static t_uint8			testfunc(char **s, t_str *vs, t_list **ret, t_quoting curr)
+{
+	t_str	exp;
+	char	**splt;
+	char	**bw;
+
+	exp = ft_tstrnew();
+	if (!lexer_expand_var(s, &exp))
+	{
+		ft_tstrdel(&exp);
+		return (FALSE);
+	}
+	if (curr == kQuoteNone && (splt = ft_strsplit(exp.s, ' ')))
+	{
+		bw = splt;
+		while (*bw)
+		{
+			ft_tstrcat(vs, *bw);
+			if (*(bw + 1))
+			{
+				ft_lstpush(ret, ft_lstnew(vs->s, ft_strlen(vs->s) + 1));
+				ft_tstrclr(vs);
+			}
+			bw++;
+		}
+		ft_tabfree(&splt);
+	}
+	else
+		ft_tstrcat(vs, exp.s);
+	ft_tstrdel(&exp);
+	return (TRUE);
+}
+
 static t_list			*get_tokens_strings(char *s)
 {
 	t_list			*ret;
@@ -61,7 +94,7 @@ static t_list			*get_tokens_strings(char *s)
 		if ((curr = detect_quote(s, curr)) == old)
 		{
 			// todo: proper reversal of condition (cleaner stmt)
-			if (!(*s == '$' && curr != kSQuote && lexer_expand_var(&s, &vs)))
+			if (!(*s == '$' && curr != kSQuote && testfunc(&s, &vs, &ret, curr)))
 				(void)ft_tstrncat(&vs, s, 1);
 		}
 		if (curr == kEscape)
@@ -73,8 +106,9 @@ static t_list			*get_tokens_strings(char *s)
 		old = curr;
 		s++;
 	}
-	new = ft_lstnew_nomalloc(vs.s, ft_strlen(vs.s) + 1);
+	new = ft_lstnew(vs.s, ft_strlen(vs.s) + 1);
 	ft_lstpush(&ret, new);
+	ft_tstrdel(&vs);
 	return (ret);
 }
 
@@ -90,7 +124,8 @@ void					add_token(t_dlist **tokens,
 
 	if (!vs || (ft_strlen(vs->s) < 1))
 		return ;
-	tokstrs = get_tokens_strings(vs->s);
+	if (!(tokstrs = get_tokens_strings(vs->s)))
+		return ;
 	toksbw = tokstrs;
 	while (toksbw)
 	{
