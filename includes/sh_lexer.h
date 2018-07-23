@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/22 16:59:22 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 03:36:25 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ typedef struct	s_equi
 typedef enum	e_lexstate
 {
 	kLexStateUndefined,
+	kLexStateReadAgain,
 	kLexStateGeneral,
 	kLexStateDQuote,
 	kLexStateSQuote,
-	kLexStateAmpersand,
+	kLexStateRedirections,
 }				t_lexstate;
 
 typedef enum	e_charstate
@@ -61,7 +62,9 @@ typedef enum	e_charstate
 typedef enum	e_toktype
 {
 	NONE,
-	INCOMPLETE,
+	INCOMPG,
+	INCOMPD,
+	INCOMPS,
 	WORD,
 	IO_NUMBER,
 	PIPE,
@@ -121,7 +124,7 @@ int				lex_general(void *data);
 int				lex_dquote(void *data);
 int				lex_squote(void *data);
 int				lex_less(void *data);
-int				lex_ampersand(void *data);
+int				lex_redirects(void *data);
 
 /*
 ** Tokens creators
@@ -148,14 +151,6 @@ t_uint8			lexer_expand_tilde(char **s, t_str *vs);
 int				lexact_append_current(void *data);
 int				lexact_add_token(void *data);
 void			lexact_add_io_nbr(t_lexdat *cdat);
-
-/*
-** State switchers
-*/
-
-int				switch_to_great(void *data);
-int				switch_to_less(void *data);
-int				switch_to_ampersand(void *data);
 
 /*
 ** Utilities

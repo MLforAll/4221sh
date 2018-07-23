@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/22 23:16:52 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 03:17:38 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,26 @@ static int	switch_to_squote(void *data)
 static int	create_escape(void *data)
 {
 	t_lexdat	*cdat;
-	t_dlist		*tmp;
 
 	cdat = (t_lexdat*)data;
 	if ((*cdat->linep)[1] == '\0')
 	{
-		if (!*cdat->currtoks.s)
-		{
-			tmp = *cdat->ret;
-			while (tmp->next)
-				tmp = tmp->next;
-			((t_token*)tmp->content)->type = INCOMPLETE;
-		}
-		else
-			(void)add_token(cdat->ret, &cdat->currtoks, INCOMPLETE, 0);
+		if (*cdat->currtoks.s)
+			(void)add_token(cdat->ret, &cdat->currtoks, INCOMPG, 0);
+		return ((int)kLexStateReadAgain);
 	}
-	else
-		(void)lexact_append_current(data);
+	(void)lexact_append_current(data);
 	return (cdat->curr_state);
+}
+
+static int	create_ampersand(void *data)
+{
+	t_str		vs;
+	char		stk_vs[2];
+
+	vs.s = ft_strncpy(stk_vs, *((t_lexdat*)data)->linep, 1);
+	add_token(((t_lexdat*)data)->ret, &vs, AMPERSAND, 1);
+	return ((int)((t_lexdat*)data)->curr_state);
 }
 
 int			lex_general(void *data)
@@ -63,7 +65,7 @@ int			lex_general(void *data)
 	{kCharGreat, &create_great_tok, (void*)data},
 	{kCharDLess, &create_dless_tok, (void*)data},
 	{kCharLess, &create_less_tok, (void*)data},
-	{kCharAmpersand, &switch_to_ampersand, (void*)data},
+	{kCharAmpersand, &create_ampersand, (void*)data},
 	{kCharPipe, &create_pipe_tok, (void*)data},
 	{kCharSemi, &create_semi_tok, (void*)data},
 	{0, NULL, NULL}};

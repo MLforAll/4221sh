@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/30 14:10:56 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/18 21:14:17 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 03:20:41 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		create_less_tok(void *data)
 	lexact_add_io_nbr(cdat);
 	(void)lexact_append_current(data);
 	add_token(cdat->ret, &cdat->currtoks, LESS, 0);
-	return ((int)kLexStateGeneral);
+	return ((int)kLexStateRedirections);
 }
 
 int		create_dless_tok(void *data)
@@ -36,5 +36,5 @@ int		create_dless_tok(void *data)
 	lexact_add_io_nbr(cdat);
 	(void)lexact_append_current(data);
 	add_token(cdat->ret, &cdat->currtoks, DLESS, 0);
-	return ((int)kLexStateGeneral);
+	return ((int)kLexStateRedirections);
 }

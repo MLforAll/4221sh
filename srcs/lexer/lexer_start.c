@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 00:00:21 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 03:21:12 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,25 +55,13 @@ static t_lexstate	get_nextstate(t_lexdat *dat)
 	{kLexStateGeneral, &lex_general, (void*)dat},
 	{kLexStateDQuote, &lex_dquote, (void*)dat},
 	{kLexStateSQuote, &lex_squote, (void*)dat},
-	{kLexStateAmpersand, &lex_ampersand, (void*)dat},
+	{kLexStateRedirections, &lex_redirects, (void*)dat},
 	{0, NULL, NULL}};
 	const int			cmpdat = dat->curr_state;
 	int					ret;
 
 	ret = ft_switch((void*)&cmpdat, (void*)&eq, sizeof(t_equi), &ft_swcmp);
 	return ((ret > 0) ? (t_lexstate)ret : kLexStateUndefined);
-}
-
-static int			lex_escape_newline(t_dlist *dest)
-{
-	t_token	*last;
-
-	while (dest->next)
-		dest = dest->next;
-	last = (t_token*)dest->content;
-	if (last->type == INCOMPLETE)
-		return (0);
-	return (1);
 }
 
 /*
@@ -92,6 +80,8 @@ static int			lex_escape_newline(t_dlist *dest)
 
 static void			lex_init(t_dlist **lst, t_lexdat *cdat, char **line)
 {
+	t_toktype	type;
+
 	ft_bzero(cdat, sizeof(t_lexdat));
 	cdat->ret = lst;
 	cdat->linep = line;
@@ -101,10 +91,10 @@ static void			lex_init(t_dlist **lst, t_lexdat *cdat, char **line)
 		return ;
 	while ((*lst)->next)
 		lst = &(*lst)->next;
-	if (((t_token*)(*lst)->content)->type == INCOMPLETE)
+	type = ((t_token*)(*lst)->content)->type;
+	if (type >= INCOMPG && type <= INCOMPS)
 	{
-		// todo: fix cet merde (reprendre le bon state)
-		cdat->curr_state = kLexStateDQuote;
+		cdat->curr_state = (t_lexstate)(type + 1);
 		ft_tstrcpy(&cdat->currtoks, ((t_token*)(*lst)->content)->s);
 		ft_dlstdelone(lst, &tokens_lstdel);
 	}
@@ -122,18 +112,18 @@ int					lex_line(t_dlist **dest, char *line)
 	while (*line != '#')
 	{
 		dat.jmp = get_charstate(&dat.cs, line);
-		dat.curr_state = get_nextstate(&dat);
+		if ((dat.curr_state = get_nextstate(&dat)) == kLexStateReadAgain)
+			ret = 0;
 		if (!*line)
 			break ;
 		line += dat.jmp;
 	}
 	if (*dat.currtoks.s)
 	{
-		add_token(dat.ret, &dat.currtoks, INCOMPLETE, 0);
+		add_token(dat.ret, &dat.currtoks,
+				(dat.curr_state == kLexStateDQuote) ? INCOMPD : INCOMPS, 0);
 		ret = 0;
 	}
-	else
-		ret = lex_escape_newline(*dest);
 	ft_tstrdel(&dat.currtoks);
 	return (ret);
 }

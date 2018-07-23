@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/15 02:24:04 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/18 21:13:43 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 03:34:55 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	create_dash_tok(void *data)
 	return ((int)kLexStateGeneral);
 }
 
-int			lex_ampersand(void *data)
+int			lex_redirects(void *data)
 {
 	t_lexdat	*cdat;
 
@@ -38,20 +38,15 @@ int			lex_ampersand(void *data)
 	cdat = (t_lexdat*)data;
 	if (cdat->cs == kCharDash && !*cdat->currtoks.s)
 		return (create_dash_tok(data));
-	if (cdat->cs != kCharSpace && cdat->cs != kCharNull)
+	if (cdat->cs != kCharSpace && cdat->cs != kCharAmpersand
+		&& cdat->cs != kCharNull)
 	{
 		(void)lex_general(data);
-		return ((int)kLexStateAmpersand);
+		return ((int)kLexStateRedirections);
 	}
 	if (!ft_strisnumeric(cdat->currtoks.s))
 		add_token(cdat->ret, &cdat->currtoks, WORD, 0);
 	else
 		add_token(cdat->ret, &cdat->currtoks, IO_NUMBER, 0);
-	return ((int)kLexStateGeneral);
-}
-
-int			switch_to_ampersand(void *data)
-{
-	(void)data;
-	return ((int)kLexStateAmpersand);
+	return ((int)kLexStateRedirections);
 }

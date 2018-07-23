@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 16:13:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/22 23:06:41 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 02:31:35 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,8 @@ static char				*get_token_string(char *s)
 	{
 		if ((curr = detect_quote(s, curr)) == old)
 		{
-			if (*s == '$' && curr != kSQuote)
-				(void)lexer_expand_var(&s, &vs);
-			else
+			// todo: proper reversal of condition (cleaner stmt)
+			if (!(*s == '$' && curr != kSQuote && lexer_expand_var(&s, &vs)))
 				(void)ft_tstrncat(&vs, s, 1);
 		}
 		if (curr == kEscape)

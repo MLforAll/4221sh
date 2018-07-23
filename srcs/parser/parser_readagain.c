@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/22 23:55:20 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/23 02:49:18 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,9 @@ t_uint8						parser_check_inclist(char **line,
 	if (!extraline)
 		return (FALSE);
 	if (!*extraline)
-		return (free_return((void**)&extraline, TRUE));
+		return ((t_uint8)free_return((void**)&extraline, TRUE));
+	if (!tmp)
+		(*line)[ft_strlen(*line) - 1] = '\0';
 	ft_stradd(line, extraline);
 	lex_ret = lex_line(tokens, extraline);
 	free(extraline);
