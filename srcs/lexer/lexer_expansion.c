@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:39:19 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/24 16:35:17 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/25 00:01:13 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ static t_uint8	lexer_expand_var_splt(char **splt, t_str *vs, t_list **ret)
 	return (*bw == NULL);
 }
 
-t_uint8			lexer_expand_var(char **s, t_str *vs, t_list **ret, t_quoting curr)
+t_uint8			lexer_expand_var(char **s,
+								t_str *vs,
+								t_list **ret,
+								t_quoting curr)
 {
 	t_str	exp;
 	char	**splt;

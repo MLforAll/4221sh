@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 01:18:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/25 23:42:48 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/25 00:00:41 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,14 @@ static int	open_hist_file(int o_mode, int o_perms)
 	return (fd);
 }
 
+/*
+** todo: norm write_history()
+*/
+
 void		write_history(t_dlist *hist)
 {
 	char	*histbuff;
+	char	*line;
 	int		fd;
 
 	if (!hist || !(histbuff = ft_strnew(0)))
@@ -44,12 +49,16 @@ void		write_history(t_dlist *hist)
 		hist = hist->next;
 	while (hist->prev)
 	{
-		if (hist->content && (!ft_stradd(&histbuff, (char*)hist->content)
-			|| !ft_stradd(&histbuff, "\n")))
+		if (hist->content
+			&& (!(line = ft_strnew_replace((char*)hist->content, "\n", "\032"))
+				|| !ft_stradd(&histbuff, line)
+				|| !ft_stradd(&histbuff, "\n")))
 		{
+			free(line);
 			free(histbuff);
 			return ;
 		}
+		free(line);
 		hist = hist->prev;
 	}
 	if ((fd = open_hist_file(O_WRONLY | O_CREAT | O_TRUNC, 0644)) == -1)
@@ -64,6 +73,7 @@ void		write_history(t_dlist *hist)
 void		load_history(t_dlist **hist)
 {
 	char			*buff;
+	char			*line;
 	int				fd;
 	unsigned int	limit;
 
@@ -74,9 +84,15 @@ void		load_history(t_dlist **hist)
 	limit = SH_MAXHIST;
 	while (get_next_line(fd, &buff) > 0)
 	{
+		if (!(line = ft_strnew_replace(buff, "\032", "\n")))
+		{
+			ft_dlstdel(hist, &ftrl_histdelf);
+			return ;
+		}
 		if (limit == 0)
 			ftrl_histdellast(hist);
-		ftrl_histadd(hist, buff);
+		ftrl_histadd(hist, line);
+		free(line);
 		ft_strdel(&buff);
 		limit -= (limit > 0);
 	}

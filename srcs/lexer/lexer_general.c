@@ -6,12 +6,16 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 14:35:09 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/25 00:02:50 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "sh_lexer.h"
+
+/*
+** todo: norm file: 7 funcs
+*/
 
 static int	switch_to_dquote(void *data)
 {

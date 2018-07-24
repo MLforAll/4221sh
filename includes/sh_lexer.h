@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/24 15:45:24 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/24 23:32:02 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,14 @@
 # include "libft.h"
 
 /*
-** ft_switch requirement
+** Macros
 */
 
-typedef struct	s_equi
-{
-	int		nb;
-	int		(*act)(void *);
-	void	*data;
-}				t_equi;
+#define LEXER_OK	0
+#define LEXER_FAIL	-1
+#define LEXER_INC	1
+#define LEXER_INCDQ	2
+#define LEXER_INCSQ	3
 
 /*
 ** lexer data types
@@ -107,6 +106,21 @@ typedef struct	s_lexdat
 	t_lexstate		curr_state;
 	t_charstate		cs;
 }				t_lexdat;
+
+/*
+** ft_switch() requirement
+*/
+
+typedef struct	s_equi
+{
+	int		nb;
+	int		(*act)(void *);
+	void	*data;
+}				t_equi;
+
+/*
+** Lexer main func
+*/
 
 int				lex_line(t_dlist **dest, char *line);
 

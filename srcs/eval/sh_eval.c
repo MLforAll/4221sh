@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 23:57:20 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/25 00:00:19 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,26 @@ static t_cmdnode	*eval_ast(t_btree *node, t_tab *pids)
 	return (NULL);
 }
 
+/*
+** todo: move lex_ret > LEX_OK in parse_tokens()
+*/
+
 int					eval_line(char **line, t_uint8 ragain)
 {
-	int		ret;
-	int		lex_ret;
-	t_dlist	*tokens;
-	t_btree	*ast;
-	t_tab	pids;
+	int			ret;
+	int			lex_ret;
+	t_dlist		*tokens;
+	t_btree		*ast;
+	t_tab		pids;
 
 	tokens = NULL;
-	if (!line || (lex_ret = lex_line(&tokens, *line)) == -1)
+	if ((lex_ret = lex_line(&tokens, *line)) == LEXER_FAIL)
+		return (-1);
+	if (!line || !tokens)
 		return (EXIT_SUCCESS);
-	if (lex_ret == 0)
+	if (lex_ret == LEXER_INC)
 		(void)parser_check_inclist(line, &tokens, NULL);
-	else if (lex_ret == 2)
+	else if (lex_ret > LEXER_INC)
 		(void)parser_check_ret(line, &tokens, "\"");
 	if (!(ast = parse_tokens((ragain) ? line : NULL, tokens)))
 		return (258);

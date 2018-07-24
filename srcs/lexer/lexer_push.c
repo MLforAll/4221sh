@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 16:13:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/24 16:54:41 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/25 00:03:30 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,11 @@ inline static t_quoting	detect_quote(char *s, t_quoting curr)
 	return (curr);
 }
 
-static int			cpy_string(char *s, t_str *vs, t_list **ret)
+/*
+** todo: proper reversal of condition (cleaner stmt), line 63-64
+*/
+
+static int				cpy_string(char *s, t_str *vs, t_list **ret)
 {
 	t_quoting		curr;
 	t_quoting		old;
@@ -56,7 +60,6 @@ static int			cpy_string(char *s, t_str *vs, t_list **ret)
 	{
 		if ((curr = detect_quote(s, curr)) != kQuoteNone && curr != kEscape)
 			rval = TRUE;
-		// todo: proper reversal of condition (cleaner stmt)
 		if (curr == old && !(*s == '$' && curr != kSQuote \
 							&& lexer_expand_var(&s, vs, ret, curr)))
 			(void)ft_tstrncat(vs, s, 1);
@@ -71,6 +74,10 @@ static int			cpy_string(char *s, t_str *vs, t_list **ret)
 	}
 	return (rval);
 }
+
+/*
+** todo: norm get_tokens_strings(): line 92 has 83 chars
+*/
 
 static t_uint8			get_tokens_strings(t_list **ret, char *s)
 {

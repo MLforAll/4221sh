@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/24 16:12:03 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/24 23:32:50 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,14 +109,14 @@ int					lex_line(t_dlist **dest, char *line)
 	t_lexdat	dat;
 
 	if (!line || !dest)
-		return (-1);
-	ret = 1;
+		return (LEXER_FAIL);
+	ret = LEXER_OK;
 	lex_init(dest, &dat, &line);
 	while (*line != '#')
 	{
 		dat.jmp = get_charstate(&dat.cs, line);
 		if ((dat.curr_state = get_nextstate(&dat)) == kLexStateReadAgain)
-			ret = 0;
+			ret = LEXER_INC;
 		if (!*line)
 			break ;
 		line += dat.jmp;
@@ -125,7 +125,7 @@ int					lex_line(t_dlist **dest, char *line)
 	{
 		add_token(dat.ret, &dat.currtoks,
 				(dat.curr_state == kLexStateDQuote) ? INCOMPD : INCOMPS, 0);
-		ret = 2;
+		ret = (dat.curr_state == kLexStateDQuote) ? LEXER_INCDQ : LEXER_INCSQ;
 	}
 	ft_tstrdel(&dat.currtoks);
 	return (ret);

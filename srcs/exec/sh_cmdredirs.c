@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 14:42:44 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/16 17:23:07 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/24 23:38:38 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void			do_redir_action(t_redirect *redir, int oflags)
 	int		fd;
 
 	(void)close(redir->io_nbr);
-	if ((fd = open(redir->filename, oflags, 0644)) != redir->io_nbr)
+	if ((fd = open(redir->data_str, oflags, 0644)) != redir->io_nbr)
 	{
 		(void)dup2(fd, redir->io_nbr);
 		(void)close(fd);
@@ -57,7 +57,7 @@ static void			do_str_to_stdin(t_redirect *redir, t_cmdnode *cmddat)
 	if (cmddat->stdin_fd != -1)
 		while ((rb = read(redir->io_nbr, buff, 32)) > 0)
 			(void)write(cfd[1], buff, rb);
-	ft_putstr_fd(redir->filename, cfd[1]);
+	ft_putstr_fd(redir->data_str, cfd[1]);
 	(void)close(redir->io_nbr);
 	(void)dup2(cfd[0], redir->io_nbr);
 	(void)close(cfd[1]);
@@ -85,7 +85,7 @@ void				exec_redir(t_cmdnode *cmddat, t_tab *bakptr)
 			save_fd(bakptr, redir->io_nbr);
 		if (redir->rtype == GREAT || redir->rtype == LESS)
 		{
-			if (redir->filename)
+			if (redir->data_str)
 				do_redir_action(redir, (redir->rtype == LESS)
 									? O_RDONLY : O_WRONLY | O_CREAT | O_TRUNC);
 			else

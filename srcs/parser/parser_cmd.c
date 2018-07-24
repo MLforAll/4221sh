@@ -32,7 +32,7 @@ static void			add_redirect(t_cmdnode *cmddat, t_dlist **tok, int *io_nbr)
 	if ((*tok)->next)
 	{
 		if (((t_token*)(*tok)->next->content)->type == WORD)
-			nrdat.filename = ft_strdup(((t_token*)(*tok)->next->content)->s);
+			nrdat.data_str = ft_strdup(((t_token*)(*tok)->next->content)->s);
 		else if (((t_token*)(*tok)->next->content)->type == IO_NUMBER)
 			nrdat.agreg = ft_atoi(((t_token*)(*tok)->next->content)->s);
 		*tok = (*tok)->next;

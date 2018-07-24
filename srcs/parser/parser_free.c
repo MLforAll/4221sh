@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 19:22:56 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/28 20:42:33 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/24 23:37:38 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	redirects_lstdel(void *data, size_t datasize)
 {
 	if (!data || datasize == 0)
 		return ;
-	free(((t_redirect*)data)->filename);
+	free(((t_redirect*)data)->data_str);
 	free(data);
 }
 

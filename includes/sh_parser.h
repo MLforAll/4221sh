@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/19 06:37:40 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/24 23:37:33 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef	struct	s_cmdnode
 
 typedef struct	s_redirect
 {
-	char		*filename;
+	char		*data_str;
 	int			io_nbr;
 	int			agreg;
 	t_toktype	rtype;

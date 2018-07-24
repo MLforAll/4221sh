@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 22:27:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/24 16:11:02 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/24 23:33:21 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ void		print_tokens(char *line)
 	t_dlist		*tokbw;
 
 	tokens = NULL;
-	if ((lex_ret = lex_line(&tokens, line)) == -1)
+	if ((lex_ret = lex_line(&tokens, line)) == LEXER_FAIL)
 	{
 		ft_putendl_fd("tokens error", STDERR_FILENO);
 		return ;
 	}
-	if (lex_ret == 0 || lex_ret == 2)
+	if (lex_ret > LEXER_OK)
 		ft_putendl_fd("should read again", STDERR_FILENO);
 	ft_putendl("------------------------------------");
 	ft_putendl("|               tokens             |");

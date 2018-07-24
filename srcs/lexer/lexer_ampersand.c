@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/15 02:24:04 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 22:14:46 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/24 23:36:22 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int			lex_redirects(void *data)
 	cdat = (t_lexdat*)data;
 	if (cdat->cs == kCharAmpersand)
 		return ((int)kLexStateAmpersand);
-	return ((int)kLexStateGeneral);
+	return (lex_general(data));
 }
 
 int			lex_ampersand(void *data)
