@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 23:55:53 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/24 17:07:07 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,7 @@ static char					*read_till_delim(const char *prompt,
 	{
 		if (!(line = ft_readline(prompt, &opts, NULL))
 			|| (delim && ft_strcmp(line, delim) == 0 && whole))
-		{
-			free(line);
 			break ;
-		}
 		ft_stradd(&ret, line);
 		if (!delim || (delim && !whole && ft_strstr(line, delim)))
 			break ;
