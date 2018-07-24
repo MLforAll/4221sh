@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 22:27:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/22 23:03:38 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/24 16:11:02 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void		print_tokens(char *line)
 		ft_putendl_fd("tokens error", STDERR_FILENO);
 		return ;
 	}
-	if (lex_ret == 0)
+	if (lex_ret == 0 || lex_ret == 2)
 		ft_putendl_fd("should read again", STDERR_FILENO);
 	ft_putendl("------------------------------------");
 	ft_putendl("|               tokens             |");

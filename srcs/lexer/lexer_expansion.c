@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:39:19 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 02:24:39 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/24 16:35:17 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include "sh.h"
 
-t_uint8				lexer_expand_var(char **s, t_str *vs)
+static t_uint8	lexer_expand_getvar(char **s, t_str *vs)
 {
 	char		*tmp;
 	size_t		len;
@@ -39,7 +39,49 @@ t_uint8				lexer_expand_var(char **s, t_str *vs)
 	return (TRUE);
 }
 
-t_uint8				lexer_expand_tilde(char **s, t_str *vs)
+static t_uint8	lexer_expand_var_splt(char **splt, t_str *vs, t_list **ret)
+{
+	char	**bw;
+	t_list	*new;
+
+	bw = splt;
+	while (*bw)
+	{
+		if (!ft_tstrcat(vs, *bw))
+			break ;
+		if (*(bw + 1))
+		{
+			if (!(new = ft_lstnew(vs->s, ft_strlen(vs->s) + 1)))
+				break ;
+			ft_lstpush(ret, new);
+			ft_tstrclr(vs);
+		}
+		bw++;
+	}
+	return (*bw == NULL);
+}
+
+t_uint8			lexer_expand_var(char **s, t_str *vs, t_list **ret, t_quoting curr)
+{
+	t_str	exp;
+	char	**splt;
+	t_uint8	rval;
+
+	if (curr != kQuoteNone)
+		return (lexer_expand_getvar(s, vs));
+	exp = ft_tstrnew();
+	if (lexer_expand_getvar(s, &exp) && (splt = ft_strsplit(exp.s, ' ')))
+	{
+		rval = lexer_expand_var_splt(splt, vs, ret);
+		ft_tabfree(&splt);
+	}
+	else
+		rval = FALSE;
+	ft_tstrdel(&exp);
+	return (rval);
+}
+
+t_uint8			lexer_expand_tilde(char **s, t_str *vs)
 {
 	char	*tmp;
 

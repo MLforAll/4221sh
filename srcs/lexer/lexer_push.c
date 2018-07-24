@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 16:13:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 20:13:14 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/24 16:54:41 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,73 +43,54 @@ inline static t_quoting	detect_quote(char *s, t_quoting curr)
 	return (curr);
 }
 
-static t_uint8			testfunc(char **s, t_str *vs, t_list **ret, t_quoting curr)
+static int			cpy_string(char *s, t_str *vs, t_list **ret)
 {
-	t_str	exp;
-	char	**splt;
-	char	**bw;
-
-	exp = ft_tstrnew();
-	if (!lexer_expand_var(s, &exp))
-	{
-		ft_tstrdel(&exp);
-		return (FALSE);
-	}
-	if (curr == kQuoteNone && (splt = ft_strsplit(exp.s, ' ')))
-	{
-		bw = splt;
-		while (*bw)
-		{
-			ft_tstrcat(vs, *bw);
-			if (*(bw + 1))
-			{
-				ft_lstpush(ret, ft_lstnew(vs->s, ft_strlen(vs->s) + 1));
-				ft_tstrclr(vs);
-			}
-			bw++;
-		}
-		ft_tabfree(&splt);
-	}
-	else
-		ft_tstrcat(vs, exp.s);
-	ft_tstrdel(&exp);
-	return (TRUE);
-}
-
-static t_list			*get_tokens_strings(char *s)
-{
-	t_list			*ret;
-	t_list			*new;
 	t_quoting		curr;
 	t_quoting		old;
-	t_str			vs;
+	int				rval;
 
-	vs = ft_tstrnew();
-	ret = NULL;
 	old = kQuoteNone;
 	curr = kQuoteNone;
-	(void)lexer_expand_tilde(&s, &vs);
+	rval = FALSE;
 	while (*s)
 	{
-		if ((curr = detect_quote(s, curr)) == old)
-		{
-			// todo: proper reversal of condition (cleaner stmt)
-			if (!(*s == '$' && curr != kSQuote && testfunc(&s, &vs, &ret, curr)))
-				(void)ft_tstrncat(&vs, s, 1);
-		}
+		if ((curr = detect_quote(s, curr)) != kQuoteNone && curr != kEscape)
+			rval = TRUE;
+		// todo: proper reversal of condition (cleaner stmt)
+		if (curr == old && !(*s == '$' && curr != kSQuote \
+							&& lexer_expand_var(&s, vs, ret, curr)))
+			(void)ft_tstrncat(vs, s, 1);
 		if (curr == kEscape)
 		{
-			if (s[1] == '"')
-				(void)ft_tstrncat(&vs, ++s, 1);
+			if (s[1] == '"' && !ft_tstrncat(vs, ++s, 1))
+				return (-1);
 			curr = old;
 		}
 		old = curr;
 		s++;
 	}
-	new = ft_lstnew(vs.s, ft_strlen(vs.s) + 1);
-	ft_lstpush(&ret, new);
+	return (rval);
+}
+
+static t_uint8			get_tokens_strings(t_list **ret, char *s)
+{
+	t_list			*new;
+	t_str			vs;
+	int				cpy_rval;
+
+	vs = ft_tstrnew();
+	*ret = NULL;
+	(void)lexer_expand_tilde(&s, &vs);
+	if ((cpy_rval = cpy_string(s, &vs, ret)) == -1
+		|| ((*vs.s || cpy_rval) && !(new = ft_lstnew(vs.s, ft_strlen(vs.s) + 1))))
+	{
+		ft_lstdel(ret, &ft_lstnodefree);
+		return (FALSE);
+	}
+	else if (*vs.s || cpy_rval)
+		ft_lstpush(ret, new);
 	ft_tstrdel(&vs);
-	return (ret);
+	return (TRUE);
 }
 
 void					add_token(t_dlist **tokens,
@@ -124,7 +105,7 @@ void					add_token(t_dlist **tokens,
 
 	if (!vs || (ft_strlen(vs->s) < 1))
 		return ;
-	if (!(tokstrs = get_tokens_strings(vs->s)))
+	if (!get_tokens_strings(&tokstrs, vs->s))
 		return ;
 	toksbw = tokstrs;
 	while (toksbw)
