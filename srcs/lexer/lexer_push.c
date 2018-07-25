@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 16:13:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/25 17:25:39 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/25 17:31:24 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,6 @@
 **}
 */
 
-/*
-** todo: fix escaping (\\ and \$)
-*/
-
 inline static t_quoting	detect_quote(char *s, t_quoting curr)
 {
 	if (*s == '\\'
@@ -41,14 +37,14 @@ inline static t_quoting	detect_quote(char *s, t_quoting curr)
 			|| (curr != kDQuote && s[1])))
 		return (kEscape);
 	if (*s == '"')
-		return (curr == kDQuote ? kQuoteNone : kDQuote);
+		return ((curr == kDQuote) ? kQuoteNone : kDQuote);
 	if (*s == '\'')
-		return (curr == kSQuote ? kQuoteNone : kSQuote);
+		return ((curr == kSQuote) ? kQuoteNone : kSQuote);
 	return (curr);
 }
 
 /*
-** todo: proper reversal of condition (cleaner stmt), line 67-68
+** todo: proper reversal of condition (cleaner stmt), line 63-64
 */
 
 static int				cpy_string(char *s, t_str *vs, t_list **ret)
@@ -69,7 +65,7 @@ static int				cpy_string(char *s, t_str *vs, t_list **ret)
 			(void)ft_tstrncat(vs, s, 1);
 		if (curr == kEscape)
 		{
-			if (s[1] == '"' && !ft_tstrncat(vs, ++s, 1))
+			if ((s[1] == '"' || s[1] == '$') && !ft_tstrncat(vs, ++s, 1))
 				return (-1);
 			curr = old;
 		}

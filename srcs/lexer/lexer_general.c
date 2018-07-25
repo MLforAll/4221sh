@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/25 00:02:50 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/25 17:31:59 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ static int	switch_to_squote(void *data)
 	(void)lexact_append_current(data);
 	return ((int)kLexStateSQuote);
 }
+
+/*
+** todo: fix kLexStateReadAgain when ``\\'' at the end
+*/
 
 static int	create_escape(void *data)
 {
