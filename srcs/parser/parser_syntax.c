@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/21 17:10:58 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 03:51:03 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/25 14:35:40 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ char		*parser_check_syntax(t_dlist *tokens)
 		return (curr->s);
 	if (curr->type >= GREAT && curr->type <= DLESS
 		&& (tmp = check_next_token(tokens->next, WORD))
-		&& (tmp = check_next_token(tokens->next, DASH)))
+		&& (tmp = check_next_token(tokens->next, DASH))
+		&& (tmp = check_next_token(tokens->next, IO_NUMBER)))
 		return (tmp);
 	prev = curr;
 	tokens = tokens->next;

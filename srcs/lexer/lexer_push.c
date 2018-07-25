@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 16:13:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/25 04:11:44 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/25 17:25:39 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@
 **}
 */
 
+/*
+** todo: fix escaping (\\ and \$)
+*/
+
 inline static t_quoting	detect_quote(char *s, t_quoting curr)
 {
 	if (*s == '\\'
@@ -44,7 +48,7 @@ inline static t_quoting	detect_quote(char *s, t_quoting curr)
 }
 
 /*
-** todo: proper reversal of condition (cleaner stmt), line 63-64
+** todo: proper reversal of condition (cleaner stmt), line 67-68
 */
 
 static int				cpy_string(char *s, t_str *vs, t_list **ret)
