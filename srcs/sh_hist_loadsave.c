@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 01:18:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/25 20:21:46 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/25 23:33:32 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,6 @@ static char	*get_hist_string(t_dlist *hist)
 	}
 	return (histbuff);
 }
-
-/*
-** todo: norm write_history()
-*/
 
 void		write_history(t_dlist *hist)
 {

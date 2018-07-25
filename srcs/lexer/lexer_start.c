@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/25 20:12:23 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/25 23:36:56 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static t_uint8		lex_init(t_dlist **lst, t_lexdat *cdat, char **line)
 		return (FALSE);
 	cdat->curr_state = kLexStateGeneral;
 	if (!*lst)
-		return (FALSE);
+		return (TRUE);
 	while ((*lst)->next)
 		lst = &(*lst)->next;
 	type = ((t_token*)(*lst)->content)->type;
