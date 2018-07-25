@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:16 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/05/27 19:44:24 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/25 04:17:18 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ static void	cmdnode_putredirs(t_cmdnode *ndat)
 		ft_putstr(" \"");
 		ft_putstr(g_typedesc[(int)redir->rtype]);
 		ft_putstr("\" ");
-		if (redir->filename)
-			ft_putendl(redir->filename);
+		if (redir->data_str)
+			ft_putendl(redir->data_str);
 		else
 		{
 			ft_putnbr(redir->agreg);

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 04:41:14 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 23:04:54 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/25 04:13:32 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ static void			insert_job_msg(t_jobctrl *jdat, const char *state_str)
 	t_str	rl_rld_str;
 	char	*nbr_s;
 
-	rl_rld_str = ft_tstrnew();
-	if (!rl_rld_str.s)
+	if (!ft_tstrnew(&rl_rld_str))
 		return ;
 	if (!(nbr_s = ft_itoa(jdat->j_idx)))
 	{

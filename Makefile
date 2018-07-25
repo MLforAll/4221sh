@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/07/20 16:12:51 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/07/25 04:33:14 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -98,10 +98,22 @@ PROJTEXT = \033[1;33m$(NAME): \033[0;39m
 
 all: $(NAME)
 
-$(LIBFT): force
+libft_dir:
+	@ if [ ! -d "$(dir $(LIBFT))" ]; then \
+		echo "$(PROJTEXT)Missing libft... Cloning..."; \
+		git clone https://github.com/MLforAll/42Libft libft; \
+	fi
+
+$(LIBFT): libft_dir force
 	@ make -C $(dir $(LIBFT))
 
-$(LIBFTREADLINE): force
+libftreadline_dir:
+	@ if [ ! -d "$(dir $(LIBFTREADLINE))" ]; then \
+		echo "$(PROJTEXT)Missing libftreadline... Cloning..."; \
+		git clone https://github.com/MLforAll/libftreadline; \
+	fi
+
+$(LIBFTREADLINE): libftreadline_dir force
 	@ make -C $(dir $(LIBFTREADLINE))
 
 $(NAME): $(LIBFT) $(LIBFTREADLINE) $(OBJS) $(INCLUDES)

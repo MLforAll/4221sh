@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/18 21:09:20 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 14:36:53 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/25 04:12:03 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void		create_token_with_buff(t_lexdat *cdat, t_toktype type, int prio)
 {
 	t_str		vs;
 
-	vs = ft_tstrnew();
+	(void)ft_tstrnew(&vs);
 	(void)ft_tstrncpy(&vs, *cdat->linep, cdat->jmp);
 	add_token(cdat->ret, &vs, type, prio);
 	ft_tstrdel(&vs);

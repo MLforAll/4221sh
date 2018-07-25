@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 16:13:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/25 00:03:30 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/25 04:11:44 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,21 +75,17 @@ static int				cpy_string(char *s, t_str *vs, t_list **ret)
 	return (rval);
 }
 
-/*
-** todo: norm get_tokens_strings(): line 92 has 83 chars
-*/
-
 static t_uint8			get_tokens_strings(t_list **ret, char *s)
 {
 	t_list			*new;
 	t_str			vs;
 	int				cpy_rval;
 
-	vs = ft_tstrnew();
+	(void)ft_tstrnew(&vs);
 	*ret = NULL;
 	(void)lexer_expand_tilde(&s, &vs);
 	if ((cpy_rval = cpy_string(s, &vs, ret)) == -1
-		|| ((*vs.s || cpy_rval) && !(new = ft_lstnew(vs.s, ft_strlen(vs.s) + 1))))
+		|| ((*vs.s || cpy_rval) && !(new = ft_lstnew(vs.s, vs.len + 1))))
 	{
 		ft_lstdel(ret, &ft_lstnodefree);
 		return (FALSE);
@@ -110,7 +106,7 @@ void					add_token(t_dlist **tokens,
 	t_list	*tokstrs;
 	t_list	*toksbw;
 
-	if (!vs || (ft_strlen(vs->s) < 1))
+	if (!vs || vs->len < 1)
 		return ;
 	if (!get_tokens_strings(&tokstrs, vs->s))
 		return ;

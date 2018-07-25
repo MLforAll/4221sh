@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/24 23:32:50 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/25 04:11:16 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static void			lex_init(t_dlist **lst, t_lexdat *cdat, char **line)
 	ft_bzero(cdat, sizeof(t_lexdat));
 	cdat->ret = lst;
 	cdat->linep = line;
-	cdat->currtoks = ft_tstrnew();
+	(void)ft_tstrnew(&cdat->currtoks);
 	cdat->curr_state = kLexStateGeneral;
 	if (!*lst)
 		return ;

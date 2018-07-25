@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:39:19 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/25 00:01:13 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/25 04:13:05 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static t_uint8	lexer_expand_var_splt(char **splt, t_str *vs, t_list **ret)
 			break ;
 		if (*(bw + 1))
 		{
-			if (!(new = ft_lstnew(vs->s, ft_strlen(vs->s) + 1)))
+			if (!(new = ft_lstnew(vs->s, vs->len + 1)))
 				break ;
 			ft_lstpush(ret, new);
 			ft_tstrclr(vs);
@@ -72,7 +72,7 @@ t_uint8			lexer_expand_var(char **s,
 
 	if (curr != kQuoteNone)
 		return (lexer_expand_getvar(s, vs));
-	exp = ft_tstrnew();
+	(void)ft_tstrnew(&exp);
 	if (lexer_expand_getvar(s, &exp) && (splt = ft_strsplit(exp.s, ' ')))
 	{
 		rval = lexer_expand_var_splt(splt, vs, ret);

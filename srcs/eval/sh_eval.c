@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/25 00:00:19 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/25 04:16:15 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int					eval_line(char **line, t_uint8 ragain)
 		(void)parser_check_ret(line, &tokens, "\"");
 	if (!(ast = parse_tokens((ragain) ? line : NULL, tokens)))
 		return (258);
-	pids = ft_ttabnew(sizeof(pid_t));
+	(void)ft_ttabnew(&pids, sizeof(pid_t));
 	ret = exec_cmd(eval_ast(ast, &pids), NO, NULL, NULL);
 	clean_pipes(&pids);
 	ft_ttabdel(&pids, NULL);
