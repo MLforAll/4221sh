@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 21:23:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/16 17:05:52 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/26 00:03:08 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void		sh_err(t_errs errc, const char *bltn, const char *path)
 		ft_putstr_fd(path, STDERR_FILENO);
 		ft_putstr_fd((errc == SH_ERR_NOSET) ? " " : ": ", STDERR_FILENO);
 	}
-	if (errc >= 0 && errc < SH_ERR_MAX)
+	if (errc < SH_ERR_MAX)
 		ft_putendl_fd(errs[errc], STDERR_FILENO);
 }
 
