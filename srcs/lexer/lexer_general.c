@@ -6,38 +6,24 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/25 17:31:59 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/25 20:12:51 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "sh_lexer.h"
 
-/*
-** todo: norm file: 7 funcs
-*/
-
-static int	switch_to_dquote(void *data)
-{
-	(void)lexact_append_current(data);
-	return ((int)kLexStateDQuote);
-}
-
-static int	switch_to_squote(void *data)
-{
-	(void)lexact_append_current(data);
-	return ((int)kLexStateSQuote);
-}
-
-/*
-** todo: fix kLexStateReadAgain when ``\\'' at the end
-*/
-
 static int	create_escape(void *data)
 {
 	t_lexdat	*cdat;
 
 	cdat = (t_lexdat*)data;
+	if (ft_strstart(*cdat->linep, "\\\\"))
+	{
+		(void)lexact_append_current(data);
+		*cdat->linep += 2;
+		return ((int)cdat->curr_state);
+	}
 	if ((*cdat->linep)[1] == '\0')
 	{
 		if (*cdat->currtoks.s)
@@ -45,7 +31,7 @@ static int	create_escape(void *data)
 		return ((int)kLexStateReadAgain);
 	}
 	(void)lexact_append_current(data);
-	return (cdat->curr_state);
+	return ((int)cdat->curr_state);
 }
 
 static int	create_ampersand(void *data)

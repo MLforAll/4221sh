@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/25 04:11:16 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/25 20:12:23 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,26 +81,29 @@ static t_lexstate	get_nextstate(t_lexdat *dat)
 **			- to save perf, only check once (store the result in t_lexdat)
 */
 
-static void			lex_init(t_dlist **lst, t_lexdat *cdat, char **line)
+static t_uint8		lex_init(t_dlist **lst, t_lexdat *cdat, char **line)
 {
 	t_toktype	type;
 
 	ft_bzero(cdat, sizeof(t_lexdat));
 	cdat->ret = lst;
 	cdat->linep = line;
-	(void)ft_tstrnew(&cdat->currtoks);
+	if (!ft_tstrnew(&cdat->currtoks))
+		return (FALSE);
 	cdat->curr_state = kLexStateGeneral;
 	if (!*lst)
-		return ;
+		return (FALSE);
 	while ((*lst)->next)
 		lst = &(*lst)->next;
 	type = ((t_token*)(*lst)->content)->type;
 	if (type >= INCOMPG && type <= INCOMPS)
 	{
 		cdat->curr_state = (t_lexstate)(type + 1);
-		ft_tstrcpy(&cdat->currtoks, ((t_token*)(*lst)->content)->s);
+		if (!ft_tstrcpy(&cdat->currtoks, ((t_token*)(*lst)->content)->s))
+			return (FALSE);
 		ft_dlstdelone(lst, &tokens_lstdel);
 	}
+	return (TRUE);
 }
 
 int					lex_line(t_dlist **dest, char *line)
@@ -108,10 +111,9 @@ int					lex_line(t_dlist **dest, char *line)
 	int			ret;
 	t_lexdat	dat;
 
-	if (!line || !dest)
+	if (!line || !dest || !lex_init(dest, &dat, &line))
 		return (LEXER_FAIL);
 	ret = LEXER_OK;
-	lex_init(dest, &dat, &line);
 	while (*line != '#')
 	{
 		dat.jmp = get_charstate(&dat.cs, line);
@@ -122,8 +124,10 @@ int					lex_line(t_dlist **dest, char *line)
 		line += dat.jmp;
 	}
 	if (*dat.currtoks.s)
+		(void)lexact_add_token((void*)&dat);
+	if (dat.curr_state == kLexStateDQuote || dat.curr_state == kLexStateSQuote)
 	{
-		add_token(dat.ret, &dat.currtoks,
+		(void)add_token(dat.ret, &dat.currtoks,
 				(dat.curr_state == kLexStateDQuote) ? INCOMPD : INCOMPS, 0);
 		ret = (dat.curr_state == kLexStateDQuote) ? LEXER_INCDQ : LEXER_INCSQ;
 	}

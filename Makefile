@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/07/25 04:33:14 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/07/25 20:04:42 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,9 @@ CC_LIB = -I includes -I libft/includes -I libftreadline/includes
 LD_FLAGS = -L libft -L libftreadline -lft -lftreadline -ltermcap
 
 LIBFT = libft/libft.a
+LIBFTDIR = $(shell dirname $(LIBFT))
 LIBFTREADLINE = libftreadline/libftreadline.a
+LIBFTREADLINEDIR = $(shell dirname $(LIBFTREADLINE))
 
 INCDIR = includes
 INCFILES = sh.h \
@@ -99,7 +101,8 @@ PROJTEXT = \033[1;33m$(NAME): \033[0;39m
 all: $(NAME)
 
 libft_dir:
-	@ if [ ! -d "$(dir $(LIBFT))" ]; then \
+	@ if [ ! -d "$(LIBFTDIR)" ]; then \
+		if [ -h "$(LIBFTDIR)" ]; then rm "$(LIBFTDIR)"; fi; \
 		echo "$(PROJTEXT)Missing libft... Cloning..."; \
 		git clone https://github.com/MLforAll/42Libft libft; \
 	fi
@@ -108,7 +111,8 @@ $(LIBFT): libft_dir force
 	@ make -C $(dir $(LIBFT))
 
 libftreadline_dir:
-	@ if [ ! -d "$(dir $(LIBFTREADLINE))" ]; then \
+	@ if [ ! -d "$(LIBFTREADLINEDIR)" ]; then \
+		if [ -h "$(LIBFTREADLINEDIR)" ]; then rm "$(LIBFTREADLINEDIR)"; fi; \
 		echo "$(PROJTEXT)Missing libftreadline... Cloning..."; \
 		git clone https://github.com/MLforAll/libftreadline; \
 	fi

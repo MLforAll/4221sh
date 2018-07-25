@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/24 23:32:02 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/25 20:12:00 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,13 @@ int				lex_squote(void *data);
 int				lex_less(void *data);
 int				lex_redirects(void *data);
 int				lex_ampersand(void *data);
+
+/*
+** State Switchers
+*/
+
+int				switch_to_dquote(void *data);
+int				switch_to_squote(void *data);
 
 /*
 ** Tokens creators

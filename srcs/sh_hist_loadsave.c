@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 01:18:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/25 00:00:41 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/25 20:21:46 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,12 @@ static int	open_hist_file(int o_mode, int o_perms)
 	return (fd);
 }
 
-/*
-** todo: norm write_history()
-*/
-
-void		write_history(t_dlist *hist)
+static char	*get_hist_string(t_dlist *hist)
 {
-	char	*histbuff;
 	char	*line;
-	int		fd;
+	char	*histbuff;
 
-	if (!hist || !(histbuff = ft_strnew(0)))
-		return ;
+	histbuff = NULL;
 	while (hist->next)
 		hist = hist->next;
 	while (hist->prev)
@@ -56,11 +50,25 @@ void		write_history(t_dlist *hist)
 		{
 			free(line);
 			free(histbuff);
-			return ;
+			return (NULL);
 		}
 		free(line);
 		hist = hist->prev;
 	}
+	return (histbuff);
+}
+
+/*
+** todo: norm write_history()
+*/
+
+void		write_history(t_dlist *hist)
+{
+	char	*histbuff;
+	int		fd;
+
+	if (!hist || !(histbuff = get_hist_string(hist)))
+		return ;
 	if ((fd = open_hist_file(O_WRONLY | O_CREAT | O_TRUNC, 0644)) == -1)
 	{
 		free(histbuff);
