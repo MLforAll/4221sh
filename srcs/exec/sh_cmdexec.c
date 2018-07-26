@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/25 04:15:35 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/26 04:57:22 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ static void	restore_bakfds(t_tab *bakfds)
 	ft_ttabdel(bakfds, NULL);
 }
 
+/*
+** todo: norm exec_core()
+*/
+
 static int	exec_core(t_cmdnode *cmddat, t_uint8 forkdes, char **env)
 {
 	int		tmp;
@@ -69,7 +73,11 @@ static int	exec_core(t_cmdnode *cmddat, t_uint8 forkdes, char **env)
 		(void)ft_ttabnew(&bakfds, sizeof(t_bakfds));
 	bakfds_ptr = (forkdes) ? NULL : &bakfds;
 	exec_pipe(cmddat);
-	exec_redir(cmddat, bakfds_ptr);
+	if (!exec_redir(cmddat, bakfds_ptr))
+	{
+		restore_bakfds(bakfds_ptr);
+		return (EXIT_FAILURE);
+	}
 	if (cmddat->builtin)
 	{
 		tmp = (cmddat->builtin)((int)ft_tablen(cmddat->c_av), cmddat->c_av);

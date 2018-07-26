@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 14:42:44 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/24 23:38:38 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/26 04:53:46 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ static void			do_redir_action(t_redirect *redir, int oflags)
 	}
 }
 
-static void			do_agreg(t_redirect *redir)
+static t_uint8		do_agreg(t_redirect *redir)
 {
 	char	*n_str;
 
 	if (redir->agreg == -1)
 	{
 		(void)close(redir->io_nbr);
-		return ;
+		return (TRUE);
 	}
 	if (dup2(redir->agreg, redir->io_nbr) == -1)
 	{
@@ -42,8 +42,9 @@ static void			do_agreg(t_redirect *redir)
 			sh_err(SH_ERR_MALLOC, NULL, NULL);
 		sh_err(SH_ERR_BADFD, NULL, n_str);
 		free(n_str);
-		exit(1);
+		return (FALSE);
 	}
+	return (TRUE);
 }
 
 static void			do_str_to_stdin(t_redirect *redir, t_cmdnode *cmddat)
@@ -72,7 +73,7 @@ inline static void	save_fd(t_tab *bakptr, int fd_to_save)
 	ft_ttabcat(bakptr, &bak, 1);
 }
 
-void				exec_redir(t_cmdnode *cmddat, t_tab *bakptr)
+t_uint8				exec_redir(t_cmdnode *cmddat, t_tab *bakptr)
 {
 	t_list		*bw;
 	t_redirect	*redir;
@@ -88,8 +89,8 @@ void				exec_redir(t_cmdnode *cmddat, t_tab *bakptr)
 			if (redir->data_str)
 				do_redir_action(redir, (redir->rtype == LESS)
 									? O_RDONLY : O_WRONLY | O_CREAT | O_TRUNC);
-			else
-				do_agreg(redir);
+			else if (!do_agreg(redir))
+				return (FALSE);
 		}
 		else if (redir->rtype == DGREAT)
 			do_redir_action(redir, O_WRONLY | O_CREAT | O_APPEND);
@@ -97,4 +98,5 @@ void				exec_redir(t_cmdnode *cmddat, t_tab *bakptr)
 			do_str_to_stdin(redir, cmddat);
 		bw = bw->next;
 	}
+	return (TRUE);
 }

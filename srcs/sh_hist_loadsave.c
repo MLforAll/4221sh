@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 01:18:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/25 23:33:32 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/26 04:49:40 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ void		write_history(t_dlist *hist)
 		return ;
 	}
 	ft_putstr_fd(histbuff, fd);
-	close(fd);
+	free(histbuff);
+	(void)close(fd);
 }
 
 void		load_history(t_dlist **hist)
@@ -100,5 +101,5 @@ void		load_history(t_dlist **hist)
 		ft_strdel(&buff);
 		limit -= (limit > 0);
 	}
-	close(fd);
+	(void)close(fd);
 }
