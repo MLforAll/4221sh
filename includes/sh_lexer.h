@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/26 22:48:55 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/26 22:58:26 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@
 ** Macros
 */
 
-#define LEXER_OK	0
-#define LEXER_FAIL	-1
-#define LEXER_INC	1
-#define LEXER_INCDQ	2
-#define LEXER_INCSQ	3
+# define LEXER_OK		0
+# define LEXER_FAIL		-1
+# define LEXER_INC		1
+# define LEXER_INCDQ	2
+# define LEXER_INCSQ	3
 
 /*
 ** lexer data types
@@ -166,7 +166,11 @@ int				create_semi_tok(void *data);
 ** Expansion
 */
 
-t_uint8			lexer_expand_var(char **s, t_str *vs, t_list **ret, t_quoting curr);
+t_uint8			lexer_expand_var(char **s,
+								t_str *vs,
+								t_list **ret,
+								t_quoting curr);
+
 t_uint8			lexer_expand_tilde(char **s, t_str *vs);
 
 /*
