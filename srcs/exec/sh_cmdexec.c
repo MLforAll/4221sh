@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/26 04:57:22 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/26 22:57:31 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,13 @@ static void	restore_bakfds(t_tab *bakfds)
 		while (idx--)
 		{
 			curr = (t_bakfds*)bakfds->data + idx;
-			close(curr->orig);
-			dup2(curr->bak, curr->orig);
-			close(curr->bak);
+			(void)close(curr->orig);
+			(void)dup2(curr->bak, curr->orig);
+			(void)close(curr->bak);
 		}
 	}
 	ft_ttabdel(bakfds, NULL);
 }
-
-/*
-** todo: norm exec_core()
-*/
 
 static int	exec_core(t_cmdnode *cmddat, t_uint8 forkdes, char **env)
 {
@@ -73,19 +69,15 @@ static int	exec_core(t_cmdnode *cmddat, t_uint8 forkdes, char **env)
 		(void)ft_ttabnew(&bakfds, sizeof(t_bakfds));
 	bakfds_ptr = (forkdes) ? NULL : &bakfds;
 	exec_pipe(cmddat);
-	if (!exec_redir(cmddat, bakfds_ptr))
+	if (!(tmp = exec_redir(cmddat, bakfds_ptr)) || cmddat->builtin)
 	{
-		restore_bakfds(bakfds_ptr);
-		return (EXIT_FAILURE);
-	}
-	if (cmddat->builtin)
-	{
-		tmp = (cmddat->builtin)((int)ft_tablen(cmddat->c_av), cmddat->c_av);
+		if (tmp)
+			tmp = (cmddat->builtin)((int)ft_tablen(cmddat->c_av), cmddat->c_av);
 		restore_bakfds(bakfds_ptr);
 		return (tmp);
 	}
-	chg_env_var(env, "_", cmddat->c_path);
-	execve(cmddat->c_path, cmddat->c_av, env);
+	(void)chg_env_var(env, "_", cmddat->c_path);
+	(void)execve(cmddat->c_path, cmddat->c_av, env);
 	if ((tmp = cmd_chk(cmddat->c_path)) >= 0)
 		return (sh_err_ret(tmp, NULL, cmddat->c_path, 127));
 	sh_jobs_rmall();

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/24 23:37:33 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/26 22:48:03 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,11 @@ t_uint8			parser_check_inclist(char **line, t_dlist **tokens,
 int				parser_check_heredocs(t_dlist *tokens, t_uint8 ragain);
 t_uint8			parser_check_ret(char **line,
 								t_dlist **tokens,
+								const char *prompt,
 								const char *delim);
 
 t_btree			*parser_create_ast(t_dlist *tokens);
-t_btree			*parse_tokens(char **line, t_dlist *tokens);
+t_btree			*parse_tokens(char **line, t_dlist *tokens, int lex_ret);
 
 /*
 ** parser utilities

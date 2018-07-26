@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/25 04:16:15 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/26 22:50:18 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,6 @@ static t_cmdnode	*eval_ast(t_btree *node, t_tab *pids)
 	return (NULL);
 }
 
-/*
-** todo: move lex_ret > LEX_OK in parse_tokens()
-*/
-
 int					eval_line(char **line, t_uint8 ragain)
 {
 	int			ret;
@@ -71,16 +67,15 @@ int					eval_line(char **line, t_uint8 ragain)
 	t_btree		*ast;
 	t_tab		pids;
 
+	if (!line || !*line)
+		return (EXIT_SUCCESS);
 	tokens = NULL;
 	if ((lex_ret = lex_line(&tokens, *line)) == LEXER_FAIL)
-		return (-1);
-	if (!line || !tokens)
+		return (ft_returnmsg("lex_line(): fatal error",
+				STDERR_FILENO, EXIT_FAILURE));
+	if (!tokens)
 		return (EXIT_SUCCESS);
-	if (lex_ret == LEXER_INC)
-		(void)parser_check_inclist(line, &tokens, NULL);
-	else if (lex_ret > LEXER_INC)
-		(void)parser_check_ret(line, &tokens, "\"");
-	if (!(ast = parse_tokens((ragain) ? line : NULL, tokens)))
+	if (!(ast = parse_tokens((ragain) ? line : NULL, tokens, lex_ret)))
 		return (258);
 	(void)ft_ttabnew(&pids, sizeof(pid_t));
 	ret = exec_cmd(eval_ast(ast, &pids), NO, NULL, NULL);

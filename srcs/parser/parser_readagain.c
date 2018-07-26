@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/24 17:07:07 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/26 22:49:26 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,20 +105,21 @@ t_uint8						parser_check_inclist(char **line,
 	ft_stradd(line, extraline);
 	lex_ret = lex_line(tokens, extraline);
 	free(extraline);
-	return (lex_ret == 1);
+	return (lex_ret != LEXER_FAIL);
 }
 
 t_uint8						parser_check_ret(char **line,
 											t_dlist **tokens,
+											const char *prompt,
 											const char *delim)
 {
 	char	*extraline;
 	int		lex_ret;
 
-	if (!(extraline = read_till_delim("quote> ", delim, NO, YES)))
+	if (!(extraline = read_till_delim(prompt, delim, NO, YES)))
 		return (FALSE);
 	lex_ret = lex_line(tokens, extraline);
 	ft_stradd(line, extraline);
 	free(extraline);
-	return (lex_ret == 1);
+	return (lex_ret != LEXER_FAIL);
 }
