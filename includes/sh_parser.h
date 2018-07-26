@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/26 22:48:03 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/26 23:03:10 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 
 # include <stdlib.h>
 # include "sh_lexer.h"
+
+/*
+** Macros
+*/
+
+# define PARSER_FAIL	258
 
 /*
 ** data types

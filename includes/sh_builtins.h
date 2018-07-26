@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/24 23:35:25 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 05:50:36 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/27 00:04:50 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,6 @@
 /*
 ** utilities
 */
-
-int		get_bltn_opts(char **av, int *idx, const char *charset,
-						const char *overrides);
 
 int		sh_get_bltn(char **buff, const char *chk);
 t_list	*sh_get_bltn_ac(const char *region);

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 05:52:07 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/27 00:02:45 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,12 @@ static int		unset_bltns(int ac, char **av, t_uint8 strict)
 	return (EXIT_SUCCESS);
 }
 
-int				unsetenv_bltn(int ac, char **av)
+inline int		unsetenv_bltn(int ac, char **av)
 {
 	return (unset_bltns(ac, av, YES));
 }
 
-int				unset_bltn(int ac, char **av)
+inline int		unset_bltn(int ac, char **av)
 {
 	return (unset_bltns(ac, av, NO));
 }

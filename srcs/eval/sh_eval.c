@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/26 22:50:18 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/26 23:09:00 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,11 @@ int					eval_line(char **line, t_uint8 ragain)
 		return (EXIT_SUCCESS);
 	tokens = NULL;
 	if ((lex_ret = lex_line(&tokens, *line)) == LEXER_FAIL)
-		return (ft_returnmsg("lex_line(): fatal error",
-				STDERR_FILENO, EXIT_FAILURE));
+		return (ft_returnmsg("lex_line(): fatal error", 2, 1));
 	if (!tokens)
 		return (EXIT_SUCCESS);
 	if (!(ast = parse_tokens((ragain) ? line : NULL, tokens, lex_ret)))
-		return (258);
+		return (PARSER_FAIL);
 	(void)ft_ttabnew(&pids, sizeof(pid_t));
 	ret = exec_cmd(eval_ast(ast, &pids), NO, NULL, NULL);
 	clean_pipes(&pids);

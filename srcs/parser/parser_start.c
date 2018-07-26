@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 16:55:22 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/26 22:51:03 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/26 23:09:53 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ static t_uint8		preparse_readagain(char **line, t_dlist **tokens, int lret)
 	return (parser_check_ret(line, tokens, prompt, delim));
 }
 
+/*
+** todo: //ft_putendl_fd("parse_tokens(): fatal error", STDERR_FILENO);
+** find a way to show err. Maybe func returns uint8 just like lexer...
+*/
+
 t_btree				*parse_tokens(char **line, t_dlist *tokens, int lex_ret)
 {
 	int		heredocs;
@@ -44,10 +49,7 @@ t_btree				*parse_tokens(char **line, t_dlist *tokens, int lex_ret)
 	t_dlist	*tokbw;
 
 	if (!preparse_readagain(line, &tokens, lex_ret))
-	{
-		ft_putendl_fd("parse_tokens(): fatal error", STDERR_FILENO);
 		return (NULL);
-	}
 	tokbw = tokens;
 	while (tokbw)
 	{

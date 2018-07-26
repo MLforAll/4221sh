@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/07/25 20:04:42 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/07/27 00:04:16 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,6 @@ SRCFILES = sh_main.c \
 	bltns/sh_cd_bltncmd.c \
 	bltns/sh_cd_bltnutils.c \
 	bltns/sh_env_bltncmd.c \
-	bltns/sh_bltn_utils.c \
 	bltns/sh_setunset_bltncmds.c \
 	bltns/sh_jobs_bltncmd.c \
 	sh_signals.c \

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 01:33:08 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/27 00:03:15 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int					cd_bltn(int ac, char **av)
 	(void)ac;
 	pwd = getset_pwd_env();
 	idx = 1;
-	if ((cd_opts = get_bltn_opts(av, &idx, "PL\004", "PL")) < 0)
+	if ((cd_opts = ft_args_opts(av, &idx, "PL\004", "PL")) < 0)
 		return (cd_usage(-cd_opts));
 	if (!(path_cd = get_cd_path(idx, cd_opts, av, pwd)))
 		return (EXIT_FAILURE);
