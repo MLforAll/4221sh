@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/25 20:12:51 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/27 04:16:54 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,35 +20,41 @@ static int	create_escape(void *data)
 	cdat = (t_lexdat*)data;
 	if (ft_strstart(*cdat->linep, "\\\\"))
 	{
-		(void)lexact_append_current(data);
+		if (lexact_append_current(data) == kLexStateUndefined)
+			return ((int)kLexStateUndefined);
 		*cdat->linep += 2;
 		return ((int)cdat->curr_state);
 	}
 	if ((*cdat->linep)[1] == '\0')
 	{
-		if (*cdat->currtoks.s)
-			(void)add_token(cdat->ret, &cdat->currtoks, INCOMPG, 0);
+		if (*cdat->currtoks.s
+			&& !add_token(cdat->ret, &cdat->currtoks, INCOMPG, 0))
+			return ((int)kLexStateUndefined);
 		return ((int)kLexStateReadAgain);
 	}
-	(void)lexact_append_current(data);
+	if (lexact_append_current(data) == kLexStateUndefined)
+		return ((int)kLexStateUndefined);
 	return ((int)cdat->curr_state);
 }
 
 static int	create_ampersand(void *data)
 {
-	create_token_with_buff((t_lexdat*)data, AMPERSAND, 1);
+	if (!create_token_with_buff((t_lexdat*)data, AMPERSAND, 1))
+		return ((int)kLexStateUndefined);
 	return ((int)((t_lexdat*)data)->curr_state);
 }
 
 static int	create_andif(void *data)
 {
-	create_token_with_buff((t_lexdat*)data, AND_IF, 1);
+	if (!create_token_with_buff((t_lexdat*)data, AND_IF, 1))
+		return ((int)kLexStateUndefined);
 	return ((int)((t_lexdat*)data)->curr_state);
 }
 
 static int	create_orif(void *data)
 {
-	create_token_with_buff((t_lexdat*)data, OR_IF, 1);
+	if (!create_token_with_buff((t_lexdat*)data, OR_IF, 1))
+		return ((int)kLexStateUndefined);
 	return ((int)((t_lexdat*)data)->curr_state);
 }
 

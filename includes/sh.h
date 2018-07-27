@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/26 04:53:59 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/27 06:20:08 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "sh_builtins.h"
 # include "sh_lexer.h"
 # include "sh_parser.h"
+# include "sh_jobs.h"
 
 /*
 ** macros
@@ -28,7 +29,7 @@
 # define SH_GEN_NAME		"21sh"
 # define SH_RC				".21shrc"
 # define SH_HISTFILE		".21sh_history"
-# define SH_MAXHIST			100
+# define SH_MAXHIST			500
 
 # define SH_DEFAULT_PATH	"/usr/local/bin:/usr/bin:/bin:/usr/sbin"
 

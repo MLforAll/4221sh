@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/28 01:38:20 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 08:32:43 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/27 06:15:35 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ static void			draw_chs(t_list *chs, unsigned int selidx)
 			? ((t_acres*)chs->content)->visible_str
 			: ((t_acres*)chs->content)->str;
 		if (idx == selidx)
-			outcap("mr");
+			(void)outcap("mr");
 		ft_putendl_fd(tgt, STDIN_FILENO);
 		if (idx == selidx)
-			outcap("me");
+			(void)outcap("me");
 		chs = chs->next;
 		idx++;
 	}
@@ -55,10 +55,10 @@ inline static void	clr_chs(size_t len)
 {
 	while (len--)
 	{
-		outcap("ce");
-		outcap("up");
+		(void)outcap("ce");
+		(void)outcap("up");
 	}
-	outcap("ce");
+	(void)outcap("ce");
 }
 
 /*
@@ -82,11 +82,13 @@ static char			*get_ret(t_list *chs, unsigned int idx)
 ** char *buff    -> read buffer
 */
 
-static void			move_keys(t_cursor *csr, char *buff)
+static inline void	move_keys(t_cursor *csr, char *buff)
 {
-	if (ft_strequ(buff, "\033[B") && csr->pos < csr->max - 1)
+	if (ft_strequ(buff, "\t"))
+		csr->pos = (csr->pos + 1 < csr->max) ? csr->pos + 1 : 0;
+	else if (ft_strequ(buff, "\033[B") && csr->pos + 1 < csr->max)
 		csr->pos++;
-	if (ft_strequ(buff, "\033[A") && csr->pos)
+	else if (ft_strequ(buff, "\033[A") && csr->pos)
 		csr->pos--;
 }
 

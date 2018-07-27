@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 02:03:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/14 23:31:36 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/27 05:55:16 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ inline static int	get_dfl_io_nbr(t_toktype type)
 	return ((type == LESS || type == DLESS) ? STDIN_FILENO : STDOUT_FILENO);
 }
 
-static void			add_redirect(t_cmdnode *cmddat, t_dlist **tok, int *io_nbr)
+static t_uint8		add_redirect(t_cmdnode *cmddat, t_dlist **tok, int *io_nbr)
 {
 	t_list		*nr;
 	t_redirect	nrdat;
@@ -31,19 +31,21 @@ static void			add_redirect(t_cmdnode *cmddat, t_dlist **tok, int *io_nbr)
 	nrdat.rtype = tokdat->type;
 	if ((*tok)->next)
 	{
-		if (((t_token*)(*tok)->next->content)->type == WORD)
-			nrdat.data_str = ft_strdup(((t_token*)(*tok)->next->content)->s);
+		if (((t_token*)(*tok)->next->content)->type == WORD
+			&& !(nrdat.data = ft_strdup(((t_token*)(*tok)->next->content)->s)))
+			return (FALSE);
 		else if (((t_token*)(*tok)->next->content)->type == IO_NUMBER)
 			nrdat.agreg = ft_atoi(((t_token*)(*tok)->next->content)->s);
 		*tok = (*tok)->next;
 	}
 	*io_nbr = -1;
 	if (!(nr = ft_lstnew(&nrdat, sizeof(t_redirect))))
-		return ;
+		return (FALSE);
 	ft_lstpush(&cmddat->c_redirects, nr);
+	return (TRUE);
 }
 
-inline static int	word_action(t_cmdnode *cmddat, t_token *tokdat, t_uint8 *fw)
+static t_uint8		word_action(t_cmdnode *cmddat, t_token *tokdat, t_uint8 *fw)
 {
 	if (ft_strchr(tokdat->s, '=') && *fw)
 		return (ft_tabaddstr(&cmddat->c_vars, tokdat->s));
@@ -70,11 +72,11 @@ void				fill_cmd_data(t_cmdnode *cmddat, t_dlist *tokens)
 	{
 		tokdat = (t_token*)tokens->content;
 		if (tokdat->type == WORD)
-			word_action(cmddat, tokdat, &first_word);
+			(void)word_action(cmddat, tokdat, &first_word);
 		else if (tokdat->type == IO_NUMBER)
 			io_nbr = ft_atoi(tokdat->s);
 		else if (tokdat->type >= GREAT && tokdat->type <= DLESS)
-			add_redirect(cmddat, &tokens, &io_nbr);
+			(void)add_redirect(cmddat, &tokens, &io_nbr);
 		tokens = tokens->next;
 	}
 }

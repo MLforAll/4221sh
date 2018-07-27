@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:39:19 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/25 04:13:05 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/27 05:21:00 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ t_uint8			lexer_expand_var(char **s,
 
 	if (curr != kQuoteNone)
 		return (lexer_expand_getvar(s, vs));
-	(void)ft_tstrnew(&exp);
+	if (!ft_tstrnew(&exp))
+		return (FALSE);
 	if (lexer_expand_getvar(s, &exp) && (splt = ft_strsplit(exp.s, ' ')))
 	{
 		rval = lexer_expand_var_splt(splt, vs, ret);

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/30 14:10:56 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 19:43:23 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/27 04:18:12 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ int			create_great_tok(void *data)
 		return ((int)kLexStateUndefined);
 	cdat = (t_lexdat*)data;
 	lexact_add_io_nbr(cdat);
-	(void)lexact_append_current(data);
-	add_token(cdat->ret, &cdat->currtoks, GREAT, 0);
+	if (lexact_append_current(data) == kLexStateUndefined
+		|| !add_token(cdat->ret, &cdat->currtoks, GREAT, 0))
+		return ((int)kLexStateUndefined);
 	return ((int)kLexStateRedirections);
 }
 
@@ -34,7 +35,8 @@ int			create_dgreat_tok(void *data)
 		return ((int)kLexStateUndefined);
 	cdat = (t_lexdat*)data;
 	lexact_add_io_nbr(cdat);
-	(void)lexact_append_current(data);
-	add_token(cdat->ret, &cdat->currtoks, DGREAT, 0);
+	if (lexact_append_current(data) == kLexStateUndefined
+		|| !add_token(cdat->ret, &cdat->currtoks, DGREAT, 0))
+		return ((int)kLexStateUndefined);
 	return ((int)kLexStateRedirections);
 }

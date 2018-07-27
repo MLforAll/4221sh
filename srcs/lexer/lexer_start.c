@@ -6,19 +6,12 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/25 23:36:56 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/27 05:34:23 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "sh_lexer.h"
-
-void				tokens_lstdel(void *data, size_t datsize)
-{
-	(void)datsize;
-	free(((t_token*)data)->s);
-	free(data);
-}
 
 static size_t		get_charstate(t_charstate *cs, char *s)
 {
@@ -62,7 +55,7 @@ static t_lexstate	get_nextstate(t_lexdat *dat)
 	int					ret;
 
 	ret = ft_switch((void*)&cmpdat, (void*)&eq, sizeof(t_equi), &ft_swcmp);
-	return ((ret > 0) ? (t_lexstate)ret : kLexStateUndefined);
+	return ((t_lexstate)ret);
 }
 
 /*
@@ -106,6 +99,22 @@ static t_uint8		lex_init(t_dlist **lst, t_lexdat *cdat, char **line)
 	return (TRUE);
 }
 
+static int			lex_deinit(t_lexdat *cdat, int ret)
+{
+	if (*cdat->currtoks.s
+		&& lexact_add_token((void*)cdat) == kLexStateUndefined)
+		return (LEXER_FAIL);
+	if (cdat->curr_state == kLexStateDQuote
+		|| cdat->curr_state == kLexStateSQuote)
+	{
+		if (!add_token(cdat->ret, &cdat->currtoks, \
+				(cdat->curr_state == kLexStateDQuote) ? INCOMPD : INCOMPS, 0))
+			return (LEXER_FAIL);
+		return cdat->curr_state == kLexStateDQuote ? LEXER_INCDQ : LEXER_INCSQ;
+	}
+	return (ret);
+}
+
 int					lex_line(t_dlist **dest, char *line)
 {
 	int			ret;
@@ -119,18 +128,12 @@ int					lex_line(t_dlist **dest, char *line)
 		dat.jmp = get_charstate(&dat.cs, line);
 		if ((dat.curr_state = get_nextstate(&dat)) == kLexStateReadAgain)
 			ret = LEXER_INC;
-		if (!*line)
+		if (!*line || dat.curr_state == kLexStateUndefined)
 			break ;
 		line += dat.jmp;
 	}
-	if (*dat.currtoks.s)
-		(void)lexact_add_token((void*)&dat);
-	if (dat.curr_state == kLexStateDQuote || dat.curr_state == kLexStateSQuote)
-	{
-		(void)add_token(dat.ret, &dat.currtoks,
-				(dat.curr_state == kLexStateDQuote) ? INCOMPD : INCOMPS, 0);
-		ret = (dat.curr_state == kLexStateDQuote) ? LEXER_INCDQ : LEXER_INCSQ;
-	}
+	if ((ret = lex_deinit(&dat, ret)) == LEXER_FAIL)
+		ft_dlstdel(dest, &tokens_lstdel);
 	ft_tstrdel(&dat.currtoks);
 	return (ret);
 }

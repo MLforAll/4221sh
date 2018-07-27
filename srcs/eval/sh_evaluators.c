@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 23:11:32 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/27 06:21:20 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_cmdnode	*eval_pipe(t_cmdnode *a, t_cmdnode *b, t_tab *pids)
 	b->stdin_fd = pfd[0];
 	(void)ft_memcpy(b->pfd, pfd, sizeof(pfd));
 	(void)exec_cmd(a, YES, &pid, NULL);
-	ft_ttabcat(pids, &pid, 1);
+	(void)ft_ttabcat(pids, &pid, 1);
 	return (b);
 }
 

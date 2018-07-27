@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 16:13:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/25 17:31:24 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/27 05:45:58 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,10 @@ static int				cpy_string(char *s, t_str *vs, t_list **ret)
 	{
 		if ((curr = detect_quote(s, curr)) != kQuoteNone && curr != kEscape)
 			rval = TRUE;
-		if (curr == old && !(*s == '$' && curr != kSQuote \
-							&& lexer_expand_var(&s, vs, ret, curr)))
-			(void)ft_tstrncat(vs, s, 1);
+		if (curr == old && !(*s == '$' && curr != kSQuote
+							&& lexer_expand_var(&s, vs, ret, curr))
+			&& !ft_tstrncat(vs, s, 1))
+			return (-1);
 		if (curr == kEscape)
 		{
 			if ((s[1] == '"' || s[1] == '$') && !ft_tstrncat(vs, ++s, 1))
@@ -81,7 +82,8 @@ static t_uint8			get_tokens_strings(t_list **ret, char *s)
 	t_str			vs;
 	int				cpy_rval;
 
-	(void)ft_tstrnew(&vs);
+	if (!ft_tstrnew(&vs))
+		return (FALSE);
 	*ret = NULL;
 	(void)lexer_expand_tilde(&s, &vs);
 	if ((cpy_rval = cpy_string(s, &vs, ret)) == -1
@@ -96,7 +98,7 @@ static t_uint8			get_tokens_strings(t_list **ret, char *s)
 	return (TRUE);
 }
 
-void					add_token(t_dlist **tokens,
+t_uint8					add_token(t_dlist **tokens,
 								t_str *vs,
 								t_toktype type,
 								int prio)
@@ -107,9 +109,9 @@ void					add_token(t_dlist **tokens,
 	t_list	*toksbw;
 
 	if (!vs || vs->len < 1)
-		return ;
+		return (TRUE);
 	if (!get_tokens_strings(&tokstrs, vs->s))
-		return ;
+		return (FALSE);
 	toksbw = tokstrs;
 	while (toksbw)
 	{
@@ -118,10 +120,11 @@ void					add_token(t_dlist **tokens,
 		tokdat.type = type;
 		tokdat.priority = prio;
 		if (!(newtok = ft_dlstnew(&tokdat, sizeof(t_token))))
-			return ;
+			return (FALSE);
 		ft_dlstpush(tokens, newtok);
 		toksbw = toksbw->next;
 	}
 	ft_lstdel(&tokstrs, NULL);
 	ft_tstrclr(vs);
+	return (TRUE);
 }

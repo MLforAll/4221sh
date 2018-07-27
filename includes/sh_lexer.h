@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/26 22:58:26 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/27 05:11:31 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int				lex_line(t_dlist **dest, char *line);
 ** Tokens mgmt
 */
 
-void			add_token(t_dlist **tokens,
+t_uint8			add_token(t_dlist **tokens,
 						t_str *vs,
 						t_toktype type,
 						int prio);
@@ -181,13 +181,13 @@ int				lexact_append_current(void *data);
 int				lexact_add_token(void *data);
 void			lexact_add_io_nbr(t_lexdat *cdat);
 
-void			create_token_with_buff(t_lexdat *dat, t_toktype type, int prio);
+t_uint8			create_token_with_buff(t_lexdat *dat, t_toktype type, int prio);
 
 /*
 ** Utilities
 */
 
-int				ft_swcmp(void *p1, void *p2);
+int				ft_swcmp(const void *p1, const void *p2);
 void			tokens_lstdel(void *data, size_t datsize);
 
 #endif
