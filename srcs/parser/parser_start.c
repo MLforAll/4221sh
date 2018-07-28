@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 16:55:22 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/26 23:09:53 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/28 15:06:10 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,18 @@
 #include <stdlib.h>
 #include "sh.h"
 
-inline static void	parse_error(const char *tok)
+inline static t_btree	*parse_error(const char *tok)
 {
 	ft_putstr_fd(g_sh_name, STDERR_FILENO);
 	ft_putstr_fd(": syntax error near unexpected token `", STDERR_FILENO);
 	ft_putstrsec_fd(tok, STDERR_FILENO);
 	ft_putendl_fd("`", STDERR_FILENO);
+	return (NULL);
 }
 
-static t_uint8		preparse_readagain(char **line, t_dlist **tokens, int lret)
+static t_uint8			preparse_readagain(char **line,
+											t_dlist **tokens,
+											int lret)
 {
 	const char	*prompt;
 	const char	*delim;
@@ -36,12 +39,7 @@ static t_uint8		preparse_readagain(char **line, t_dlist **tokens, int lret)
 	return (parser_check_ret(line, tokens, prompt, delim));
 }
 
-/*
-** todo: //ft_putendl_fd("parse_tokens(): fatal error", STDERR_FILENO);
-** find a way to show err. Maybe func returns uint8 just like lexer...
-*/
-
-t_btree				*parse_tokens(char **line, t_dlist *tokens, int lex_ret)
+t_btree					*parse_tokens(char **line, t_dlist *tokens, int lex_ret)
 {
 	int		heredocs;
 	char	*syntax_err;
@@ -49,7 +47,10 @@ t_btree				*parse_tokens(char **line, t_dlist *tokens, int lex_ret)
 	t_dlist	*tokbw;
 
 	if (!preparse_readagain(line, &tokens, lex_ret))
+	{
+		sh_err(SH_ERR_MALLOC, "parse_tokens()", NULL);
 		return (NULL);
+	}
 	tokbw = tokens;
 	while (tokbw)
 	{
@@ -61,10 +62,7 @@ t_btree				*parse_tokens(char **line, t_dlist *tokens, int lex_ret)
 		else
 			other_err = NULL;
 		if (other_err || (syntax_err = parser_check_syntax(tokbw)))
-		{
-			parse_error(syntax_err ? syntax_err : other_err);
-			return (NULL);
-		}
+			return (parse_error((syntax_err) ? syntax_err : other_err));
 		tokbw = (!tokbw->next && other_err) ? tokens : tokbw->next;
 	}
 	return (parser_create_ast(tokens));

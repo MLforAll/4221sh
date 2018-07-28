@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 16:55:22 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/27 05:53:08 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/28 15:16:38 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,26 @@
 inline static t_btree	*create_cmd_node(t_dlist *tokens)
 {
 	t_btree		*ret;
+	t_cmdnode	*cnode;
 	t_astnode	ndat;
 
 	ndat.type = 0;
-	ndat.data = ft_memalloc(sizeof(t_cmdnode));
-	((t_cmdnode*)ndat.data)->c_vars = ft_tabnew();
-	((t_cmdnode*)ndat.data)->c_av = ft_tabnew();
+	if (!(ndat.data = ft_memalloc(sizeof(t_cmdnode))))
+		return (NULL);
+	cnode = (t_cmdnode*)ndat.data;
+	if (!(cnode->c_vars = ft_tabnew())
+		|| !(cnode->c_av = ft_tabnew()))
+		exit(EXIT_FAILURE);
 	((t_cmdnode*)ndat.data)->stdout_fd = -1;
 	((t_cmdnode*)ndat.data)->stdin_fd = -1;
 	fill_cmd_data((t_cmdnode*)ndat.data, tokens);
 	if (!(ret = ft_btnew(&ndat, sizeof(t_astnode))))
+	{
+		ft_tabfree(&cnode->c_vars);
+		ft_tabfree(&cnode->c_av);
+		free(ndat.data);
 		return (NULL);
+	}
 	return (ret);
 }
 

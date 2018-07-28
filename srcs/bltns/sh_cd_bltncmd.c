@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/27 00:03:15 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/28 15:32:47 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ int					cd_bltn(int ac, char **av)
 	if (chdir(path_cd) == -1)
 	{
 		sh_err(get_errcode_for_path(path_cd, X_OK, YES), av[0], path_cd);
-		return (free_return((void**)&path_cd, EXIT_FAILURE));
+		free(path_cd);
+		return (EXIT_FAILURE);
 	}
 	(cd_opts & CD_DASH_OPT) ? ft_putendl(path_cd) : 0;
 	cd_set_env(pwd, &path_cd, cd_opts);

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/23 16:15:34 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/27 06:20:14 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/28 15:18:12 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,12 @@ int					interactive_shell(void)
 		ft_strdel(&prompt);
 		if (!line)
 			break ;
-		if (*line)
+		if ((ret[1] = eval_line(&line, YES)) != -1)
 		{
-			if ((ret[1] = eval_line(&line, YES)) != -1)
-				ret[0] = ret[1];
-			do_history(&history, line);
+			ret[0] = ret[1];
+			(void)set_lvar_n("?", ret[0]);
 		}
+		do_history(&history, line);
 		ft_strdel(&line);
 	}
 	write_history(history);

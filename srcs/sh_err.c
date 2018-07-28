@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 21:23:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/26 00:03:08 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/28 15:34:31 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <sys/param.h>
 #include "sh.h"
 
-void		sh_err(t_errs errc, const char *bltn, const char *path)
+void					sh_err(t_errs errc, const char *bltn, const char *path)
 {
 	const char		*errs[] = {
 		"Undefined error", "command not found", "No such file or directory",
@@ -25,7 +25,7 @@ void		sh_err(t_errs errc, const char *bltn, const char *path)
 		"Too many symbolic links", "Not a directory",
 		"numeric argument required", "not a valid identifier",
 		"argument required", "no such job", "Bad file descriptor",
-		"malloc(): failure", "Undefined error"};
+		"malloc() failure", "Undefined error"};
 
 	ft_putstrsec_fd(g_sh_name, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
@@ -43,39 +43,63 @@ void		sh_err(t_errs errc, const char *bltn, const char *path)
 		ft_putendl_fd(errs[errc], STDERR_FILENO);
 }
 
-inline int	sh_err_ret(t_errs errc, const char *bltn, const char *path, int rvl)
+inline int				sh_err_ret(t_errs errc,
+									const char *bltn,
+									const char *path,
+									int rvl)
 {
 	sh_err(errc, bltn, path);
 	return (rvl);
 }
 
-static int	check_too_much_links(const char *path)
+static inline t_uint8	can_read_link(char **chk, struct stat *st)
+{
+	char	*tmp;
+
+	if (!(tmp = ft_strnew(st->st_size)))
+	{
+		ft_strdel(chk);
+		return (FALSE);
+	}
+	if (readlink(*chk, tmp, st->st_size) == -1)
+	{
+		ft_strdel(chk);
+		free(tmp);
+		return (FALSE);
+	}
+	free(*chk);
+	*chk = tmp;
+	return (TRUE);
+}
+
+static t_uint8			check_too_much_links(const char *path)
 {
 	struct stat	st;
 	int			n;
 	char		*chk;
-	char		*tmp;
 
 	n = MAXSYMLINKS;
-	chk = ft_strdup(path);
+	if (!(chk = ft_strdup(path)))
+		return (FALSE);
 	while (n--)
 	{
 		if (lstat(chk, &st) == -1)
-			return (free_return((void**)&chk, FALSE));
+		{
+			free(chk);
+			return (FALSE);
+		}
 		if (!S_ISLNK(st.st_mode))
 			break ;
-		tmp = chk;
-		if (!(chk = ft_strnew(st.st_size)))
-			return (free_return((void**)&tmp, FALSE));
-		if (readlink(tmp, chk, st.st_size) == -1)
-			return (free_return((void**)&chk, FALSE));
-		ft_strdel(&tmp);
+		if (!can_read_link(&chk, &st))
+			return (FALSE);
 	}
-	ft_strdel(&chk);
+	free(chk);
 	return ((n > 0) ? FALSE : TRUE);
 }
 
-int			get_errcode_for_path(const char *path, int mode, int dir)
+t_errs					get_errcode_for_path(const char *path,
+											int mode,
+											t_uint8 dir)
 {
 	struct stat	st;
 

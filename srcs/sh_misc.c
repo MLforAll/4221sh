@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 18:31:09 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 02:41:33 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/28 14:57:33 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int		free_return(void **data, int retv)
 
 int		ft_strchrf(const char *s, char c)
 {
-	unsigned int	last;
-	unsigned int	idx;
+	unsigned long	last;
+	unsigned long	idx;
 
 	idx = 0;
 	last = 0;

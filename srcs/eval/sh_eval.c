@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/27 06:21:43 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/28 15:18:40 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,23 @@ int					eval_line(char **line, t_uint8 ragain)
 	t_btree		*ast;
 	t_tab		pids;
 
-	if (!line || !*line)
-		return (EXIT_SUCCESS);
+	if (!line || !*line || !**line)
+		return (-1);
 	tokens = NULL;
 	if ((lex_ret = lex_line(&tokens, *line)) == LEXER_FAIL)
-		return (ft_returnmsg("lex_line(): fatal error", 2, 1));
+		return (sh_err_ret(SH_ERR_MALLOC, "lex_line()", NULL, EXIT_FAILURE));
 	if (!tokens)
 		return (EXIT_SUCCESS);
 	if (!(ast = parse_tokens((ragain) ? line : NULL, tokens, lex_ret)))
+	{
+		ft_dlstdel(&tokens, &tokens_lstdel);
 		return (PARSER_FAIL);
+	}
 	(void)ft_ttabnew(&pids, sizeof(pid_t));
 	ret = exec_cmd(eval_ast(ast, &pids), NO, NULL, NULL);
 	clean_pipes(&pids);
 	ft_ttabdel(&pids, NULL);
 	ft_btdel(&ast, &ast_btdel);
 	ft_dlstdel(&tokens, &tokens_lstdel);
-	(void)set_lvar_n("?", ret);
 	return (ret);
 }
