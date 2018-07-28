@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/28 15:31:41 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/28 17:50:45 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,12 +121,15 @@ t_list		*search_files_begin(const char *f_path,
 								const char *s_dir, int exec);
 
 /*
+** signals
+*/
+
+void		switch_traps(int ign);
+
+/*
 ** misc functions / utilities
 */
 
-int			ft_strchrf(const char *s, char c);
 int			free_return(void **data, int retv);
-
-void		switch_traps(int ign);
 
 #endif

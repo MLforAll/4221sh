@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/21 19:45:50 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/27 06:19:07 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/28 17:42:48 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int			main(int ac, char **av)
 	switch_traps(TRUE);
 	g_sh_name = av[0];
 	env_bak = environ;
-	if (!(environ = ft_tabdup(environ)) || !(g_lvars = ft_tabnew()))
+	if (!(environ = ft_tabdup(environ))
+		|| !(g_lvars = ft_tabnew()))
 		return (sh_err_ret(SH_ERR_MALLOC, NULL, NULL, EXIT_FAILURE));
 	shell_init(av);
 	if (ac > 1 || !ft_isatty(STDIN_FILENO))
