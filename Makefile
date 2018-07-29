@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/07/27 05:12:31 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/07/29 13:58:41 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ INCLUDES = $(addprefix $(INCDIR)/, $(INCFILES))
 
 SRCDIR = srcs
 SRCFILES = sh_main.c \
+	sh_init.c \
 	sh_eshell.c \
 	sh_ishell.c \
 	sh_err.c \

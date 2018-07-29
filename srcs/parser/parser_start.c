@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 16:55:22 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/28 15:06:10 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/29 14:11:14 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,7 @@ t_btree					*parse_tokens(char **line, t_dlist *tokens, int lex_ret)
 	tokbw = tokens;
 	while (tokbw)
 	{
-		heredocs = parser_check_heredocs(tokbw, (line != NULL));
-		if (heredocs == -1 || (heredocs && !line)
+		if ((heredocs = parser_check_heredocs(tokbw)) == -1
 			|| (!tokbw->next && ((t_token*)tokbw->content)->type != WORD
 				&& !parser_check_inclist(line, &tokens, tokbw)))
 			other_err = ((t_token*)tokbw->content)->s;
