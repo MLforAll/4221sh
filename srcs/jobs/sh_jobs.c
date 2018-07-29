@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/31 02:55:01 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 22:26:36 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/29 06:17:17 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ t_list		**sh_job_add(char *cmd, pid_t pid, enum e_jobstate state)
 
 void		sh_jobs_rmall(void)
 {
+	if (!g_jobslst)
+		return ;
 	ft_lstdel(&g_jobslst, &ft_joblstdel);
 	ft_putlst(g_jobslst);
 	sh_jobop_unlock();

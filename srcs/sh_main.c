@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/21 19:45:50 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/28 17:42:48 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/29 06:32:28 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,23 @@ static void	set_shlvl(void)
 	(void)set_env_var_n(NULL, "SHLVL", lvln);
 }
 
-static void	shell_init(char **av)
+t_uint8		shell_init(void)
 {
-	(void)set_env_var(NULL, "SHELL", av[0]);
+	extern char **g_lvars;
+
+	switch_traps(TRUE);
+	if (g_lvars)
+		ft_tabfree(&g_lvars);
+	if (!(g_lvars = ft_tabnew()))
+		return (FALSE);
+	sh_jobs_rmall();
 	set_shlvl();
 	(void)set_lvar_n("?", 0);
 	getset_pwd_env();
 	if (!getenv("PATH"))
 		(void)set_env_var(NULL, "PATH", SH_DEFAULT_PATH);
-	(void)set_env_var(NULL, "_", av[0]);
+	(void)set_env_var(NULL, "_", g_sh_name);
+	return (TRUE);
 }
 
 int			main(int ac, char **av)
@@ -49,13 +57,11 @@ int			main(int ac, char **av)
 	char		**env_bak;
 	int			exval;
 
-	switch_traps(TRUE);
 	g_sh_name = av[0];
 	env_bak = environ;
-	if (!(environ = ft_tabdup(environ))
-		|| !(g_lvars = ft_tabnew()))
+	if (!(environ = ft_tabdup(environ)) || !shell_init())
 		return (sh_err_ret(SH_ERR_MALLOC, NULL, NULL, EXIT_FAILURE));
-	shell_init(av);
+	(void)set_env_var(NULL, "SHELL", g_sh_name);
 	if (ac > 1 || !ft_isatty(STDIN_FILENO))
 		exval = exec_shell((ac > 1) ? av[1] : NULL);
 	else

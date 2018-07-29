@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/28 15:18:40 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/28 23:15:29 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,30 +32,26 @@ static void			clean_pipes(t_tab *pids)
 	}
 }
 
-static t_cmdnode	*eval_ast(t_btree *node, t_tab *pids)
+t_cmdnode		*eval_ast(t_btree *node, t_tab *pids)
 {
 	t_astnode	*ndat;
-	t_cmdnode	*leftnode;
-	t_cmdnode	*rightnode;
 
 	if (!node)
 		return (NULL);
 	ndat = (t_astnode*)node->data;
 	if (ndat->data)
 		return ((t_cmdnode*)ndat->data);
-	leftnode = eval_ast(node->left, pids);
-	rightnode = eval_ast(node->right, pids);
 	if (ndat->type == PIPE)
-		return (eval_pipe(leftnode, rightnode, pids));
+		return (eval_pipe(node, pids));
 	clean_pipes(pids);
 	if (ndat->type == SEMI)
-		return (eval_semi(leftnode, rightnode));
+		return (eval_semi(node, pids));
 	if (ndat->type == AND_IF)
-		return (eval_andif(leftnode, rightnode));
+		return (eval_andif(node, pids));
 	if (ndat->type == OR_IF)
-		return (eval_orif(leftnode, rightnode));
+		return (eval_orif(node, pids));
 	if (ndat->type == AMPERSAND)
-		return (eval_background(leftnode, rightnode));
+		return (eval_background(node, pids));
 	return (NULL);
 }
 

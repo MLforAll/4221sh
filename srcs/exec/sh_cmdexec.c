@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/26 22:57:31 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/29 06:35:16 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ static int	exec_core(t_cmdnode *cmddat, t_uint8 forkdes, char **env)
 		(void)ft_ttabnew(&bakfds, sizeof(t_bakfds));
 	bakfds_ptr = (forkdes) ? NULL : &bakfds;
 	exec_pipe(cmddat);
-	if (!(tmp = exec_redir(cmddat, bakfds_ptr)) || cmddat->builtin)
+	if ((tmp = exec_redir(cmddat, bakfds_ptr)) || cmddat->builtin)
 	{
-		if (tmp)
+		if (tmp == EXIT_SUCCESS)
 			tmp = (cmddat->builtin)((int)ft_tablen(cmddat->c_av), cmddat->c_av);
 		restore_bakfds(bakfds_ptr);
 		return (tmp);
@@ -80,8 +80,7 @@ static int	exec_core(t_cmdnode *cmddat, t_uint8 forkdes, char **env)
 	(void)execve(cmddat->c_path, cmddat->c_av, env);
 	if ((tmp = cmd_chk(cmddat->c_path)) >= 0)
 		return (sh_err_ret(tmp, NULL, cmddat->c_path, 127));
-	sh_jobs_rmall();
-	(void)signal(SIGCHLD, &sh_jb_sighdl);
+	shell_init();
 	tmp = (exec_shell(cmddat->c_path) == EXIT_SUCCESS) ? EXIT_SUCCESS : 127;
 	restore_bakfds(bakfds_ptr);
 	return (tmp);
@@ -103,7 +102,10 @@ static int	exec_setup(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 		switch_traps(FALSE);
 		exit(exec_core(cmddat, forkdes, env));
 	}
-	exec_pipe_clean(cmddat);
+	if (cmddat->stdout_fd != -1)
+		(void)close(cmddat->pfd[1]);
+	if (!async && cmddat->stdin_fd != -1)
+		(void)close(cmddat->pfd[0]);
 	if (spid)
 		*spid = pid;
 	else
@@ -121,7 +123,7 @@ int			exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 	if (!cmddat)
 		return (EXIT_FAILURE);
 	is_cmd = (cmddat->builtin || cmddat->c_path);
-	if (cmddat->c_vars && cmddat->c_path)
+	if (cmddat->c_vars && !cmddat->builtin)
 	{
 		tmp = cmddat->c_vars;
 		while (*tmp)

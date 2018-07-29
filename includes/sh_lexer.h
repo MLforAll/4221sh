@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/27 05:11:31 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/28 23:52:39 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,17 @@ typedef enum	e_toktype
 	INCOMPD,
 	INCOMPS,
 	WORD,
-	IO_NUMBER,
-	PIPE,
-	SEMI,
-	AND_IF,
-	OR_IF,
 	GREAT,
 	DGREAT,
 	LESS,
 	DLESS,
-	CLOBBER,
+	IO_NUMBER,
+	DASH,
+	PIPE,
+	SEMI,
+	AND_IF,
+	OR_IF,
 	AMPERSAND,
-	DASH
 }				t_toktype;
 
 typedef enum	e_quoting

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 14:42:44 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/27 05:54:56 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/29 06:34:20 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,26 @@
 #include <fcntl.h>
 #include "sh.h"
 
-static void			do_redir_action(t_redirect *redir, int oflags)
+/*
+** todo: do redirs before forking IN ANY CASE! (fixes `>file`)
+*/
+
+static t_uint8		do_redir_action(t_redirect *redir, int oflags)
 {
 	int		fd;
 
 	(void)close(redir->io_nbr);
-	if ((fd = open(redir->data, oflags, 0644)) != redir->io_nbr)
+	if ((fd = open(redir->data, oflags, 0644)) == -1)
+	{
+		sh_err(get_errcode_for_path(redir->data, X_OK, YES), NULL, redir->data);
+		return (FALSE);
+	}
+	if (fd != redir->io_nbr)
 	{
 		(void)dup2(fd, redir->io_nbr);
 		(void)close(fd);
 	}
+	return (TRUE);
 }
 
 static t_uint8		do_agreg(t_redirect *redir)
@@ -73,7 +83,7 @@ inline static void	save_fd(t_tab *bakptr, int fd_to_save)
 	ft_ttabcat(bakptr, &bak, 1);
 }
 
-t_uint8				exec_redir(t_cmdnode *cmddat, t_tab *bakptr)
+int					exec_redir(t_cmdnode *cmddat, t_tab *bakptr)
 {
 	t_list		*bw;
 	t_redirect	*redir;
@@ -84,19 +94,17 @@ t_uint8				exec_redir(t_cmdnode *cmddat, t_tab *bakptr)
 		redir = (t_redirect*)bw->content;
 		if (bakptr)
 			save_fd(bakptr, redir->io_nbr);
-		if (redir->rtype == GREAT || redir->rtype == LESS)
-		{
-			if (redir->data)
-				do_redir_action(redir, (redir->rtype == LESS)
-									? O_RDONLY : O_WRONLY | O_CREAT | O_TRUNC);
-			else if (!do_agreg(redir))
-				return (FALSE);
-		}
-		else if (redir->rtype == DGREAT)
-			do_redir_action(redir, O_WRONLY | O_CREAT | O_APPEND);
+		if ((redir->rtype == GREAT || redir->rtype == LESS)
+			&& ((redir->data && !do_redir_action(redir, (redir->rtype == LESS)
+								? O_RDONLY : O_WRONLY | O_CREAT | O_TRUNC))
+				|| (!redir->data && !do_agreg(redir))))
+			return (EXIT_FAILURE);
+		else if (redir->rtype == DGREAT
+			&& !do_redir_action(redir, O_WRONLY | O_CREAT | O_APPEND))
+			return (EXIT_FAILURE);
 		else if (redir->rtype == DLESS)
 			do_str_to_stdin(redir, cmddat);
 		bw = bw->next;
 	}
-	return (TRUE);
+	return (EXIT_SUCCESS);
 }

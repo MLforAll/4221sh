@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/28 17:50:45 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/29 06:34:16 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,14 @@
 ** globals
 */
 
-extern const char	*g_sh_name;
-const char			*g_sh_name;
+extern char	*g_sh_name;
+char		*g_sh_name;
 
 /*
 ** shell types
 */
 
+t_uint8		shell_init(void);
 int			exec_shell(const char *path);
 int			interactive_shell(void);
 
@@ -52,19 +53,19 @@ int			interactive_shell(void);
 */
 
 void		exec_pipe(t_cmdnode *cmddat);
-void		exec_pipe_clean(t_cmdnode *cmddat);
-t_uint8		exec_redir(t_cmdnode *cmddat, t_tab *bakptr);
+int			exec_redir(t_cmdnode *cmddat, t_tab *bakptr);
 int			exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env);
 
 /*
 ** line eval
 */
 
-t_cmdnode	*eval_pipe(t_cmdnode *a, t_cmdnode *b, t_tab *pids);
-t_cmdnode	*eval_semi(t_cmdnode *a, t_cmdnode *b);
-t_cmdnode	*eval_andif(t_cmdnode *a, t_cmdnode *b);
-t_cmdnode	*eval_orif(t_cmdnode *a, t_cmdnode *b);
-t_cmdnode	*eval_background(t_cmdnode *a, t_cmdnode *b);
+t_cmdnode	*eval_ast(t_btree *node, t_tab *pids);
+t_cmdnode	*eval_pipe(t_btree *node, t_tab *pids);
+t_cmdnode	*eval_semi(t_btree *node, t_tab *pids);
+t_cmdnode	*eval_andif(t_btree *node, t_tab *pids);
+t_cmdnode	*eval_orif(t_btree *node, t_tab *pids);
+t_cmdnode	*eval_background(t_btree *node, t_tab *pids);
 
 int			eval_line(char **line, t_uint8 ragain);
 
