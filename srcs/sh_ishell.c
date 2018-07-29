@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/23 16:15:34 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/28 15:18:12 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/29 18:07:46 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ inline static void	do_history(t_dlist **hist, char *line)
 {
 	static int	n = -1;
 
-	if (!hist)
+	if (!hist || !line)
 		return ;
 	if (n == -1)
 		n = ft_dlstlen(*hist);
@@ -71,7 +71,7 @@ inline static void	init_ishell(t_rl_opts *opts, t_dlist **hist)
 
 int					interactive_shell(void)
 {
-	int			ret[2];
+	int			ret[3];
 	char		*line;
 	char		*prompt;
 	t_rl_opts	opts;
@@ -81,17 +81,17 @@ int					interactive_shell(void)
 	init_ishell(&opts, &history);
 	while ((prompt = ishell_get_prompt()))
 	{
-		line = ft_readline(prompt, &opts, history);
+		ret[2] = ft_readline(&line, prompt, &opts, history);
 		ft_strdel(&prompt);
-		if (!line)
+		if (ret[2] == FTRL_FAIL || ret[2] == FTRL_EOF)
 			break ;
-		if ((ret[1] = eval_line(&line, YES)) != -1)
+		if (ret[2] == FTRL_OK && (ret[1] = eval_line(&line, YES)) != -1)
 		{
 			ret[0] = ret[1];
 			(void)set_lvar_n("?", ret[0]);
 		}
-		do_history(&history, line);
-		ft_strdel(&line);
+		(ret[2] == FTRL_OK) ? do_history(&history, line) : 0;
+		(ret[2] == FTRL_OK) ? ft_strdel(&line) : 0;
 	}
 	write_history(history);
 	ft_dlstdel(&history, &ftrl_histdelf);

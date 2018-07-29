@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 19:30:28 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/28 22:16:11 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/29 17:51:28 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,16 @@ static void	do_stuff(char *line)
 
 static void	read_loop(const char *pr, t_rl_opts *opts, t_dlist **hist)
 {
+	int			status;
 	char		*line;
 	int			limit;
 
 	limit = 100;
-	while ((line = ft_readline(pr, opts, *hist)))
+	while ((status = ft_readline(&line, pr, opts, *hist)) != FTRL_FAIL
+		&& status != FTRL_EOF)
 	{
+		if (status == FTRL_SIGINT)
+			continue ;
 		if (*line)
 		{
 			do_stuff(line);

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/29 14:10:08 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/29 17:48:25 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,22 @@ static char					*read_till_delim(const char *prompt,
 											const char *delim,
 											t_uint8 whole, t_uint8 before)
 {
+	int			status;
 	char		*ret;
 	char		*line;
 	t_rl_opts	opts;
 
 	ret = (before) ? ft_strdup("\n") : NULL;
 	ft_bzero(&opts, sizeof(t_rl_opts));
-	line = NULL;
 	while (TRUE)
 	{
-		if (!(line = ft_readline(prompt, &opts, NULL))
-			|| (delim && ft_strcmp(line, delim) == 0 && whole))
+		if ((status = ft_readline(&line, prompt, &opts, NULL)) == FTRL_SIGINT
+			|| status == FTRL_FAIL)
+		{
+			ft_strdel(&ret);
+			return (NULL);
+		}
+		if (status == FTRL_EOF || (delim && ft_strequ(line, delim) && whole))
 			break ;
 		ft_stradd(&ret, line);
 		if (!delim || (delim && !whole && ft_strstr(line, delim)))
