@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/30 02:30:10 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/30 03:30:57 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 #include "sh_jobs.h"
 #include "sh.h"
 
-static int	cmd_chk(char *path)
+static t_errs	cmd_chk(char *path)
 {
-	int		code;
-	int		noent;
+	t_errs	code;
+	t_errs	noent;
 	char	*pathenv;
 
 	if (!path)
@@ -38,7 +38,7 @@ static int	cmd_chk(char *path)
 	return (code);
 }
 
-static void	restore_bakfds(t_tab *bakfds)
+static void		restore_bakfds(t_tab *bakfds)
 {
 	unsigned long	idx;
 	t_bakfds		*curr;
@@ -59,7 +59,7 @@ static void	restore_bakfds(t_tab *bakfds)
 	ft_ttabdel(bakfds, NULL);
 }
 
-static int	exec_core(t_cmdnode *cmddat, t_uint8 forkdes, char **env)
+static int		exec_core(t_cmdnode *cmddat, t_uint8 forkdes, char **env)
 {
 	int		tmp;
 	t_tab	bakfds;
@@ -80,13 +80,16 @@ static int	exec_core(t_cmdnode *cmddat, t_uint8 forkdes, char **env)
 		return (EXIT_SUCCESS);
 	(void)chg_env_var(env, "_", cmddat->c_path);
 	(void)execve(cmddat->c_path, cmddat->c_av, env);
-	if ((tmp = cmd_chk(cmddat->c_path)) >= 0)
+	if ((tmp = (int)cmd_chk(cmddat->c_path)) >= 0)
 		return (sh_err_ret(tmp, NULL, cmddat->c_path, 127));
 	shell_init(cmddat->c_av);
 	return ((exec_shell(cmddat->c_path) == EXIT_SUCCESS) ? EXIT_SUCCESS : 127);
 }
 
-static int	exec_setup(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
+static int		exec_setup(t_cmdnode *cmddat, 
+							int async,
+							pid_t *spid,
+							char **env)
 {
 	t_uint8	forkdes;
 	pid_t	pid;
@@ -114,7 +117,7 @@ static int	exec_setup(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 	return ((async) ? -1 : ft_wait(jobnode));
 }
 
-int			exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
+int				exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 {
 	extern char	**g_lvars;
 	extern char	**environ;
