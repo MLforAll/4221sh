@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 04:46:03 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 14:34:34 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/30 02:36:00 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 # define SH_JOBS_H
 
 # include "libft.h"
+
+/*
+** globals
+*/
+
+extern pid_t	g_curr_process;
+pid_t			g_curr_process;
 
 /*
 ** job control struct
@@ -74,5 +81,6 @@ void			sh_jobop_reinit(void);
 void			ft_joblstdel(void *data, size_t datsize);
 void			ft_jobputnode(t_jobctrl *data);
 const char		*ft_jobputstate(enum e_jobstate state, t_uint8 print);
+void			sh_jb_act_upon(t_jobctrl *jdat, int exval);
 
 #endif

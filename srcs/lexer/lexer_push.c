@@ -6,29 +6,12 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 16:13:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/27 05:45:58 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/29 22:01:15 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "sh_lexer.h"
-
-/*
-**inline static void	quote_removal(char *s, t_tab *qidx)
-**{
-**	char			*tmp;
-**	unsigned long	idx;
-**
-**	idx = qidx->count;
-**	while (TRUE)
-**	{
-**		if (*(tmp = s + ((int*)(qidx->data))[--idx]))
-**			(void)ft_strcpy(tmp, tmp + 1);
-**		if (idx == 0)
-**			break ;
-**	}
-**}
-*/
 
 inline static t_quoting	detect_quote(char *s, t_quoting curr)
 {
@@ -36,9 +19,9 @@ inline static t_quoting	detect_quote(char *s, t_quoting curr)
 		&& ((curr == kDQuote && (s[1] == '$' || s[1] == '"' || s[1] == '\\'))
 			|| (curr != kDQuote && s[1])))
 		return (kEscape);
-	if (*s == '"')
+	if (*s == '"' && curr != kSQuote)
 		return ((curr == kDQuote) ? kQuoteNone : kDQuote);
-	if (*s == '\'')
+	if (*s == '\'' && curr != kDQuote)
 		return ((curr == kSQuote) ? kQuoteNone : kSQuote);
 	return (curr);
 }

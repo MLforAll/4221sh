@@ -6,15 +6,16 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/07/29 13:58:41 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/07/30 02:18:33 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 21sh
 
-CC_FLAGS = -Wall -Werror -Wextra
+CC_FLAGS = -Wall -Werror -Wextra -DSHJBS_LOCK_USE_PTHREADS
 CC_LIB = -I includes -I libft/includes -I libftreadline/includes
-LD_FLAGS = -L libft -L libftreadline -lft -lftreadline -ltermcap
+LD_FLAGS = -L libft -L libftreadline -lft -lftreadline -ltermcap -lpthread
+
 
 LIBFT = libft/libft.a
 LIBFTDIR = $(shell dirname $(LIBFT))

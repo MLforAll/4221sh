@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 13:40:24 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/29 13:41:48 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/29 21:47:41 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,22 @@ static void	set_shlvl(void)
 	(void)set_env_var_n(NULL, "SHLVL", lvln);
 }
 
-t_uint8		shell_init(void)
+static void	set_av_vars(char **av)
+{
+	char	*n_str;
+	int		idx;
+
+	idx = 0;
+	while (av[idx])
+	{
+		if (!(n_str = ft_itoa(idx)))
+			return ;
+		set_lvar(n_str, av[idx++]);
+		free(n_str);
+	}
+}
+
+t_uint8		shell_init(char **av)
 {
 	extern char **g_lvars;
 
@@ -40,6 +55,7 @@ t_uint8		shell_init(void)
 		ft_tabfree(&g_lvars);
 	if (!(g_lvars = ft_tabnew()))
 		return (FALSE);
+	set_av_vars(av);
 	sh_jobs_rmall();
 	set_shlvl();
 	(void)set_lvar_n("?", 0);

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/21 19:45:50 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/29 13:41:53 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/29 21:47:19 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int			main(int ac, char **av)
 
 	g_sh_name = av[0];
 	env_bak = environ;
-	if (!(environ = ft_tabdup(environ)) || !shell_init())
+	if (!(environ = ft_tabdup(environ)) || !shell_init(av))
 		return (sh_err_ret(SH_ERR_MALLOC, NULL, NULL, EXIT_FAILURE));
 	(void)set_env_var(NULL, "SHELL", g_sh_name);
 	if (ac > 1 || !ft_isatty(STDIN_FILENO))

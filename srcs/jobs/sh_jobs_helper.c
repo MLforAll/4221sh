@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/01 02:21:25 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/23 22:22:35 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/30 02:39:09 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,33 +46,21 @@ void			ft_jobputnode(t_jobctrl *data)
 int				ft_wait(t_list **jobnode)
 {
 	t_jobctrl	*jdat;
-	t_uint8		ret;
+	int			exval;
 
-	if (!jobnode)
-		return (-1);
-	while (*jobnode)
+	jdat = (t_jobctrl*)(*jobnode)->content;
+	if (waitpid(jdat->j_pid, &exval, WUNTRACED) <= 0)
 	{
-		jdat = (t_jobctrl*)(*jobnode)->content;
-		if (jdat->j_state != kJobStateRunning)
-			break ;
+		g_curr_process = 0;
+		return (EXIT_FAILURE);
 	}
-	if (!*jobnode)
-		return (-1);
-	ret = jdat->j_exval;
-	if (jdat->j_state == kJobStateExited)
+	sh_jb_act_upon(jdat, exval);
+	if (!WIFSTOPPED(exval))
 	{
 		sh_jobop_lock();
 		ft_lstdelone(jobnode, &ft_joblstdel);
 		sh_jobop_unlock();
 	}
-	return ((int)ret);
+	g_curr_process = 0;
+	return (WEXITSTATUS(exval));
 }
-
-/*
-**	waitpid(pid, &exval, WUNTRACED);
-**	if (WIFSTOPPED(exval))
-**		sh_job_add(cmddat->c_path, pid);
-**	if (WIFSIGNALED(exval))
-**		sh_child_signaled(WTERMSIG(exval));
-**	return (WEXITSTATUS(exval));
-*/

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 04:41:14 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/25 04:13:32 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/30 02:37:45 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static const char	*get_sig_str(int sigc)
 	return (errs[sigc - 1]);
 }
 
-static void			act_upon(t_jobctrl *jdat, int exval)
+void				sh_jb_act_upon(t_jobctrl *jdat, int exval)
 {
 	const char	*tmp;
 
@@ -99,8 +99,9 @@ void				sh_jb_sighdl(int sigc)
 	{
 		jdat = (t_jobctrl*)tmp->content;
 		exval = 0;
-		if (waitpid(jdat->j_pid, &exval, WNOHANG | WUNTRACED) > 0)
-			act_upon(jdat, exval);
+		if (g_curr_process != jdat->j_pid
+			&& waitpid(jdat->j_pid, &exval, WNOHANG | WUNTRACED) > 0)
+			sh_jb_act_upon(jdat, exval);
 		tmp = tmp->next;
 	}
 	sh_jobop_unlock();

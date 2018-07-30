@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/28 17:42:17 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/29 21:54:41 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,22 +57,6 @@ static t_lexstate	get_nextstate(t_lexdat *dat)
 	ret = ft_switch((void*)&cmpdat, (void*)&eq, sizeof(t_equi), &ft_swcmp);
 	return ((t_lexstate)ret);
 }
-
-/*
-** to be continued and normed
-**
-** How to manage lexer read-again?
-** 	- special type for unfinished token?
-**	- lexer automatically changes last token if lst is not empty?
-**
-** 1. Add special type to last token if unfinished
-** 2. When read again, lexer goes to last token and checks if unfinished,
-**			then changes
-**		- to change, rm last token from dest and add it as current token
-**		- to change, when add_token, check at that time and modify latest
-**			rather than add
-**			- to save perf, only check once (store the result in t_lexdat)
-*/
 
 static t_uint8		lex_init(t_dlist **lst, t_lexdat *cdat, char **line)
 {

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/28 23:15:29 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/29 22:14:09 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <signal.h>
 #include "sh.h"
 
-static void			clean_pipes(t_tab *pids)
+static void		clean_pipes(t_tab *pids)
 {
 	unsigned long	idx;
 	pid_t			*curr;
@@ -55,7 +55,7 @@ t_cmdnode		*eval_ast(t_btree *node, t_tab *pids)
 	return (NULL);
 }
 
-int					eval_line(char **line, t_uint8 ragain)
+int				eval_line(char **line, t_uint8 ragain)
 {
 	int			ret;
 	int			lex_ret;

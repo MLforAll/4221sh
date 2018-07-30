@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/29 14:00:37 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/30 02:30:10 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ static int	exec_core(t_cmdnode *cmddat, t_uint8 forkdes, char **env)
 	t_tab	bakfds;
 	t_tab	*bakfds_ptr;
 
-	if (!forkdes)
-		(void)ft_ttabnew(&bakfds, sizeof(t_bakfds));
+	if (!forkdes && !ft_ttabnew(&bakfds, sizeof(t_bakfds)))
+		return (sh_err_ret(SH_ERR_MALLOC, NULL, NULL, EXIT_FAILURE));
 	bakfds_ptr = (forkdes) ? NULL : &bakfds;
 	exec_pipe(cmddat);
 	if ((tmp = exec_redir(cmddat, bakfds_ptr)) || cmddat->builtin)
@@ -82,7 +82,7 @@ static int	exec_core(t_cmdnode *cmddat, t_uint8 forkdes, char **env)
 	(void)execve(cmddat->c_path, cmddat->c_av, env);
 	if ((tmp = cmd_chk(cmddat->c_path)) >= 0)
 		return (sh_err_ret(tmp, NULL, cmddat->c_path, 127));
-	shell_init();
+	shell_init(cmddat->c_av);
 	return ((exec_shell(cmddat->c_path) == EXIT_SUCCESS) ? EXIT_SUCCESS : 127);
 }
 
@@ -92,7 +92,7 @@ static int	exec_setup(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 	pid_t	pid;
 	t_list	**jobnode;
 
-	if (!(forkdes = (async || cmddat->c_path
+	if (!(forkdes = (async || !cmddat->builtin
 		|| cmddat->stdin_fd != -1 || cmddat->stdout_fd != -1)))
 		return (exec_core(cmddat, forkdes, env));
 	if ((pid = fork()) == -1)
@@ -106,6 +106,7 @@ static int	exec_setup(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 		(void)close(cmddat->pfd[1]);
 	if (!async && cmddat->stdin_fd != -1)
 		(void)close(cmddat->pfd[0]);
+	g_curr_process = pid;
 	if (spid)
 		*spid = pid;
 	else
@@ -129,7 +130,5 @@ int			exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
 		while (*tmp)
 			set_env_from_str((is_cmd) ? NULL : &g_lvars, *(tmp++));
 	}
-	//if (!is_cmd)
-	//	return (EXIT_SUCCESS);
 	return (exec_setup(cmddat, async, spid, (env) ? env : environ));
 }

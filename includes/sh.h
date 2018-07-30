@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/29 06:34:16 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/29 21:47:15 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char		*g_sh_name;
 ** shell types
 */
 
-t_uint8		shell_init(void);
+t_uint8		shell_init(char **av);
 int			exec_shell(const char *path);
 int			interactive_shell(void);
 
