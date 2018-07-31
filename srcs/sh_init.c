@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 13:40:24 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/29 21:47:41 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/31 15:53:13 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,16 @@ static void	set_av_vars(char **av)
 	idx = 0;
 	while (av[idx])
 	{
-		if (!(n_str = ft_itoa(idx)))
-			return ;
-		set_lvar(n_str, av[idx++]);
+		if ((n_str = ft_itoa(idx)))
+		{
+			(void)set_lvar(n_str, av[idx]);
+			free(n_str);
+		}
+		idx++;
+	}
+	if ((n_str = ft_itoa(idx > 0 ? idx - 1 : 0)))
+	{
+		(void)set_lvar("#", n_str);
 		free(n_str);
 	}
 }

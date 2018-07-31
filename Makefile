@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/07/30 02:18:33 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/07/31 15:50:20 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -137,7 +137,7 @@ fsanitize:
 	@ printf "\033[1;31m------------------------------\n"
 	@ printf "\r| ADDRESS SANITIZER ENABLED! |\n"
 	@ printf "\r------------------------------\033[0;39m\n"
-	@ make all LD_FLAGS="$(LD_FLAGS) -fsanitize=address"
+	@ make rep LD_FLAGS="$(LD_FLAGS) -fsanitize=address"
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(INCLUDES)
 	@ if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi

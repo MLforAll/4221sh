@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/30 21:46:00 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/31 15:49:36 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int					lex_line(t_dlist **dest, char *line)
 	if (!line || !dest || !lex_init(dest, &dat, &line))
 		return (LEXER_FAIL);
 	ret = LEXER_OK;
-	while (*line != '#')
+	while (*dat.currtoks.s || *line != '#')
 	{
 		dat.jmp = get_charstate(&dat.cs, line);
 		if ((dat.curr_state = get_nextstate(&dat)) == kLexStateReadAgain)

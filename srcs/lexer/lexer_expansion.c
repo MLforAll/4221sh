@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:39:19 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/30 21:49:38 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/31 15:47:10 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_uint8	lexer_expand_getvar(char **s, t_str *vs)
 	char		*var;
 
 	len = 1;
-	while (ft_isalnum((*s)[len]) || (*s)[len] == '?')
+	while (ft_isalnum((*s)[len]) || (*s)[len] == '?' || (*s)[len] == '#')
 		len++;
 	if (--len == 0)
 		return (FALSE);
