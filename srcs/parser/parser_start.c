@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 16:55:22 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/29 14:11:14 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/31 02:23:58 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ inline static t_btree	*parse_error(const char *tok)
 
 static t_uint8			preparse_readagain(char **line,
 											t_dlist **tokens,
-											int lret)
+											int lret, int fd)
 {
 	const char	*prompt;
 	const char	*delim;
@@ -33,20 +33,20 @@ static t_uint8			preparse_readagain(char **line,
 	if (lret < LEXER_INC)
 		return (TRUE);
 	if (lret == LEXER_INC)
-		return (parser_check_inclist(line, tokens, NULL));
+		return (parser_check_inclist(line, tokens, NULL, fd));
 	prompt = (lret == LEXER_INCDQ) ? "dquote> " : "squote> ";
 	delim = (lret == LEXER_INCDQ) ? "\"" : "'";
 	return (parser_check_ret(line, tokens, prompt, delim));
 }
 
-t_btree					*parse_tokens(char **line, t_dlist *tokens, int lex_ret)
+t_btree					*parse_tokens(char **line, t_dlist *tokens, int lex_ret, int fd)
 {
 	int		heredocs;
 	char	*syntax_err;
 	char	*other_err;
 	t_dlist	*tokbw;
 
-	if (!preparse_readagain(line, &tokens, lex_ret))
+	if (!preparse_readagain(line, &tokens, lex_ret, fd))
 	{
 		sh_err(SH_ERR_MALLOC, "parse_tokens()", NULL);
 		return (NULL);
@@ -54,9 +54,9 @@ t_btree					*parse_tokens(char **line, t_dlist *tokens, int lex_ret)
 	tokbw = tokens;
 	while (tokbw)
 	{
-		if ((heredocs = parser_check_heredocs(tokbw)) == -1
+		if ((heredocs = parser_check_heredocs(tokbw, fd)) == -1
 			|| (!tokbw->next && ((t_token*)tokbw->content)->type != WORD
-				&& !parser_check_inclist(line, &tokens, tokbw)))
+				&& !parser_check_inclist(line, &tokens, tokbw, fd)))
 			other_err = ((t_token*)tokbw->content)->s;
 		else
 			other_err = NULL;

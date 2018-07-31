@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/29 21:47:15 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/31 02:38:40 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_cmdnode	*eval_andif(t_btree *node, t_tab *pids);
 t_cmdnode	*eval_orif(t_btree *node, t_tab *pids);
 t_cmdnode	*eval_background(t_btree *node, t_tab *pids);
 
-int			eval_line(char **line, t_uint8 ragain);
+int			eval_line(char **line, int fd);
 
 /*
 ** autocompletion

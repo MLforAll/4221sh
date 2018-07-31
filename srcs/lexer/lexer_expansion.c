@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:39:19 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/29 06:27:44 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/30 21:49:38 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ t_uint8			lexer_expand_tilde(char **s, t_str *vs)
 		if (!ft_tstrcpy(vs, tmp))
 			return (FALSE);
 		*s += 1;
-		return (TRUE);
 	}
-	return (FALSE);
+	return (TRUE);
 }

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/23 16:15:34 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/30 03:11:44 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/31 02:38:57 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int					interactive_shell(void)
 		ft_strdel(&prompt);
 		if (ret[2] == FTRL_FAIL || ret[2] == FTRL_EOF)
 			break ;
-		if (ret[2] == FTRL_OK && (ret[1] = eval_line(&line, YES)) != -1)
+		if (ret[2] == FTRL_OK && (ret[1] = eval_line(&line, -1)) != -1)
 		{
 			ret[0] = ret[1];
 			(void)set_lvar_n("?", ret[0]);
