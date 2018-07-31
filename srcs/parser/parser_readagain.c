@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/31 02:41:28 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 00:03:42 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,14 @@
 #include <stdlib.h>
 #include "sh.h"
 
-static int					read_both(char **line,
-									const char *prompt,
-									t_rl_opts *ftrl_opts,
-									int fd)
+/*
+** TODO: Fix LEXER_INC ReadAgain
+*/
+
+static inline int	read_both(char **line,
+							const char *prompt,
+							t_rl_opts *ftrl_opts,
+							int fd)
 {
 	int		status;
 
@@ -31,9 +35,9 @@ static int					read_both(char **line,
 	return (FTRL_OK);
 }
 
-static char					*read_till_delim(const char *prompt,
-											const char *delim,
-											t_uint8 opts, int fd)
+static char			*read_till_delim(const char *prompt,
+									const char *delim,
+									t_uint8 opts, int fd)
 {
 	int			status;
 	char		*ret;
@@ -62,7 +66,7 @@ static char					*read_till_delim(const char *prompt,
 	return (ret);
 }
 
-int							parser_check_heredocs(t_dlist *tokens, int fd)
+int					parser_check_heredocs(t_dlist *tokens, int fd)
 {
 	t_token	*tok;
 	char	**toks_dest;
@@ -85,7 +89,7 @@ int							parser_check_heredocs(t_dlist *tokens, int fd)
 	return (FALSE);
 }
 
-inline static const char	*parser_inclist_types(t_token *tok)
+static const char	*parser_inclist_types(t_token *tok)
 {
 	const t_toktype	types[] = {PIPE, AND_IF, OR_IF};
 	const char		*prs[] = {SH_PIPE_PR, SH_ANDIF_PR, SH_ORIF_PR};
@@ -103,9 +107,9 @@ inline static const char	*parser_inclist_types(t_token *tok)
 	return (NULL);
 }
 
-t_uint8						parser_check_inclist(char **line,
-												t_dlist **tokens,
-												t_dlist *tmp, int fd)
+t_uint8				parser_check_inclist(char **line,
+										t_dlist **tokens,
+										t_dlist *tmp, int fd)
 {
 	const char	*prompt;
 	char		*extraline;
@@ -130,19 +134,19 @@ t_uint8						parser_check_inclist(char **line,
 	return (lex_ret != LEXER_FAIL);
 }
 
-t_uint8						parser_check_ret(char **line,
-											t_dlist **tokens,
-											const char *prompt,
-											const char *delim)
+int					parser_check_ret(char **line,
+									t_dlist **tokens,
+									const char *delim, int fd)
 {
-	char	*extraline;
-	int		lex_ret;
-	int		add_ret;
+	char		*extraline;
+	int			lret;
+	const char	*prompt = (ft_strequ(delim, "\"")) ? "dquote> " : "squote> ";
 
-	if (!(extraline = read_till_delim(prompt, delim, RA_BEFORE, -1)))
-		return (FALSE);
-	lex_ret = lex_line(tokens, extraline);
-	add_ret = (line) ? ft_stradd(line, extraline) : TRUE;
+	if (!(extraline = read_till_delim(prompt, delim, RA_BEFORE, fd)))
+		return (2);
+	if ((lret = lex_line(tokens, extraline)) == LEXER_FAIL
+		|| (line && !ft_stradd(line, extraline)))
+		return (LEXER_FAIL);
 	free(extraline);
-	return (add_ret && lex_ret != LEXER_FAIL);
+	return (lret);
 }

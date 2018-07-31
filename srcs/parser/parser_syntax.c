@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/21 17:10:58 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/31 02:23:55 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/31 22:59:37 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,5 @@ char		*parser_check_syntax(t_dlist *tokens)
 		&& (tmp = check_next_token(tokens->next, DASH))
 		&& (tmp = check_next_token(tokens->next, IO_NUMBER)))
 		return (tmp);
-	prev = curr;
-	tokens = tokens->next;
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 16:55:22 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/31 02:23:58 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 00:02:48 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,33 +27,38 @@ static t_uint8			preparse_readagain(char **line,
 											t_dlist **tokens,
 											int lret, int fd)
 {
-	const char	*prompt;
 	const char	*delim;
 
-	if (lret < LEXER_INC)
-		return (TRUE);
-	if (lret == LEXER_INC)
-		return (parser_check_inclist(line, tokens, NULL, fd));
-	prompt = (lret == LEXER_INCDQ) ? "dquote> " : "squote> ";
-	delim = (lret == LEXER_INCDQ) ? "\"" : "'";
-	return (parser_check_ret(line, tokens, prompt, delim));
+	while (lret != LEXER_OK)
+	{
+		if (lret == LEXER_INC)
+			lret = parser_check_inclist(line, tokens, NULL, fd);
+		delim = (lret == LEXER_INCDQ) ? "\"" : "'";
+		lret = parser_check_ret(line, tokens, delim, fd);
+		if (lret == LEXER_FAIL)
+			return (sh_err_ret(SH_ERR_MALLOC, "parse_tokens()", NULL, FALSE));
+		if (lret == 2)
+			return (FALSE);
+	}
+	return (TRUE);
 }
 
-t_btree					*parse_tokens(char **line, t_dlist *tokens, int lex_ret, int fd)
+t_btree					*parse_tokens(char **line, \
+									t_dlist *tokens, \
+									int lret, \
+									int fd)
 {
 	int		heredocs;
 	char	*syntax_err;
 	char	*other_err;
 	t_dlist	*tokbw;
 
-	if (!preparse_readagain(line, &tokens, lex_ret, fd))
-	{
-		sh_err(SH_ERR_MALLOC, "parse_tokens()", NULL);
+	if (lret >= LEXER_INC && !preparse_readagain(line, &tokens, lret, fd))
 		return (NULL);
-	}
 	tokbw = tokens;
 	while (tokbw)
 	{
+		syntax_err = NULL;
 		if ((heredocs = parser_check_heredocs(tokbw, fd)) == -1
 			|| (!tokbw->next && ((t_token*)tokbw->content)->type != WORD
 				&& !parser_check_inclist(line, &tokens, tokbw, fd)))

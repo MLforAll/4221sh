@@ -6,15 +6,13 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 22:27:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/24 23:33:21 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/31 22:50:33 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
-#include "../../includes/sh_lexer.h"
 #include "blintern.h"
-#include "libft.h"
 #include "g_typedesc.h"
 
 static void	ft_putnchar_limit(char c, size_t len)

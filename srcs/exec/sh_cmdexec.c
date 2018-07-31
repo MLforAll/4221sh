@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/30 03:30:57 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/31 23:02:00 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static int		exec_core(t_cmdnode *cmddat, t_uint8 forkdes, char **env)
 	return ((exec_shell(cmddat->c_path) == EXIT_SUCCESS) ? EXIT_SUCCESS : 127);
 }
 
-static int		exec_setup(t_cmdnode *cmddat, 
+static int		exec_setup(t_cmdnode *cmddat,
 							int async,
 							pid_t *spid,
 							char **env)

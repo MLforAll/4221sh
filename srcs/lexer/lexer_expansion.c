@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:39:19 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/31 15:47:10 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/31 23:14:41 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ t_uint8			lexer_expand_var(char **s,
 		return (lexer_expand_getvar(s, vs));
 	if (!ft_tstrnew(&exp))
 		return (FALSE);
-	if (lexer_expand_getvar(s, &exp) && (splt = ft_strsplit(exp.s, ' ')))
+	if (lexer_expand_getvar(s, &exp)
+		&& (splt = ft_strsplit_charset(exp.s, " \t")))
 	{
 		rval = lexer_expand_var_splt(splt, vs, ret);
 		ft_tabfree(&splt);
