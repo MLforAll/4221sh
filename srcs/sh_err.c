@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 21:23:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/28 15:34:31 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/07/31 18:58:45 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void					sh_err(t_errs errc, const char *bltn, const char *path)
 		"Too many symbolic links", "Not a directory",
 		"numeric argument required", "not a valid identifier",
 		"argument required", "no such job", "Bad file descriptor",
-		"malloc() failure", "Undefined error"};
+		"malloc() failure", "Bad file", "Undefined error"};
 
 	ft_putstrsec_fd(g_sh_name, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
