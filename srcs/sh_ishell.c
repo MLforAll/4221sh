@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/23 16:15:34 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/31 02:38:57 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 19:09:17 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ inline static void	do_history(t_dlist **hist, char *line)
 	if (!hist || !line)
 		return ;
 	if (n == -1)
-		n = ft_dlstlen(*hist);
+		n = (int)ft_dlstlen(*hist);
 	if (n >= SH_MAXHIST)
 		ftrl_histdellast(hist);
 	else

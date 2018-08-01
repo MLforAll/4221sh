@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 04:46:03 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/30 02:36:00 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 19:30:42 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct	s_jobctrl
 	char			*j_cmd;
 	pid_t			j_pid;
 	t_uint8			j_exval;
+	char			reserved_pad[3];
 }				t_jobctrl;
 
 /*

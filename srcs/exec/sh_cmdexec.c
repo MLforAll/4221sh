@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/31 23:02:00 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 19:29:42 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,26 @@
 #include "sh_jobs.h"
 #include "sh.h"
 
-static t_errs	cmd_chk(char *path)
+static int		cmd_chk(char *path)
 {
 	t_errs	code;
 	t_errs	noent;
 	char	*pathenv;
 
 	if (!path)
-		return (SH_ERR_UNDEFINED);
+		return ((int)SH_ERR_UNDEFINED);
 	noent = SH_ERR_NOENT;
 	if (!ft_strchr(path, '/'))
 	{
 		if ((pathenv = getenv("PATH")) && *pathenv)
-			return (SH_ERR_NOCMD);
+			return ((int)SH_ERR_NOCMD);
 		noent = SH_ERR_NOCMD;
 	}
 	if ((code = get_errcode_for_path(path, X_OK, NO)) == SH_ERR_UNDEFINED)
 		return (-1);
 	if (code == SH_ERR_NOENT)
-		return (noent);
-	return (code);
+		return ((int)noent);
+	return ((int)code);
 }
 
 static void		restore_bakfds(t_tab *bakfds)
@@ -80,8 +80,8 @@ static int		exec_core(t_cmdnode *cmddat, t_uint8 forkdes, char **env)
 		return (EXIT_SUCCESS);
 	(void)chg_env_var(env, "_", cmddat->c_path);
 	(void)execve(cmddat->c_path, cmddat->c_av, env);
-	if ((tmp = (int)cmd_chk(cmddat->c_path)) >= 0)
-		return (sh_err_ret(tmp, NULL, cmddat->c_path, 127));
+	if ((tmp = cmd_chk(cmddat->c_path)) >= 0)
+		return (sh_err_ret((t_errs)tmp, NULL, cmddat->c_path, 127));
 	shell_init(cmddat->c_av);
 	return ((exec_shell(cmddat->c_path) == EXIT_SUCCESS) ? EXIT_SUCCESS : 127);
 }
@@ -112,8 +112,7 @@ static int		exec_setup(t_cmdnode *cmddat,
 	g_curr_process = pid;
 	if (spid)
 		*spid = pid;
-	else
-		jobnode = sh_job_add(cmddat->c_path, pid, kJobStateRunning);
+	jobnode = (spid) ? NULL : sh_job_add(cmddat->c_path, pid, kJobStateRunning);
 	return ((async) ? -1 : ft_wait(jobnode));
 }
 

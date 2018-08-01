@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/28 01:38:20 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/27 06:15:35 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 19:15:50 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@
 #include <term.h>
 
 /*
-** draw_chs (static)   -> draw choices
+** draw_chs (static)    -> draw choices
 **
-** t_list *chs         -> linked list of choices
-** unsigned int selidx -> currently selected idex
+** t_list *chs          -> linked list of choices
+** unsigned long selidx -> currently selected idex
 */
 
-static void			draw_chs(t_list *chs, unsigned int selidx)
+static void			draw_chs(t_list *chs, unsigned long selidx)
 {
-	unsigned int	idx;
+	unsigned long	idx;
 	char			*tgt;
 
 	idx = 0;
@@ -68,7 +68,7 @@ inline static void	clr_chs(size_t len)
 ** unsigned int idx -> currently selected idex
 */
 
-static char			*get_ret(t_list *chs, unsigned int idx)
+static char			*get_ret(t_list *chs, unsigned long idx)
 {
 	while (idx-- && chs)
 		chs = chs->next;

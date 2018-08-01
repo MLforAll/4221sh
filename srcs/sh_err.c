@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 21:23:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 15:15:52 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 19:10:53 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ static inline t_uint8	can_read_link(char **chk, struct stat *st)
 {
 	char	*tmp;
 
-	if (!(tmp = ft_strnew(st->st_size)))
+	if (!(tmp = ft_strnew((size_t)st->st_size)))
 	{
 		ft_strdel(chk);
 		return (FALSE);
 	}
-	if (readlink(*chk, tmp, st->st_size) == -1)
+	if (readlink(*chk, tmp, (size_t)st->st_size) == -1)
 	{
 		ft_strdel(chk);
 		free(tmp);

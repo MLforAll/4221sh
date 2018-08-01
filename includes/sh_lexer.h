@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 03:23:10 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 19:40:47 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ typedef struct	s_equi
 	int		nb;
 	int		(*act)(void *);
 	void	*data;
+	char	reversed_pad[4];
 }				t_equi;
 
 /*

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 02:41:29 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 14:27:36 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 19:08:45 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static t_uint8	is_file_binary(const char *path)
 		return (FALSE);
 	while ((rb = read(fd, buff, 512)) > 0)
 	{
-		if (ft_memchr(buff, '\0', rb))
+		if (ft_memchr(buff, '\0', (size_t)rb))
 		{
 			(void)close(fd);
 			return (FALSE);

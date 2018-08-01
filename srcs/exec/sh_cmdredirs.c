@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 14:42:44 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/29 06:34:20 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 19:29:58 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include "sh.h"
-
-/*
-** todo: do redirs before forking IN ANY CASE! (fixes `>file`)
-*/
 
 static t_uint8		do_redir_action(t_redirect *redir, int oflags)
 {
@@ -67,7 +63,7 @@ static void			do_str_to_stdin(t_redirect *redir, t_cmdnode *cmddat)
 		return ;
 	if (cmddat->stdin_fd != -1)
 		while ((rb = read(redir->io_nbr, buff, 32)) > 0)
-			(void)write(cfd[1], buff, rb);
+			(void)write(cfd[1], buff, (size_t)rb);
 	ft_putstr_fd(redir->data, cfd[1]);
 	(void)close(redir->io_nbr);
 	(void)dup2(cfd[0], redir->io_nbr);

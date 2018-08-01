@@ -6,26 +6,24 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 02:03:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 16:18:32 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 19:24:54 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "sh_parser.h"
 
-inline static int	get_dfl_io_nbr(t_toktype type)
+inline static int		get_dfl_io_nbr(t_toktype type)
 {
 	return ((type == LESS || type == DLESS) ? STDIN_FILENO : STDOUT_FILENO);
 }
 
-/*
-** todo: if heredoc failed, then tokdat->s will be NULL, then strdup() will
-**		 segv the program. Same thing for atoi()
-*/
-
-static t_uint8		add_redirect(t_cmdnode *cmddat, t_dlist **tok, int *io_nbr)
+static t_uint8			add_redirect(t_cmdnode *cmddat,
+									t_dlist **tok,
+									int *io_nbr)
 {
 	t_list		*nr;
+	t_token		*nextdat;
 	t_redirect	nrdat;
 	t_token		*tokdat;
 
@@ -36,11 +34,12 @@ static t_uint8		add_redirect(t_cmdnode *cmddat, t_dlist **tok, int *io_nbr)
 	nrdat.rtype = tokdat->type;
 	if ((*tok)->next)
 	{
-		if (((t_token*)(*tok)->next->content)->type == WORD
-			&& !(nrdat.data = ft_strdup(((t_token*)(*tok)->next->content)->s)))
+		nextdat = (t_token*)(*tok)->next->content;
+		if (nextdat->type == WORD
+			&& (!nextdat->s || !(nrdat.data = ft_strdup(nextdat->s))))
 			return (FALSE);
-		else if (((t_token*)(*tok)->next->content)->type == IO_NUMBER)
-			nrdat.agreg = ft_atoi(((t_token*)(*tok)->next->content)->s);
+		else if (nextdat->type == IO_NUMBER && nextdat->s)
+			nrdat.agreg = ft_atoi(nextdat->s);
 		*tok = (*tok)->next;
 	}
 	*io_nbr = -1;
@@ -50,14 +49,12 @@ static t_uint8		add_redirect(t_cmdnode *cmddat, t_dlist **tok, int *io_nbr)
 	return (TRUE);
 }
 
-/*
-** todo: switch to inline or remove
-*/
-
-static t_uint8		word_action(t_cmdnode *cmddat, t_token *tokdat, t_uint8 *fw)
+inline static t_uint8	word_action(t_cmdnode *cmddat,
+									t_token *tokdat,
+									t_uint8 *fw)
 {
 	if (ft_strchr(tokdat->s, '=') && *fw)
-		return (ft_tabaddstr(&cmddat->c_vars, tokdat->s));
+		return ((t_uint8)ft_tabaddstr(&cmddat->c_vars, tokdat->s));
 	if (!ft_tabaddstr(&cmddat->c_av, tokdat->s))
 		return (FALSE);
 	if (!*fw)
@@ -73,23 +70,27 @@ static t_uint8		word_action(t_cmdnode *cmddat, t_token *tokdat, t_uint8 *fw)
 ** todo: error handling
 */
 
-void				fill_cmd_data(t_cmdnode *cmddat, t_dlist *tokens)
+void					fill_cmd_data(t_cmdnode *cmddat, t_dlist *tokens)
 {
 	t_token	*tokdat;
 	t_uint8	first_word;
 	int		io_nbr;
+	t_uint8	status;
 
 	first_word = TRUE;
 	io_nbr = -1;
 	while (tokens)
 	{
 		tokdat = (t_token*)tokens->content;
+		status = TRUE;
 		if (tokdat->type == WORD)
-			(void)word_action(cmddat, tokdat, &first_word);
+			status = word_action(cmddat, tokdat, &first_word);
 		else if (tokdat->type == IO_NUMBER)
 			io_nbr = ft_atoi(tokdat->s);
 		else if (tokdat->type >= GREAT && tokdat->type <= DLESS)
-			(void)add_redirect(cmddat, &tokens, &io_nbr);
+			status = add_redirect(cmddat, &tokens, &io_nbr);
+		if (!status)
+			return ;
 		tokens = tokens->next;
 	}
 }

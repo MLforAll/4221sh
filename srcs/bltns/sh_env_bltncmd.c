@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 23:00:55 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/27 00:03:24 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 19:35:02 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int			env_bltn(int ac, char **av)
 	exval = EXIT_SUCCESS;
 	idx = 1;
 	if ((opts = ft_args_opts(av, &idx, "i", NULL)) < 0)
-		return (env_usage(-opts));
+		return (env_usage((char)-opts));
 	new_env = (opts & 0x1) ? ft_tabnew() : ft_tabdup(environ);
 	while (ac > 1 && av[idx])
 	{

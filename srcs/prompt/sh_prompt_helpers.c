@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 21:41:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/14 05:16:50 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 19:13:50 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int			add_hostname(char **dest)
 	if (gethostname(hostname, MAXHOSTNAMELEN) == -1)
 		return (FALSE);
 	if ((dot = ft_strchr(hostname, '.')))
-		ft_strnadd(dest, hostname, dot - hostname);
+		ft_strnadd(dest, hostname, (size_t)(dot - hostname));
 	else
 		ft_stradd(dest, hostname);
 	return (TRUE);

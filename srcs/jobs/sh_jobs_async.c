@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:28:04 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/31 22:56:53 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 19:31:37 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 
 #ifdef SHJBS_LOCK_USE_PTHREADS
 
-static pthread_mutex_t g_jobmutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t	g_jobmutex = PTHREAD_MUTEX_INITIALIZER;
 
-inline void				sh_jobop_lock(void)
+void					sh_jobop_lock(void)
 {
 	(void)pthread_mutex_lock(&g_jobmutex);
 }
 
-inline void				sh_jobop_unlock(void)
+void					sh_jobop_unlock(void)
 {
 	(void)pthread_mutex_unlock(&g_jobmutex);
 }

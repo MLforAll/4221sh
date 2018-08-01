@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 01:18:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/30 03:11:16 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 19:12:19 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static char	*get_hist_string(t_dlist *hist)
 		hist = hist->next;
 	while (hist->prev)
 	{
+		line = NULL;
 		if (hist->content
 			&& (!(line = ft_strnew_replace((char*)hist->content, "\n", "\032"))
 				|| !ft_stradd(&histbuff, line)

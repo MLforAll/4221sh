@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/31 02:55:01 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/29 06:17:17 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 19:38:17 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 #include <unistd.h>
 #include "sh_jobs.h"
 
-t_list		*g_jobslst = NULL;
+extern t_list	*g_jobslst;
+t_list			*g_jobslst = NULL;
 
-t_list		**sh_job_idx(int idx)
+t_list			**sh_job_idx(int idx)
 {
 	t_list	**tmp;
 
@@ -29,7 +30,7 @@ t_list		**sh_job_idx(int idx)
 	return ((idx > 0) ? NULL : tmp);
 }
 
-t_list		**sh_job_lastest(void)
+t_list			**sh_job_lastest(void)
 {
 	t_list	**tmp;
 
@@ -43,7 +44,7 @@ t_list		**sh_job_lastest(void)
 	return (tmp);
 }
 
-t_list		**sh_job_add(char *cmd, pid_t pid, enum e_jobstate state)
+t_list			**sh_job_add(char *cmd, pid_t pid, enum e_jobstate state)
 {
 	t_jobctrl	*jdat;
 	t_list		*node;
@@ -71,7 +72,7 @@ t_list		**sh_job_add(char *cmd, pid_t pid, enum e_jobstate state)
 	return (tmp);
 }
 
-void		sh_jobs_rmall(void)
+void			sh_jobs_rmall(void)
 {
 	if (!g_jobslst)
 		return ;

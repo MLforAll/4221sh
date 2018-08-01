@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/30 16:17:07 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 01:31:34 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 19:37:37 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void			chg_ret(char **ret, char **last, char *path,
 	{
 		if (*ret && (rchr = ft_strrchr(*ret, '/')))
 		{
-			sublen = (rchr - *ret <= 0) ? 1 : rchr - *ret;
+			sublen = (rchr - *ret <= 0) ? 1 : (size_t)(rchr - *ret);
 			if (!(tmp = ft_strsub(*ret, 0, sublen)))
 				return ;
 			ft_strdel(ret);

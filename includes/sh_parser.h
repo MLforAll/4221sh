@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 14:56:02 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 19:42:38 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # define RA_ABORT		2
 # define RA_EOF			3
 
-# define RA_WHOLE		0b1
-# define RA_BEFORE		0b10
+# define RA_WHOLE		1
+# define RA_BEFORE		1 << 1
 
 /*
 ** data types
@@ -35,6 +35,7 @@ typedef struct	s_astnode
 {
 	void		*data;
 	t_toktype	type;
+	char		reserved_pad[4];
 }				t_astnode;
 
 typedef	struct	s_cmdnode
@@ -55,6 +56,7 @@ typedef struct	s_redirect
 	int			io_nbr;
 	int			agreg;
 	t_toktype	rtype;
+	char		reserved_pad[4];
 }				t_redirect;
 
 /*
@@ -68,9 +70,9 @@ t_btree			*parser_create_ast(t_dlist *tokens);
 ** read again
 */
 
-char				*read_till_delim(const char *prompt,
-									const char *delim,
-									t_uint8 opts, int fd);
+char			*read_till_delim(const char *prompt,
+								const char *delim,
+								t_uint8 opts, int fd);
 
 char			*parser_check_syntax(t_dlist *tokens);
 int				parser_check_inclist(char **line, t_dlist **tokens,
