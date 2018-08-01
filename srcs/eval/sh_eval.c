@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/31 02:39:16 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 02:08:34 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int				eval_line(char **line, int fd)
 		return (sh_err_ret(SH_ERR_MALLOC, "lex_line()", NULL, EXIT_FAILURE));
 	if (!tokens)
 		return (EXIT_SUCCESS);
-	if (!(ast = parse_tokens((fd != -1) ? line : NULL, tokens, lex_ret, fd)))
+	if (!(ast = parse_tokens((fd == -1) ? line : NULL, tokens, lex_ret, fd)))
 	{
 		ft_dlstdel(&tokens, &tokens_lstdel);
 		return (PARSER_FAIL);

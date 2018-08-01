@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/03 20:21:10 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/16 17:20:13 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 04:46:27 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # define SH_PIPE_PR			"pipe> "
 # define SH_ANDIF_PR		"andif> "
 # define SH_ORIF_PR			"orif> "
+# define SH_READAGAIN_PR	"readagain> "
 
 /*
 ** prompt

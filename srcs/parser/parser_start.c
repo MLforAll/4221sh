@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 16:55:22 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 00:02:48 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 04:47:57 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,14 @@ static t_uint8			preparse_readagain(char **line,
 	{
 		if (lret == LEXER_INC)
 			lret = parser_check_inclist(line, tokens, NULL, fd);
-		delim = (lret == LEXER_INCDQ) ? "\"" : "'";
-		lret = parser_check_ret(line, tokens, delim, fd);
+		else
+		{
+			delim = (lret == LEXER_INCDQ) ? "\"" : "'";
+			lret = parser_check_ret(line, tokens, delim, fd);
+		}
 		if (lret == LEXER_FAIL)
 			return (sh_err_ret(SH_ERR_MALLOC, "parse_tokens()", NULL, FALSE));
-		if (lret == 2)
+		if (lret == RA_ABORT)
 			return (FALSE);
 	}
 	return (TRUE);
@@ -50,24 +53,26 @@ t_btree					*parse_tokens(char **line, \
 {
 	int		heredocs;
 	char	*syntax_err;
-	char	*other_err;
 	t_dlist	*tokbw;
 
-	if (lret >= LEXER_INC && !preparse_readagain(line, &tokens, lret, fd))
-		return (NULL);
 	tokbw = tokens;
 	while (tokbw)
 	{
+		if (tokbw == tokens && lret >= LEXER_INC
+			&& !preparse_readagain(line, &tokens, lret, fd))
+			return (NULL);
 		syntax_err = NULL;
-		if ((heredocs = parser_check_heredocs(tokbw, fd)) == -1
-			|| (!tokbw->next && ((t_token*)tokbw->content)->type != WORD
-				&& !parser_check_inclist(line, &tokens, tokbw, fd)))
-			other_err = ((t_token*)tokbw->content)->s;
-		else
-			other_err = NULL;
-		if (other_err || (syntax_err = parser_check_syntax(tokbw)))
-			return (parse_error((syntax_err) ? syntax_err : other_err));
-		tokbw = (!tokbw->next && other_err) ? tokens : tokbw->next;
+		if ((heredocs = parser_check_heredocs(tokbw, fd)) == -1)
+			syntax_err = ((t_token*)tokbw->content)->s;
+		if (!tokbw->next && ((t_token*)tokbw->content)->type != WORD)
+		{
+			lret = parser_check_inclist(line, &tokens, tokbw, fd);
+			tokbw = tokens;
+			continue ;
+		}
+		if (syntax_err || (syntax_err = parser_check_syntax(tokbw)))
+			return (parse_error(syntax_err));
+		tokbw = tokbw->next;
 	}
 	return (parser_create_ast(tokens));
 }

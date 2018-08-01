@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:39:19 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/31 23:14:41 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 04:06:24 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include "sh.h"
 
-static t_uint8	lexer_expand_getvar(char **s, t_str *vs)
+t_uint8			lexer_expand_getvar(char **s, t_str *vs)
 {
 	char		*tmp;
 	size_t		len;

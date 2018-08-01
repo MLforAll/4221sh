@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/28 23:52:39 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 03:23:10 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,8 @@ int				create_semi_tok(void *data);
 /*
 ** Expansion
 */
+
+t_uint8			lexer_expand_getvar(char **s, t_str *vs);
 
 t_uint8			lexer_expand_var(char **s,
 								t_str *vs,

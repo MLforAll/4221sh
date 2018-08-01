@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/31 23:56:42 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 04:52:25 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 */
 
 # define PARSER_FAIL	258
+# define RA_ABORT		2
+
 # define RA_WHOLE		0b1
 # define RA_BEFORE		0b10
 
@@ -65,8 +67,12 @@ t_btree			*parser_create_ast(t_dlist *tokens);
 ** read again
 */
 
+char				*read_till_delim(const char *prompt,
+									const char *delim,
+									t_uint8 opts, int fd);
+
 char			*parser_check_syntax(t_dlist *tokens);
-t_uint8			parser_check_inclist(char **line, t_dlist **tokens,
+int				parser_check_inclist(char **line, t_dlist **tokens,
 									t_dlist *tmp, int fd);
 int				parser_check_heredocs(t_dlist *tokens, int fd);
 int				parser_check_ret(char **line, t_dlist **tokens,

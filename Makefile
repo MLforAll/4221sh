@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/07/31 23:02:53 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/08/01 04:50:45 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,8 @@ SRCFILES = sh_main.c \
 	parser/parser_pathget.c \
 	parser/parser_free.c \
 	parser/parser_readagain.c \
+	parser/parser_inclist.c \
+	parser/parser_heredocs.c \
 	parser/parser_syntax.c \
 	eval/sh_eval.c \
 	eval/sh_evaluators.c \

@@ -6,17 +6,13 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 00:03:42 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 04:52:09 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
 #include "sh.h"
-
-/*
-** TODO: Fix LEXER_INC ReadAgain
-*/
 
 static inline int	read_both(char **line,
 							const char *prompt,
@@ -35,7 +31,7 @@ static inline int	read_both(char **line,
 	return (FTRL_OK);
 }
 
-static char			*read_till_delim(const char *prompt,
+char				*read_till_delim(const char *prompt,
 									const char *delim,
 									t_uint8 opts, int fd)
 {
@@ -57,96 +53,11 @@ static char			*read_till_delim(const char *prompt,
 		if (status == FTRL_EOF || (ft_strequ(line, delim) && (opts & RA_WHOLE)))
 			break ;
 		ft_stradd(&ret, line);
-		if (!delim || (delim && (opts & !RA_WHOLE) && ft_strstr(line, delim)))
+		if (!delim || (delim && !(opts & RA_WHOLE) && ft_strstr(line, delim)))
 			break ;
 		ft_strdel(&line);
 		ft_stradd(&ret, "\n");
 	}
 	ft_strdel(&line);
 	return (ret);
-}
-
-int					parser_check_heredocs(t_dlist *tokens, int fd)
-{
-	t_token	*tok;
-	char	**toks_dest;
-	char	*tmp;
-
-	tok = (t_token*)tokens->content;
-	if (tok->type != DLESS)
-		return (FALSE);
-	if (!tokens->next || !tokens->next->content)
-		return (-1);
-	if (((t_token*)tokens->next->content)->type == WORD)
-	{
-		toks_dest = &((t_token*)tokens->next->content)->s;
-		if (!(tmp = read_till_delim(SH_HEREDOC_PR, *toks_dest, RA_WHOLE, fd)))
-			tmp = ft_strnew(0);
-		free(*toks_dest);
-		*toks_dest = tmp;
-		return (TRUE);
-	}
-	return (FALSE);
-}
-
-static const char	*parser_inclist_types(t_token *tok)
-{
-	const t_toktype	types[] = {PIPE, AND_IF, OR_IF};
-	const char		*prs[] = {SH_PIPE_PR, SH_ANDIF_PR, SH_ORIF_PR};
-	t_uint8			idx;
-
-	if (!tok)
-		return ("readagain> ");
-	idx = 0;
-	while (idx < sizeof(types) / sizeof(t_toktype))
-	{
-		if (tok->type == types[idx])
-			return (prs[idx]);
-		idx++;
-	}
-	return (NULL);
-}
-
-t_uint8				parser_check_inclist(char **line,
-										t_dlist **tokens,
-										t_dlist *tmp, int fd)
-{
-	const char	*prompt;
-	char		*extraline;
-	int			lex_ret;
-
-	if (!line)
-		return (FALSE);
-	if (!(prompt = parser_inclist_types(tmp ? (t_token*)tmp->content : NULL)))
-		return (TRUE);
-	if (!(extraline = read_till_delim(prompt, NULL, 0, fd)))
-		return (FALSE);
-	if (!*extraline)
-	{
-		free(extraline);
-		return (TRUE);
-	}
-	if (!tmp)
-		(*line)[ft_strlen(*line) - 1] = '\0';
-	ft_stradd(line, extraline);
-	lex_ret = lex_line(tokens, extraline);
-	free(extraline);
-	return (lex_ret != LEXER_FAIL);
-}
-
-int					parser_check_ret(char **line,
-									t_dlist **tokens,
-									const char *delim, int fd)
-{
-	char		*extraline;
-	int			lret;
-	const char	*prompt = (ft_strequ(delim, "\"")) ? "dquote> " : "squote> ";
-
-	if (!(extraline = read_till_delim(prompt, delim, RA_BEFORE, fd)))
-		return (2);
-	if ((lret = lex_line(tokens, extraline)) == LEXER_FAIL
-		|| (line && !ft_stradd(line, extraline)))
-		return (LEXER_FAIL);
-	free(extraline);
-	return (lret);
 }
