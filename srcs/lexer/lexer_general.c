@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 19:43:40 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 21:25:37 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,24 +61,24 @@ static int	create_orif(void *data)
 int			lex_general(void *data)
 {
 	const t_equi		eq[] = {
-	{kCharGeneral, &lexact_append_current, (void*)data, "\0"},
-	{kCharDash, &lexact_append_current, (void*)data, "\0"},
-	{kCharDQuote, &switch_to_dquote, (void*)data, "\0"},
-	{kCharSQuote, &switch_to_squote, (void*)data, "\0"},
-	{kCharEscape, &create_escape, (void*)data, "\0"},
-	{kCharSpace, &lexact_add_token, (void*)data, "\0"},
-	{kCharTab, &lexact_add_token, (void*)data, "\0"},
-	{kCharNull, &lexact_add_token, (void*)data, "\0"},
-	{kCharDGreat, &create_dgreat_tok, (void*)data, "\0"},
-	{kCharGreat, &create_great_tok, (void*)data, "\0"},
-	{kCharDLess, &create_dless_tok, (void*)data, "\0"},
-	{kCharLess, &create_less_tok, (void*)data, "\0"},
-	{kCharAmpersand, &create_ampersand, (void*)data, "\0"},
-	{kCharAndIf, &create_andif, (void*)data, "\0"},
-	{kCharOrIf, &create_orif, (void*)data, "\0"},
-	{kCharPipe, &create_pipe_tok, (void*)data, "\0"},
-	{kCharSemi, &create_semi_tok, (void*)data, "\0"},
-	{0, NULL, NULL, "\0"}};
+	{kCharGeneral, &lexact_append_current, (void*)data},
+	{kCharDash, &lexact_append_current, (void*)data},
+	{kCharDQuote, &switch_to_dquote, (void*)data},
+	{kCharSQuote, &switch_to_squote, (void*)data},
+	{kCharEscape, &create_escape, (void*)data},
+	{kCharSpace, &lexact_add_token, (void*)data},
+	{kCharTab, &lexact_add_token, (void*)data},
+	{kCharNull, &lexact_add_token, (void*)data},
+	{kCharDGreat, &create_dgreat_tok, (void*)data},
+	{kCharGreat, &create_great_tok, (void*)data},
+	{kCharDLess, &create_dless_tok, (void*)data},
+	{kCharLess, &create_less_tok, (void*)data},
+	{kCharAmpersand, &create_ampersand, (void*)data},
+	{kCharAndIf, &create_andif, (void*)data},
+	{kCharOrIf, &create_orif, (void*)data},
+	{kCharPipe, &create_pipe_tok, (void*)data},
+	{kCharSemi, &create_semi_tok, (void*)data},
+	{0, NULL, NULL}};
 	const t_charstate	cmpdat = ((t_lexdat*)data)->cs;
 
 	return (ft_switch((void*)&cmpdat, (void*)&eq, sizeof(t_equi), &ft_swcmp));

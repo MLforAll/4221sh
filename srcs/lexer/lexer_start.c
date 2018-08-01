@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 19:43:23 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 21:24:58 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ static size_t		get_charstate(t_charstate *cs, char *s)
 static t_lexstate	get_nextstate(t_lexdat *dat)
 {
 	const t_equi		eq[] = {
-	{kLexStateGeneral, &lex_general, (void*)dat, "\0"},
-	{kLexStateDQuote, &lex_dquote, (void*)dat, "\0"},
-	{kLexStateSQuote, &lex_squote, (void*)dat, "\0"},
-	{kLexStateAmpersand, &lex_ampersand, (void*)dat, "\0"},
-	{kLexStateRedirections, &lex_redirects, (void*)dat, "\0"},
-	{0, NULL, NULL, "\0"}};
+	{kLexStateGeneral, &lex_general, (void*)dat},
+	{kLexStateDQuote, &lex_dquote, (void*)dat},
+	{kLexStateSQuote, &lex_squote, (void*)dat},
+	{kLexStateAmpersand, &lex_ampersand, (void*)dat},
+	{kLexStateRedirections, &lex_redirects, (void*)dat},
+	{0, NULL, NULL}};
 	const int			cmpdat = dat->curr_state;
 	int					ret;
 
