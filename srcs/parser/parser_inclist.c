@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 04:51:29 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 15:10:48 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int					parser_check_inclist(char **line,
 	if (!*extraline)
 	{
 		free(extraline);
-		return (LEXER_INC);
+		return (LEXER_OK);
 	}
 	if (!tmp && line)
 		(*line)[ft_strlen(*line) - 1] = '\0';

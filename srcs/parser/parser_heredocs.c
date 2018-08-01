@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 04:51:06 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 15:38:51 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include "sh.h"
 
-static void			expand_heredoc_data(char **fetch)
+static void		expand_heredoc_data(char **fetch)
 {
 	t_str	vs;
 	char	*tmp;
@@ -36,7 +36,11 @@ static void			expand_heredoc_data(char **fetch)
 	*fetch = vs.s;
 }
 
-int					parser_check_heredocs(t_dlist *tokens, int fd)
+/*
+** todo: if tmp == NULL, output error?
+*/
+
+int				parser_check_heredocs(t_dlist *tokens, int fd)
 {
 	t_token	*tok;
 	char	**toks_dest;
@@ -53,7 +57,8 @@ int					parser_check_heredocs(t_dlist *tokens, int fd)
 		if (!(tmp = read_till_delim(SH_HEREDOC_PR, *toks_dest, RA_WHOLE, fd))
 			&& !(tmp = ft_strnew(0)))
 			return (FALSE);
-		expand_heredoc_data(&tmp);
+		else if (ft_strchr(tmp, '$'))
+			expand_heredoc_data(&tmp);
 		free(*toks_dest);
 		*toks_dest = tmp;
 		return (TRUE);

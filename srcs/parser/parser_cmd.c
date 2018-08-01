@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 02:03:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/27 05:55:16 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 16:18:32 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ inline static int	get_dfl_io_nbr(t_toktype type)
 {
 	return ((type == LESS || type == DLESS) ? STDIN_FILENO : STDOUT_FILENO);
 }
+
+/*
+** todo: if heredoc failed, then tokdat->s will be NULL, then strdup() will
+**		 segv the program. Same thing for atoi()
+*/
 
 static t_uint8		add_redirect(t_cmdnode *cmddat, t_dlist **tok, int *io_nbr)
 {
@@ -45,6 +50,10 @@ static t_uint8		add_redirect(t_cmdnode *cmddat, t_dlist **tok, int *io_nbr)
 	return (TRUE);
 }
 
+/*
+** todo: switch to inline or remove
+*/
+
 static t_uint8		word_action(t_cmdnode *cmddat, t_token *tokdat, t_uint8 *fw)
 {
 	if (ft_strchr(tokdat->s, '=') && *fw)
@@ -59,6 +68,10 @@ static t_uint8		word_action(t_cmdnode *cmddat, t_token *tokdat, t_uint8 *fw)
 	*fw = FALSE;
 	return (TRUE);
 }
+
+/*
+** todo: error handling
+*/
 
 void				fill_cmd_data(t_cmdnode *cmddat, t_dlist *tokens)
 {

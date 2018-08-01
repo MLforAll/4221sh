@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 16:55:22 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 04:47:57 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 16:22:54 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static t_uint8			preparse_readagain(char **line,
 		{
 			delim = (lret == LEXER_INCDQ) ? "\"" : "'";
 			lret = parser_check_ret(line, tokens, delim, fd);
+			if (lret == RA_ABORT && fd != -1)
+				(void)parse_error("EOF");
 		}
 		if (lret == LEXER_FAIL)
 			return (sh_err_ret(SH_ERR_MALLOC, "parse_tokens()", NULL, FALSE));
@@ -65,12 +67,8 @@ t_btree					*parse_tokens(char **line, \
 		if ((heredocs = parser_check_heredocs(tokbw, fd)) == -1)
 			syntax_err = ((t_token*)tokbw->content)->s;
 		if (!tokbw->next && ((t_token*)tokbw->content)->type != WORD)
-		{
 			lret = parser_check_inclist(line, &tokens, tokbw, fd);
-			tokbw = tokens;
-			continue ;
-		}
-		if (syntax_err || (syntax_err = parser_check_syntax(tokbw)))
+		else  if (syntax_err || (syntax_err = parser_check_syntax(tokbw)))
 			return (parse_error(syntax_err));
 		tokbw = tokbw->next;
 	}

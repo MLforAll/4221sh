@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/03 20:21:10 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/31 18:58:31 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 15:15:57 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef enum	e_errs
 	SH_ERR_BADFD,
 	SH_ERR_MALLOC,
 	SH_ERR_BADFILE,
+	SH_ERR_FATAL,
 	SH_ERR_MAX
 }				t_errs;
 

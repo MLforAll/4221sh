@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 04:52:25 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 14:56:02 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 
 # define PARSER_FAIL	258
 # define RA_ABORT		2
+# define RA_EOF			3
 
 # define RA_WHOLE		0b1
 # define RA_BEFORE		0b10

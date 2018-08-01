@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 04:52:09 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 15:32:54 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ static inline int	read_both(char **line,
 	return (FTRL_OK);
 }
 
+/*
+** todo: strdel of eventually garbage value in variable `line`
+**		please init it first to NULL
+*/
+
 char				*read_till_delim(const char *prompt,
 									const char *delim,
 									t_uint8 opts, int fd)
@@ -40,7 +45,7 @@ char				*read_till_delim(const char *prompt,
 	char		*line;
 	t_rl_opts	ftrl_opts;
 
-	ret = (opts & RA_BEFORE) ? ft_strdup("\n") : NULL;
+	ret = (opts & RA_BEFORE) ? ft_strdup("\n") : ft_strnew(0);
 	ft_bzero(&ftrl_opts, sizeof(t_rl_opts));
 	while (TRUE)
 	{
