@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 21:25:45 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/01 23:25:08 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ typedef struct	s_lexdat
 typedef struct	s_equi
 {
 	int		nb;
+	char	reserved_pad[4];
 	int		(*act)(void *);
 	void	*data;
 }				t_equi;
