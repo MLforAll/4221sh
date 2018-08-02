@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 14:42:44 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/02 04:04:01 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/02 22:29:51 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static t_uint8		do_redir_action(t_redirect *redir, int oflags)
 		(void)close(fd);
 	}
 	if (redir->io_nbr == -2)
-		(void)dup2(STDERR_FILENO, STDOUT_FILENO);
+		(void)dup2(STDOUT_FILENO, STDERR_FILENO);
 	return (TRUE);
 }
 
