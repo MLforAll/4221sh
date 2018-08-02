@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 14:42:44 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 19:29:58 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/02 04:04:01 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,24 @@
 static t_uint8		do_redir_action(t_redirect *redir, int oflags)
 {
 	int		fd;
+	int		fdchk;
 
-	(void)close(redir->io_nbr);
+	fdchk = (redir->io_nbr == -2) ? STDOUT_FILENO : redir->io_nbr;
+	(void)close(fdchk);
+	if (redir->io_nbr == -2)
+		(void)close(STDERR_FILENO);
 	if ((fd = open(redir->data, oflags, 0644)) == -1)
 	{
-		sh_err(get_errcode_for_path(redir->data, X_OK, YES), NULL, redir->data);
+		sh_err(get_errcode_for_path(redir->data, R_OK, YES), NULL, redir->data);
 		return (FALSE);
 	}
-	if (fd != redir->io_nbr)
+	if (fd != fdchk)
 	{
-		(void)dup2(fd, redir->io_nbr);
+		(void)dup2(fd, fdchk);
 		(void)close(fd);
 	}
+	if (redir->io_nbr == -2)
+		(void)dup2(STDERR_FILENO, STDOUT_FILENO);
 	return (TRUE);
 }
 

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/23 16:15:34 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 19:09:17 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/02 03:31:38 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ inline static void	do_history(t_dlist **hist, char *line)
 {
 	static int	n = -1;
 
-	if (!hist || !line)
+	if (!hist || !line || !*line)
 		return ;
 	if (n == -1)
 		n = (int)ft_dlstlen(*hist);
@@ -90,7 +90,7 @@ int					interactive_shell(void)
 			ret[0] = ret[1];
 			(void)set_lvar_n("?", ret[0]);
 		}
-		(ret[2] == FTRL_OK) ? do_history(&history, line) : 0;
+		(ret[2] == FTRL_OK && *line) ? do_history(&history, line) : 0;
 		(ret[2] == FTRL_OK) ? ft_strdel(&line) : 0;
 	}
 	write_history(history);

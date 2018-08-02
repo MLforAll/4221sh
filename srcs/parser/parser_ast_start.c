@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 16:55:22 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/28 15:16:38 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/02 04:17:54 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,24 @@ inline static t_btree	*add_operator_leaf(t_dlist *tok)
 	return (ret);
 }
 
+inline t_uint8			is_twice_redir(t_dlist *atok)
+{
+	t_token	*nextdat;
+
+	nextdat = atok->next ? (t_token*)atok->next->content : NULL;
+	return (((t_token*)atok->content)->type == AMPERSAND && nextdat
+			&& nextdat->type >= GREAT && nextdat->type <= DGREAT);
+}
+
 static int				is_higher(t_dlist *token, t_dlist *top)
 {
 	t_token	*tokdat;
+	t_token	*nexdat;
 	t_token	*topdat;
 
 	tokdat = (t_token*)token->content;
-	if (tokdat->priority == 0)
+	nexdat = token->next ? (t_token*)token->next->content : NULL;
+	if (tokdat->priority == 0 || is_twice_redir(token))
 		return (FALSE);
 	if (!top)
 		return (TRUE);

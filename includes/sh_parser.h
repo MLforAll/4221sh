@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 19:42:38 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/02 04:10:20 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ int				parser_check_ret(char **line, t_dlist **tokens,
 /*
 ** parser utilities
 */
+
+t_uint8			is_twice_redir(t_dlist *atok);
 
 void			fill_cmd_data(t_cmdnode *cmddat, t_dlist *tokens);
 char			*get_cmd_path(char *line_cmd, char **env);

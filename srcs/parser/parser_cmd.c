@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 02:03:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 19:24:54 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/02 04:18:28 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ void					fill_cmd_data(t_cmdnode *cmddat, t_dlist *tokens)
 			status = word_action(cmddat, tokdat, &first_word);
 		else if (tokdat->type == IO_NUMBER)
 			io_nbr = ft_atoi(tokdat->s);
+		else if (is_twice_redir(tokens))
+			io_nbr = -2;
 		else if (tokdat->type >= GREAT && tokdat->type <= DLESS)
 			status = add_redirect(cmddat, &tokens, &io_nbr);
 		if (!status)

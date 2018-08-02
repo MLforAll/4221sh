@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/21 17:10:58 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 04:27:56 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/02 04:22:19 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ char		*parser_check_syntax(t_dlist *tokens)
 		return (curr->s);
 	if (curr->type == PIPE && (!prev || !tokens->next || prev->priority != 0))
 		return (curr->s);
+	if (is_twice_redir(tokens) && tokens->next && tokens->next->next
+		&& check_next_token(tokens->next->next, WORD))
+		return (((t_token*)tokens->next->next->content)->s);
 	if (curr->type >= GREAT && curr->type <= DLESS
 		&& (tmp = check_next_token(tokens->next, WORD))
 		&& (tmp = check_next_token(tokens->next, DASH))
