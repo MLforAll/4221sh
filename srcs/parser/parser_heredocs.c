@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/02 18:50:49 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/02 21:54:24 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int				parser_check_heredocs(t_dlist *tokens, int fd)
 	if (((t_token*)tokens->next->content)->type == WORD)
 	{
 		toks_dest = &((t_token*)tokens->next->content)->s;
-		get_raconf(&conf, SH_HEREDOC_PR, *toks_dest, RACONF_PPL | RACONF_BELL);
+		get_raconf(&conf, SH_HEREDOC_PR, *toks_dest, RACONF_BELL);
 		if (!(tmp = read_till_delim(&conf, RA_WHOLE, fd))
 			&& !(tmp = ft_strnew(0)))
 			return (FALSE);

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/02 18:52:18 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/02 21:54:50 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int					parser_check_inclist(char **line,
 
 	if (!(prompt = parser_inclist_types(tmp ? (t_token*)tmp->content : NULL)))
 		return (LEXER_OK);
-	get_raconf(&conf, prompt, NULL, RACONF_AC | RACONF_BELL | RACONF_PPL);
+	get_raconf(&conf, prompt, NULL, RACONF_AC | RACONF_BELL);
 	if (!(extraline = read_till_delim(&conf, 0, fd)))
 		return (RA_ABORT);
 	if (!*extraline)
@@ -72,7 +72,7 @@ int					parser_check_ret(char **line,
 	const char		*prompt = (ft_strequ(delim, "'")) ? "squote> " : "dquote> ";
 	struct s_raconf	conf;
 
-	get_raconf(&conf, prompt, delim, RACONF_BELL | RACONF_PPL);
+	get_raconf(&conf, prompt, delim, RACONF_BELL);
 	if (!(extraline = read_till_delim(&conf, RA_BEFORE, fd)))
 		return (RA_ABORT);
 	if ((lret = lex_line(tokens, extraline)) == LEXER_FAIL
