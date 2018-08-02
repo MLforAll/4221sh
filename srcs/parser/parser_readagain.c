@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 15:32:54 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/02 04:37:24 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,6 @@ static inline int	read_both(char **line,
 	return (FTRL_OK);
 }
 
-/*
-** todo: strdel of eventually garbage value in variable `line`
-**		please init it first to NULL
-*/
-
 char				*read_till_delim(const char *prompt,
 									const char *delim,
 									t_uint8 opts, int fd)
@@ -47,14 +42,10 @@ char				*read_till_delim(const char *prompt,
 
 	ret = (opts & RA_BEFORE) ? ft_strdup("\n") : ft_strnew(0);
 	ft_bzero(&ftrl_opts, sizeof(t_rl_opts));
-	while (TRUE)
+	line = NULL;
+	while ((status = read_both(&line, prompt, &ftrl_opts, fd)) == FTRL_OK
+			|| status == FTRL_EOF)
 	{
-		if ((status = read_both(&line, prompt, &ftrl_opts, fd)) == FTRL_SIGINT
-			|| status == FTRL_FAIL)
-		{
-			ft_strdel(&ret);
-			return (NULL);
-		}
 		if (status == FTRL_EOF || (ft_strequ(line, delim) && (opts & RA_WHOLE)))
 			break ;
 		ft_stradd(&ret, line);
@@ -64,5 +55,7 @@ char				*read_till_delim(const char *prompt,
 		ft_stradd(&ret, "\n");
 	}
 	ft_strdel(&line);
+	if (status == FTRL_FAIL || status == FTRL_SIGINT)
+		ft_strdel(&ret);
 	return (ret);
 }
