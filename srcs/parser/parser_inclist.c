@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 15:10:48 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/02 18:52:18 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,15 @@ int					parser_check_inclist(char **line,
 										t_dlist **tokens,
 										t_dlist *tmp, int fd)
 {
-	const char	*prompt;
-	char		*extraline;
-	int			lret;
+	const char		*prompt;
+	char			*extraline;
+	int				lret;
+	struct s_raconf	conf;
 
 	if (!(prompt = parser_inclist_types(tmp ? (t_token*)tmp->content : NULL)))
 		return (LEXER_OK);
-	if (!(extraline = read_till_delim(prompt, NULL, 0, fd)))
+	get_raconf(&conf, prompt, NULL, RACONF_AC | RACONF_BELL | RACONF_PPL);
+	if (!(extraline = read_till_delim(&conf, 0, fd)))
 		return (RA_ABORT);
 	if (!*extraline)
 	{
@@ -65,11 +67,13 @@ int					parser_check_ret(char **line,
 									t_dlist **tokens,
 									const char *delim, int fd)
 {
-	char		*extraline;
-	int			lret;
-	const char	*prompt = (ft_strequ(delim, "\"")) ? "dquote> " : "squote> ";
+	char			*extraline;
+	int				lret;
+	const char		*prompt = (ft_strequ(delim, "'")) ? "squote> " : "dquote> ";
+	struct s_raconf	conf;
 
-	if (!(extraline = read_till_delim(prompt, delim, RA_BEFORE, fd)))
+	get_raconf(&conf, prompt, delim, RACONF_BELL | RACONF_PPL);
+	if (!(extraline = read_till_delim(&conf, RA_BEFORE, fd)))
 		return (RA_ABORT);
 	if ((lret = lex_line(tokens, extraline)) == LEXER_FAIL
 		|| (line && !ft_stradd(line, extraline)))

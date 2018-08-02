@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 15:38:51 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/02 18:50:49 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,10 @@ static void		expand_heredoc_data(char **fetch)
 
 int				parser_check_heredocs(t_dlist *tokens, int fd)
 {
-	t_token	*tok;
-	char	**toks_dest;
-	char	*tmp;
+	t_token			*tok;
+	char			**toks_dest;
+	char			*tmp;
+	struct s_raconf	conf;
 
 	tok = (t_token*)tokens->content;
 	if (tok->type != DLESS)
@@ -54,7 +55,8 @@ int				parser_check_heredocs(t_dlist *tokens, int fd)
 	if (((t_token*)tokens->next->content)->type == WORD)
 	{
 		toks_dest = &((t_token*)tokens->next->content)->s;
-		if (!(tmp = read_till_delim(SH_HEREDOC_PR, *toks_dest, RA_WHOLE, fd))
+		get_raconf(&conf, SH_HEREDOC_PR, *toks_dest, RACONF_PPL | RACONF_BELL);
+		if (!(tmp = read_till_delim(&conf, RA_WHOLE, fd))
 			&& !(tmp = ft_strnew(0)))
 			return (FALSE);
 		else if (ft_strchr(tmp, '$'))

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/02 04:10:20 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/02 18:48:31 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define SH_PARSER_H
 
 # include <stdlib.h>
+# include "libftreadline.h"
 # include "sh_lexer.h"
 
 /*
@@ -26,6 +27,10 @@
 
 # define RA_WHOLE		1
 # define RA_BEFORE		1 << 1
+
+# define RACONF_AC		1
+# define RACONF_BELL	1 << 1
+# define RACONF_PPL		1 << 2
 
 /*
 ** data types
@@ -59,6 +64,13 @@ typedef struct	s_redirect
 	char		reserved_pad[4];
 }				t_redirect;
 
+struct			s_raconf
+{
+	const char	*prompt;
+	const char	*delim;
+	t_rl_opts	opts;
+};
+
 /*
 ** parser main
 */
@@ -70,8 +82,11 @@ t_btree			*parser_create_ast(t_dlist *tokens);
 ** read again
 */
 
-char			*read_till_delim(const char *prompt,
-								const char *delim,
+void			get_raconf(struct s_raconf *conf, \
+							const char *prompt, \
+							const char *delim, \
+							t_uint8 opts);
+char			*read_till_delim(struct s_raconf *conf,
 								t_uint8 opts, int fd);
 
 char			*parser_check_syntax(t_dlist *tokens);
