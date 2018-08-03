@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/08/02 04:37:12 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/08/03 02:34:04 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SRCFILES = sh_main.c \
 	sh_eshell.c \
 	sh_ishell.c \
 	sh_err.c \
+	sh_errfiles.c \
 	sh_hist_loadsave.c \
 	prompt/sh_prompt.c \
 	prompt/sh_prompt_helpers.c \
