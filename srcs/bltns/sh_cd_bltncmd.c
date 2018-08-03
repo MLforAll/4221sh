@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 19:34:47 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/03 02:30:25 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int					cd_bltn(int ac, char **av)
 		return (EXIT_FAILURE);
 	if (chdir(path_cd) == -1)
 	{
-		sh_err(get_errcode_for_path(path_cd, X_OK, YES), av[0], path_cd);
+		sh_err(get_errcode_for_path(path_cd, X_OK, YES, NO), av[0], path_cd);
 		free(path_cd);
 		return (EXIT_FAILURE);
 	}

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 19:29:42 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/03 02:29:06 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int		cmd_chk(char *path)
 			return ((int)SH_ERR_NOCMD);
 		noent = SH_ERR_NOCMD;
 	}
-	if ((code = get_errcode_for_path(path, X_OK, NO)) == SH_ERR_UNDEFINED)
+	if ((code = get_errcode_for_path(path, X_OK, NO, NO)) == SH_ERR_UNDEFINED)
 		return (-1);
 	if (code == SH_ERR_NOENT)
 		return ((int)noent);

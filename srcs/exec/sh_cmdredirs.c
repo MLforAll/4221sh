@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 14:42:44 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/02 22:29:51 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/03 02:32:40 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,24 @@
 #include <fcntl.h>
 #include "sh.h"
 
-static t_uint8		do_redir_action(t_redirect *redir, int oflags)
+static t_uint8		do_redir_action(t_redirect *redir,
+									int oflags,
+									t_uint8 writable)
 {
-	int		fd;
-	int		fdchk;
+	int			fd;
+	int			fdchk;
+	t_errs		err;
 
 	fdchk = (redir->io_nbr == -2) ? STDOUT_FILENO : redir->io_nbr;
-	(void)close(fdchk);
-	if (redir->io_nbr == -2)
-		(void)close(STDERR_FILENO);
 	if ((fd = open(redir->data, oflags, 0644)) == -1)
 	{
-		sh_err(get_errcode_for_path(redir->data, R_OK, YES), NULL, redir->data);
+		err = get_errcode_for_path(redir->data,
+				(writable) ? W_OK : R_OK, NO, writable);
+		sh_err(err, NULL, redir->data);
 		return (FALSE);
 	}
-	if (fd != fdchk)
-	{
-		(void)dup2(fd, fdchk);
-		(void)close(fd);
-	}
+	(void)dup2(fd, fdchk);
+	(void)close(fd);
 	if (redir->io_nbr == -2)
 		(void)dup2(STDOUT_FILENO, STDERR_FILENO);
 	return (TRUE);
@@ -98,11 +97,12 @@ int					exec_redir(t_cmdnode *cmddat, t_tab *bakptr)
 			save_fd(bakptr, redir->io_nbr);
 		if ((redir->rtype == GREAT || redir->rtype == LESS)
 			&& ((redir->data && !do_redir_action(redir, (redir->rtype == LESS)
-								? O_RDONLY : O_WRONLY | O_CREAT | O_TRUNC))
+							? O_RDONLY : O_WRONLY | O_CREAT | O_TRUNC,
+							redir->rtype == GREAT))
 				|| (!redir->data && !do_agreg(redir))))
 			return (EXIT_FAILURE);
 		else if (redir->rtype == DGREAT
-			&& !do_redir_action(redir, O_WRONLY | O_CREAT | O_APPEND))
+			&& !do_redir_action(redir, O_WRONLY | O_CREAT | O_APPEND, YES))
 			return (EXIT_FAILURE);
 		else if (redir->rtype == DLESS)
 			do_str_to_stdin(redir, cmddat);

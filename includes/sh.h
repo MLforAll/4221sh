@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/31 02:38:40 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/03 02:27:57 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ int			sh_err_ret(t_errs errc,
 						const char *path,
 						int rvl);
 
-t_errs		get_errcode_for_path(const char *path, int mode, t_uint8 dir);
+t_errs		get_errcode_for_path(const char *path, int mode,
+								t_uint8 dir, t_uint8 creatable);
 
 /*
 ** fsexp utilities
@@ -126,11 +127,5 @@ t_list		*search_files_begin(const char *f_path,
 */
 
 void		switch_traps(int ign);
-
-/*
-** misc functions / utilities
-*/
-
-int			free_return(void **data, int retv);
 
 #endif
