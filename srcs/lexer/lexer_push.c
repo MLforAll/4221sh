@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 16:13:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 19:21:42 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/04 08:52:43 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ static int				cpy_string(char *s, t_str *vs, t_list **ret)
 		if ((curr = detect_quote(s, curr)) != kQuoteNone && curr != kEscape)
 			rval = TRUE;
 		if (curr == old && !(*s == '$' && curr != kSQuote
-							&& lexer_expand_var(&s, vs, ret, curr))
-			&& !ft_tstrncat(vs, s, 1))
+			&& lexer_expand_var(&s, vs, ret, curr)) && !ft_tstrncat(vs, s, 1))
 			return (-1);
 		if (curr == kEscape)
 		{
-			if ((s[1] == '"' || s[1] == '$') && !ft_tstrncat(vs, ++s, 1))
+			if ((s[1] == '"' || s[1] == '\'' || s[1] == '$')
+				&& !ft_tstrncat(vs, ++s, 1))
 				return (-1);
 			curr = old;
 		}

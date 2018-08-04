@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 23:31:08 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/04 08:46:55 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ static int	create_escape(void *data)
 			return ((int)kLexStateUndefined);
 		return ((int)kLexStateReadAgain);
 	}
+	if (lexact_append_current(data) == kLexStateUndefined)
+		return ((int)kLexStateUndefined);
+	(*cdat->linep)++;
 	if (lexact_append_current(data) == kLexStateUndefined)
 		return ((int)kLexStateUndefined);
 	return ((int)cdat->curr_state);
