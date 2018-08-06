@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/01 02:21:25 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/30 02:39:09 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 19:43:57 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int				ft_wait(t_list **jobnode)
 	jdat = (t_jobctrl*)(*jobnode)->content;
 	if (waitpid(jdat->j_pid, &exval, WUNTRACED) <= 0)
 	{
-		g_curr_process = 0;
+		jdat->j_foreground = FALSE;
 		return (EXIT_FAILURE);
 	}
 	sh_jb_act_upon(jdat, exval);
@@ -61,6 +61,7 @@ int				ft_wait(t_list **jobnode)
 		ft_lstdelone(jobnode, &ft_joblstdel);
 		sh_jobop_unlock();
 	}
-	g_curr_process = 0;
+	else
+		jdat->j_foreground = FALSE;
 	return (WEXITSTATUS(exval));
 }

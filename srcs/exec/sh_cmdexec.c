@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/03 02:29:06 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 19:47:35 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static int		exec_core(t_cmdnode *cmddat, t_uint8 forkdes, char **env)
 }
 
 static int		exec_setup(t_cmdnode *cmddat,
-							int async,
+							t_uint8 async,
 							pid_t *spid,
 							char **env)
 {
@@ -109,14 +109,16 @@ static int		exec_setup(t_cmdnode *cmddat,
 		(void)close(cmddat->pfd[1]);
 	if (!async && cmddat->stdin_fd != -1)
 		(void)close(cmddat->pfd[0]);
-	g_curr_process = pid;
-	if (spid)
-		*spid = pid;
-	jobnode = (spid) ? NULL : sh_job_add(cmddat->c_path, pid, kJobStateRunning);
+	(spid) ? *spid = pid : (void)0;
+	jobnode = (spid) ? NULL : sh_job_add(cmddat->c_path, pid,
+										kJobStateRunning, !async);
 	return ((async) ? -1 : ft_wait(jobnode));
 }
 
-int				exec_cmd(t_cmdnode *cmddat, int async, pid_t *spid, char **env)
+int				exec_cmd(t_cmdnode *cmddat, \
+						t_uint8 async, \
+						pid_t *spid, \
+						char **env)
 {
 	extern char	**g_lvars;
 	extern char	**environ;

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/28 01:25:14 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 05:45:08 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 19:27:01 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int				fg_bltn(int ac, char **av)
 
 	if (!(jtowake = kick_job_back(ac, av)))
 		return (EXIT_FAILURE);
+	((t_jobctrl*)(*jtowake)->content)->j_foreground = TRUE;
 	return (ft_wait(jtowake));
 }
 

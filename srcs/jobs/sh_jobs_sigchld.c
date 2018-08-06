@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 04:41:14 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/30 02:37:45 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 19:46:09 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void				sh_jb_act_upon(t_jobctrl *jdat, int exval)
 	{
 		jdat->j_state = kJobStateExited;
 		jdat->j_exval = WEXITSTATUS(exval);
+		if (!jdat->j_foreground)
+			insert_job_msg(jdat, ft_jobputstate(jdat->j_state, NO));
 		return ;
 	}
 	if (jdat->j_state == kJobStateTerminated)
@@ -99,7 +101,7 @@ void				sh_jb_sighdl(int sigc)
 	{
 		jdat = (t_jobctrl*)tmp->content;
 		exval = 0;
-		if (g_curr_process != jdat->j_pid
+		if (!jdat->j_foreground
 			&& waitpid(jdat->j_pid, &exval, WNOHANG | WUNTRACED) > 0)
 			sh_jb_act_upon(jdat, exval);
 		tmp = tmp->next;

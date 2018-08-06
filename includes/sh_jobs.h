@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 04:46:03 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 19:30:42 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 19:32:13 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,16 @@
 # include "libft.h"
 
 /*
-** globals
-*/
-
-extern pid_t	g_curr_process;
-pid_t			g_curr_process;
-
-/*
 ** job control struct
 */
 
-enum			e_jobstate
+typedef enum	e_jobstate
 {
 	kJobStateRunning,
 	kJobStateStopped,
 	kJobStateTerminated,
 	kJobStateExited
-};
+}				t_jobstate;
 
 typedef struct	s_jobctrl
 {
@@ -41,7 +34,8 @@ typedef struct	s_jobctrl
 	char			*j_cmd;
 	pid_t			j_pid;
 	t_uint8			j_exval;
-	char			reserved_pad[3];
+	t_uint8			j_foreground;
+	char			reserved_pad[2];
 }				t_jobctrl;
 
 /*
@@ -52,7 +46,12 @@ typedef struct	s_jobctrl
 t_uint8			sh_job_put(int n);
 t_list			**sh_job_idx(int idx);
 t_list			**sh_job_lastest(void);
-t_list			**sh_job_add(char *cmd, pid_t pid, enum e_jobstate state);
+
+t_list			**sh_job_add(char *cmd, \
+							pid_t pid, \
+							t_jobstate state, \
+							t_uint8 foreground);
+
 void			sh_jobs_rmall(void);
 
 /*
