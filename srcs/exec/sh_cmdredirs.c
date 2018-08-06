@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 14:42:44 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/03 02:32:40 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 22:53:14 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static t_uint8		do_redir_action(t_redirect *redir,
 static t_uint8		do_agreg(t_redirect *redir)
 {
 	char	*n_str;
+	int		errfd;
 
 	if (redir->agreg == -1)
 	{
@@ -49,7 +50,14 @@ static t_uint8		do_agreg(t_redirect *redir)
 	}
 	if (dup2(redir->agreg, redir->io_nbr) == -1)
 	{
-		if (!(n_str = ft_itoa(redir->agreg)))
+		if ((errfd = dup(redir->agreg)) == -1)
+			errfd = redir->agreg;
+		else
+		{
+			(void)close(errfd);
+			errfd = redir->io_nbr;
+		}
+		if (!(n_str = ft_itoa(errfd)))
 			sh_err(SH_ERR_MALLOC, NULL, NULL);
 		sh_err(SH_ERR_BADFD, NULL, n_str);
 		free(n_str);
@@ -70,7 +78,6 @@ static void			do_str_to_stdin(t_redirect *redir, t_cmdnode *cmddat)
 		while ((rb = read(redir->io_nbr, buff, 32)) > 0)
 			(void)write(cfd[1], buff, (size_t)rb);
 	ft_putstr_fd(redir->data, cfd[1]);
-	(void)close(redir->io_nbr);
 	(void)dup2(cfd[0], redir->io_nbr);
 	(void)close(cfd[1]);
 }

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 17:30:47 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/02 18:48:31 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 22:24:05 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define PARSER_FAIL	258
 # define RA_ABORT		2
 # define RA_EOF			3
+# define RA_NOTHING		4
 
 # define RA_WHOLE		1
 # define RA_BEFORE		1 << 1
@@ -102,7 +103,7 @@ int				parser_check_ret(char **line, t_dlist **tokens,
 
 t_uint8			is_twice_redir(t_dlist *atok);
 
-void			fill_cmd_data(t_cmdnode *cmddat, t_dlist *tokens);
+t_uint8			fill_cmd_data(t_cmdnode *cmddat, t_dlist *tokens);
 char			*get_cmd_path(char *line_cmd, char **env);
 
 /*
@@ -113,9 +114,10 @@ char			*get_cmd_path(char *line_cmd, char **env);
 int				fill_bltn(t_cmdnode *cmddat, char *line_cmd);
 
 /*
-** free function
+** free functions
 */
 
+void			cmdnode_free(t_cmdnode *cmddat);
 void			ast_btdel(void *data, size_t datsize);
 
 #endif

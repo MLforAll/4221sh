@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/02 21:54:24 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 22:11:06 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,6 @@ static void		expand_heredoc_data(char **fetch)
 	free(*fetch);
 	*fetch = vs.s;
 }
-
-/*
-** todo: if tmp == NULL, output error?
-*/
 
 int				parser_check_heredocs(t_dlist *tokens, int fd)
 {

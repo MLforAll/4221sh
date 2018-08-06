@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 16:13:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/06 05:23:05 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 22:12:48 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,6 @@ inline static t_quoting	detect_quote(char *s, t_quoting curr)
 		return ((curr == kSQuote) ? kQuoteNone : kSQuote);
 	return (curr);
 }
-
-/*
-** todo: proper reversal of condition (cleaner stmt), line 63-64
-*/
 
 static int				cpy_string(char *s, t_str *vs, t_list **ret)
 {

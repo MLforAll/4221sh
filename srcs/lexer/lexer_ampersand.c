@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/15 02:24:04 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/06 05:36:14 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 22:43:16 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,5 @@ int			lex_ampersand(void *data)
 		return ((int)kLexStateAmpersand);
 	}
 	add_tok_ret = lexact_add_io_nbr(cdat);
-	return ((int)((add_tok_ret) ? kLexStateAmpersand : kLexStateUndefined));
+	return ((int)((add_tok_ret) ? kLexStateGeneral : kLexStateUndefined));
 }

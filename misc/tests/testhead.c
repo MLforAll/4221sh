@@ -1,26 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_cmdpipes.c                                      :+:      :+:    :+:   */
+/*   testhead.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/20 01:55:50 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/06 23:59:24 by kdumarai         ###   ########.fr       */
+/*   Created: 2018/08/06 23:33:16 by kdumarai          #+#    #+#             */
+/*   Updated: 2018/08/06 23:39:52 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
-#include "sh.h"
 
-void	exec_pipe(t_cmdnode *cmddat)
+void	hdl(int sigc)
 {
-	if (cmddat->stdin_fd != -1)
-		(void)dup2(cmddat->stdin_fd, STDIN_FILENO);
-	if (cmddat->stdout_fd != -1)
+	if (sigc != SIGPIPE)
+		return ;
+	(void)write(2, "HEAD_SIGPIPE\n", 13);
+}
+
+int main(int ac, char **av)
+{
+	int		n;
+	char	c;
+
+	if (ac < 2)
+		return (1);
+	(void)signal(SIGPIPE, &hdl);
+	n = atoi(av[1]);
+	while (n--)
 	{
-		(void)close(cmddat->pfd[0]);
-		(void)dup2(cmddat->stdout_fd, STDOUT_FILENO);
+		if (read(0, &c, 1) != 1)
+			break ;
+		(void)write(1, &c, 1);
 	}
+	(void)write(2, "HEAD_QUIT\n", 10);
+	return (0);
 }

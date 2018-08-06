@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/02 18:50:31 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 22:24:57 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ char				*read_till_delim(struct s_raconf *conf,
 	char		*ret;
 	char		*line;
 
-	ret = (opts & RA_BEFORE) ? ft_strdup("\n") : ft_strnew(0);
+	if (!(ret = (opts & RA_BEFORE) ? ft_strdup("\n") : ft_strnew(0)))
+		return (NULL);
 	line = NULL;
 	while ((status = read_both(&line, conf, fd)) == FTRL_OK
 			|| status == FTRL_EOF)

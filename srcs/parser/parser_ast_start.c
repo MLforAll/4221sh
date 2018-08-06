@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 16:55:22 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/06 04:59:47 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 22:27:55 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,16 @@ inline static t_btree	*create_cmd_node(t_dlist *tokens)
 	cnode = (t_cmdnode*)ndat.data;
 	if (!(cnode->c_vars = ft_tabnew())
 		|| !(cnode->c_av = ft_tabnew()))
-		exit(EXIT_FAILURE);
-	((t_cmdnode*)ndat.data)->stdout_fd = -1;
-	((t_cmdnode*)ndat.data)->stdin_fd = -1;
-	fill_cmd_data((t_cmdnode*)ndat.data, tokens);
-	if (!(ret = ft_btnew(&ndat, sizeof(t_astnode))))
 	{
-		ft_tabfree(&cnode->c_vars);
-		ft_tabfree(&cnode->c_av);
-		free(ndat.data);
+		cmdnode_free(cnode);
+		return (NULL);
+	}
+	cnode->stdout_fd = -1;
+	cnode->stdin_fd = -1;
+	if (!fill_cmd_data(cnode, tokens)
+		|| !(ret = ft_btnew(&ndat, sizeof(t_astnode))))
+	{
+		cmdnode_free(cnode);
 		return (NULL);
 	}
 	return (ret);

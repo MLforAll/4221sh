@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 02:03:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/02 04:18:28 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 22:28:42 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,7 @@ inline static t_uint8	word_action(t_cmdnode *cmddat,
 	return (TRUE);
 }
 
-/*
-** todo: error handling
-*/
-
-void					fill_cmd_data(t_cmdnode *cmddat, t_dlist *tokens)
+t_uint8					fill_cmd_data(t_cmdnode *cmddat, t_dlist *tokens)
 {
 	t_token	*tokdat;
 	t_uint8	first_word;
@@ -92,7 +88,8 @@ void					fill_cmd_data(t_cmdnode *cmddat, t_dlist *tokens)
 		else if (tokdat->type >= GREAT && tokdat->type <= DLESS)
 			status = add_redirect(cmddat, &tokens, &io_nbr);
 		if (!status)
-			return ;
+			return (FALSE);
 		tokens = tokens->next;
 	}
+	return (TRUE);
 }

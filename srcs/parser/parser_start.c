@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 16:55:22 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/02 22:28:31 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 22:09:18 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,6 @@ static t_uint8			preparse_readagain(char **line,
 	return (TRUE);
 }
 
-/*
-** todo: try reversal of syntax err chk and inclst conditions and rem of else
-*/
-
 t_btree					*parse_tokens(char **line, \
 									t_dlist *tokens, \
 									int lret, \
@@ -73,10 +69,12 @@ t_btree					*parse_tokens(char **line, \
 		syntax_err = NULL;
 		if ((heredocs = parser_check_heredocs(tokbw, fd)) == -1)
 			syntax_err = ((t_token*)tokbw->content)->s;
-		if (syntax_err || (syntax_err = parser_check_syntax(tokbw)))
-			return (parse_error(syntax_err));
+		lret = RA_NOTHING;
 		if (!tokbw->next && ((t_token*)tokbw->content)->type != WORD)
 			lret = parser_check_inclist(line, &tokens, tokbw, fd);
+		if (lret == RA_NOTHING
+			&& (syntax_err || (syntax_err = parser_check_syntax(tokbw))))
+			return (parse_error(syntax_err));
 		tokbw = tokbw->next;
 	}
 	return (parser_create_ast(tokens));

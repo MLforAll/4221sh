@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 02:41:29 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/06 05:10:36 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 22:42:48 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,13 @@ int				exec_shell(const char *path)
 	int			ret;
 	int			tmp;
 
-	if (path && !is_file_binary(path))
-		return (sh_err_ret(SH_ERR_BADFILE, NULL, path, EXIT_FAILURE));
 	if ((fd = (!path) ? STDIN_FILENO : open(path, O_RDONLY)) == -1)
 		return (EXIT_FAILURE);
+	if (path && !is_file_binary(path))
+	{
+		(void)close(fd);
+		return (sh_err_ret(SH_ERR_BADFILE, NULL, path, EXIT_FAILURE));
+	}
 	ret = EXIT_SUCCESS;
 	line = NULL;
 	while (get_next_line(fd, &line) > 0)
@@ -58,7 +61,6 @@ int				exec_shell(const char *path)
 		}
 		ft_strdel(&line);
 	}
-	if (fd != STDIN_FILENO)
-		(void)close(fd);
+	(fd != STDIN_FILENO) ? (void)close(fd) : (void)0;
 	return (ret);
 }

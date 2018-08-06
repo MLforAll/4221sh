@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/02 21:54:50 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 22:05:54 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int					parser_check_inclist(char **line,
 	struct s_raconf	conf;
 
 	if (!(prompt = parser_inclist_types(tmp ? (t_token*)tmp->content : NULL)))
-		return (LEXER_OK);
+		return (RA_NOTHING);
 	get_raconf(&conf, prompt, NULL, RACONF_AC | RACONF_BELL);
 	if (!(extraline = read_till_delim(&conf, 0, fd)))
 		return (RA_ABORT);
