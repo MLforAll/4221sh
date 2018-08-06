@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/05 16:55:22 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/02 04:17:54 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 04:59:47 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int				is_higher(t_dlist *token, t_dlist *top)
 
 	tokdat = (t_token*)token->content;
 	nexdat = token->next ? (t_token*)token->next->content : NULL;
-	if (tokdat->priority == 0 || is_twice_redir(token))
+	if (tokdat->type < PIPE || is_twice_redir(token))
 		return (FALSE);
 	if (!top)
 		return (TRUE);

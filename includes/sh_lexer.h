@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 23:25:08 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 05:58:22 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ typedef enum	e_toktype
 	IO_NUMBER,
 	DASH,
 	PIPE,
-	SEMI,
 	AND_IF,
 	OR_IF,
+	SEMI,
 	AMPERSAND,
 }				t_toktype;
 
@@ -92,8 +92,8 @@ typedef enum	e_quoting
 typedef struct	s_token
 {
 	char			*s;
-	int				priority;
 	t_toktype		type;
+	char			reserved_pad[4];
 }				t_token;
 
 typedef struct	s_lexdat
@@ -130,8 +130,7 @@ int				lex_line(t_dlist **dest, char *line);
 
 t_uint8			add_token(t_dlist **tokens,
 						t_str *vs,
-						t_toktype type,
-						int prio);
+						t_toktype type);
 
 /*
 ** Lexer State functions
@@ -181,9 +180,9 @@ t_uint8			lexer_expand_tilde(char **s, t_str *vs);
 
 int				lexact_append_current(void *data);
 int				lexact_add_token(void *data);
-void			lexact_add_io_nbr(t_lexdat *cdat);
+t_uint8			lexact_add_io_nbr(t_lexdat *cdat);
 
-t_uint8			create_token_with_buff(t_lexdat *dat, t_toktype type, int prio);
+t_uint8			create_token_with_buff(t_lexdat *dat, t_toktype type);
 
 /*
 ** Utilities

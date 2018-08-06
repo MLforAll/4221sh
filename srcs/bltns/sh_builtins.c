@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/03 05:50:45 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 05:18:01 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,25 @@
 #include <unistd.h>
 #include "sh.h"
 #include "ftrl_dev.h"
+
+/*
+** Developer Note
+**
+** Adding builtins
+** ---------------
+**
+** Builtins provide environement changing functionalities
+** to the shell, like the ability to change the current directory,
+** or to change a variable.
+**
+** In order to add a builtin, add a function in the code defined the like:
+**
+** int	builtin_func(int ac, char **av);
+**
+** Then, add your function definition to the sh_builtins.h file
+** and add the name of your builtin to the g_bltn_names static global array
+** and your ptr in the fill_bltn() func in parser_pathget.c
+*/
 
 static char	*g_bltn_names[] = {
 	"echo", "cd", "exit", "source", ".",

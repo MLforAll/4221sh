@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/03 02:30:25 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 05:59:41 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int					cd_bltn(int ac, char **av)
 		free(path_cd);
 		return (EXIT_FAILURE);
 	}
-	(cd_opts & CD_DASH_OPT) ? ft_putendl(path_cd) : 0;
+	(cd_opts & CD_DASH_OPT) ? ft_putendl(path_cd) : (void)0;
 	cd_set_env(pwd, &path_cd, cd_opts);
 	ft_strdel(&path_cd);
 	return (EXIT_SUCCESS);

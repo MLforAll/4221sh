@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/03 20:21:10 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 19:27:16 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 05:54:34 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 
 /*
 ** errs enum
+** ---------
+**
+** Nothing else to say.
+** SH_ERR_MAX is useless. Do not pass it to sh_err() or sh_err_ret().
+** Neither function would return it as well.
 */
 
 typedef enum	e_errs
@@ -42,6 +47,17 @@ typedef enum	e_errs
 
 /*
 ** bakfds struct
+** -------------
+**
+** Used to backup file descriptions
+** for redirections with builtins.
+**
+** bak: fd of duped output (like stdout)
+** orig: output fd
+**
+** example: backup of stdout
+** 		- bak: 3
+**		- orig: 1
 */
 
 typedef struct	s_bakfds

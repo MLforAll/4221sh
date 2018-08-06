@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 01:57:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/03 02:27:57 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 05:57:02 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@
 
 /*
 ** globals
+** -------
+**
+** Note: extern declaration before to conform with -Weverything
 */
 
 extern char	*g_sh_name;
@@ -85,6 +88,10 @@ void		load_history(t_dlist **hist);
 
 /*
 ** variables mgmt
+** --------------
+**
+** env functions integrate with libc's functions like getenv()
+** local vars function contain ``lvar'' in their name.
 */
 
 char		*get_env_var(char **env, const char *var);

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 06:02:33 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/04 08:46:55 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 05:47:26 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	create_escape(void *data)
 	if ((*cdat->linep)[1] == '\0')
 	{
 		if (*cdat->currtoks.s
-			&& !add_token(cdat->ret, &cdat->currtoks, INCOMPG, 0))
+			&& !add_token(cdat->ret, &cdat->currtoks, INCOMPG))
 			return ((int)kLexStateUndefined);
 		return ((int)kLexStateReadAgain);
 	}
@@ -42,21 +42,27 @@ static int	create_escape(void *data)
 
 static int	create_ampersand(void *data)
 {
-	if (!create_token_with_buff((t_lexdat*)data, AMPERSAND, 1))
+	if (!create_token_with_buff((t_lexdat*)data, AMPERSAND))
 		return ((int)kLexStateUndefined);
 	return ((int)((t_lexdat*)data)->curr_state);
 }
 
 static int	create_andif(void *data)
 {
-	if (!create_token_with_buff((t_lexdat*)data, AND_IF, 1))
+	if (*((t_lexdat*)data)->currtoks.s
+		&& lexact_add_token(data) == kLexStateUndefined)
+		return ((int)kLexStateUndefined);
+	if (!create_token_with_buff((t_lexdat*)data, AND_IF))
 		return ((int)kLexStateUndefined);
 	return ((int)((t_lexdat*)data)->curr_state);
 }
 
 static int	create_orif(void *data)
 {
-	if (!create_token_with_buff((t_lexdat*)data, OR_IF, 1))
+	if (*((t_lexdat*)data)->currtoks.s
+		&& lexact_add_token(data) == kLexStateUndefined)
+		return ((int)kLexStateUndefined);
+	if (!create_token_with_buff((t_lexdat*)data, OR_IF))
 		return ((int)kLexStateUndefined);
 	return ((int)((t_lexdat*)data)->curr_state);
 }

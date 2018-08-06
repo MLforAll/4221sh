@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 16:13:18 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/04 08:52:43 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 05:23:05 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,7 @@ static t_uint8			get_tokens_strings(t_list **ret, char *s)
 
 t_uint8					add_token(t_dlist **tokens,
 								t_str *vs,
-								t_toktype type,
-								int prio)
+								t_toktype type)
 {
 	t_dlist	*newtok;
 	t_token	tokdat;
@@ -106,7 +105,6 @@ t_uint8					add_token(t_dlist **tokens,
 		ft_bzero(&tokdat, sizeof(t_token));
 		tokdat.s = (char*)toksbw->content;
 		tokdat.type = type;
-		tokdat.priority = prio;
 		if (!(newtok = ft_dlstnew(&tokdat, sizeof(t_token))))
 			return (FALSE);
 		ft_dlstpush(tokens, newtok);

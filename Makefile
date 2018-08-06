@@ -6,7 +6,7 @@
 #    By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 21:41:19 by kdumarai          #+#    #+#              #
-#    Updated: 2018/08/03 02:34:04 by kdumarai         ###   ########.fr        #
+#    Updated: 2018/08/06 06:06:17 by kdumarai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,8 +49,7 @@ SRCFILES = sh_main.c \
 	lexer/lexer_push.c \
 	lexer/lexer_general.c \
 	lexer/lexer_quote.c \
-	lexer/lexer_great.c \
-	lexer/lexer_less.c \
+	lexer/lexer_redirs.c \
 	lexer/lexer_semipipe.c \
 	lexer/lexer_ampersand.c \
 	lexer/lexer_misc.c \

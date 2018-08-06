@@ -1,42 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_great.c                                      :+:      :+:    :+:   */
+/*   lexer_redirs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/30 14:10:56 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/27 04:18:12 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 06:05:33 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "sh_lexer.h"
 
-int			create_great_tok(void *data)
+static int		create_redir_tok(t_lexdat *cdat, t_toktype type)
 {
-	t_lexdat	*cdat;
-
-	if (!data)
-		return ((int)kLexStateUndefined);
-	cdat = (t_lexdat*)data;
-	lexact_add_io_nbr(cdat);
-	if (lexact_append_current(data) == kLexStateUndefined
-		|| !add_token(cdat->ret, &cdat->currtoks, GREAT, 0))
+	if (!lexact_add_io_nbr(cdat)
+		|| lexact_append_current((void*)cdat) == kLexStateUndefined
+		|| !add_token(cdat->ret, &cdat->currtoks, type))
 		return ((int)kLexStateUndefined);
 	return ((int)kLexStateRedirections);
 }
 
-int			create_dgreat_tok(void *data)
+int				create_great_tok(void *data)
 {
-	t_lexdat	*cdat;
-
 	if (!data)
 		return ((int)kLexStateUndefined);
-	cdat = (t_lexdat*)data;
-	lexact_add_io_nbr(cdat);
-	if (lexact_append_current(data) == kLexStateUndefined
-		|| !add_token(cdat->ret, &cdat->currtoks, DGREAT, 0))
+	return (create_redir_tok((t_lexdat*)data, GREAT));
+}
+
+int				create_dgreat_tok(void *data)
+{
+	if (!data)
 		return ((int)kLexStateUndefined);
-	return ((int)kLexStateRedirections);
+	return (create_redir_tok((t_lexdat*)data, DGREAT));
+}
+
+int				create_less_tok(void *data)
+{
+	if (!data)
+		return ((int)kLexStateUndefined);
+	return (create_redir_tok((t_lexdat*)data, LESS));
+}
+
+int				create_dless_tok(void *data)
+{
+	if (!data)
+		return ((int)kLexStateUndefined);
+	return (create_redir_tok((t_lexdat*)data, DLESS));
 }

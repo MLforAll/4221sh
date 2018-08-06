@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 23:49:54 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/29 14:46:47 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 05:44:36 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 const char		*g_typedesc[] = {"NONE", "INCOMPG", "INCOMPD", "INCOMPS",
 								"WORD", "GREAT", "DGREAT", "LESS", "DLESS",
-								"IO_NUMBER", "DASH", "PIPE", "SEMI", "AND_IF",
-								"OR_IF", "AMPERSAND"};
+								"IO_NUMBER", "DASH", "PIPE", "AND_IF",
+								"OR_IF", "SEMI", "AMPERSAND"};
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 23:31:25 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/06 05:24:41 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static int			lex_deinit(t_lexdat *cdat, int ret)
 		|| cdat->curr_state == kLexStateSQuote)
 	{
 		if (!add_token(cdat->ret, &cdat->currtoks, \
-				(cdat->curr_state == kLexStateDQuote) ? INCOMPD : INCOMPS, 0))
+				(cdat->curr_state == kLexStateDQuote) ? INCOMPD : INCOMPS))
 			return (LEXER_FAIL);
 		state = cdat->curr_state;
 		return ((state == kLexStateDQuote) ? LEXER_INCDQ : LEXER_INCSQ);
