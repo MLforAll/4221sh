@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/07 02:38:23 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/07 23:52:01 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,9 @@ static int		exec_setup(t_cmdnode *cmddat,
 							pid_t *spid,
 							char **env)
 {
-	t_uint8	forkdes;
-	pid_t	pid;
-	t_list	**jobnode;
+	t_uint8		forkdes;
+	pid_t		pid;
+	t_list		**jobnode;
 
 	if (!(forkdes = (async || !cmddat->builtin
 		|| cmddat->stdin_fd != -1 || cmddat->stdout_fd != -1)))
