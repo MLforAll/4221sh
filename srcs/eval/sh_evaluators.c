@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/07 00:00:22 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/07 02:44:28 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,18 @@
 #include <stdlib.h>
 #include <signal.h>
 #include "sh.h"
+
+/*
+** How-to pipe
+** -----------
+**
+** First, we create a pipe using the pipe(2) syscall.
+** Then, we copy the fd refs (int cpy) for later use by exec_cmd().
+** We copy the fd array to both `a' and `b' cmd nodes.
+** However, it's only copied in `a' only when its stdin is not set.
+** Because otherwise, the wrong pipe will be closed at exec time, due
+** to the way the evaluator works.
+*/
 
 t_cmdnode	*eval_pipe(t_btree *node, t_tab *pids)
 {
@@ -28,7 +40,8 @@ t_cmdnode	*eval_pipe(t_btree *node, t_tab *pids)
 		return (NULL);
 	if (pipe(pfd) == -1)
 		return (NULL);
-	(void)ft_memcpy(a->pfd, pfd, sizeof(pfd));
+	if (a->stdin_fd == -1)
+		(void)ft_memcpy(a->pfd, pfd, sizeof(pfd));
 	(void)ft_memcpy(b->pfd, pfd, sizeof(pfd));
 	a->stdout_fd = pfd[1];
 	b->stdin_fd = pfd[0];

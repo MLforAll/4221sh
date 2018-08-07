@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/07 00:03:39 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/07 02:38:23 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,11 @@ static int		exec_setup(t_cmdnode *cmddat,
 		switch_traps(FALSE);
 		exit(exec_core(cmddat, forkdes, env));
 	}
-	if (cmddat->stdout_fd != -1)
-		(void)close(cmddat->pfd[1]);
-	if (!async && cmddat->stdin_fd != -1)
+	if (cmddat->stdin_fd != -1)
+	{
 		(void)close(cmddat->pfd[0]);
+		(void)close(cmddat->pfd[1]);
+	}
 	(spid) ? *spid = pid : (void)0;
 	jobnode = (spid) ? NULL : sh_job_add(cmddat->c_path, pid,
 										kJobStateRunning, !async);

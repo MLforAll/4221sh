@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 22:22:21 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/07 00:04:01 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/07 01:30:24 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ static void		clean_pipes(t_tab *pids)
 		curr = &((pid_t*)pids->data)[idx];
 		if (*curr > 0)
 		{
-			if (waitpid(*curr, NULL, WUNTRACED | WNOHANG) <= 0)
-				(void)kill(*curr, SIGPIPE);
+			(void)waitpid(*curr, NULL, WUNTRACED);
 			*curr = 0;
 		}
 	}
