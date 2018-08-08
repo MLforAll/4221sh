@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/23 16:15:34 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/08 05:51:53 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/08 18:53:34 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ inline static void	init_ishell(t_rl_opts *opts, t_dlist **hist)
 	ft_bzero(opts, sizeof(t_rl_opts));
 	opts->ac_get_result = &sh_get_acres;
 	opts->ac_show_result = &sh_show_acres;
-	opts->bell = YES;
+	opts->tbell = YES;
 	load_history(hist);
 }
 

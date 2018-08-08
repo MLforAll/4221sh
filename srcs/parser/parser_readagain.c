@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 23:44:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/06 22:24:57 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/08 18:53:38 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ inline void			get_raconf(struct s_raconf *conf, \
 	conf->prompt = prompt;
 	conf->delim = delim;
 	ft_bzero(&conf->opts, sizeof(t_rl_opts));
-	conf->opts.bell = (opts & RACONF_BELL) == RACONF_BELL;
+	conf->opts.tbell = (opts & RACONF_BELL) == RACONF_BELL;
 	conf->opts.prompt_perline = (opts & RACONF_PPL) == RACONF_PPL;
 	conf->opts.ac_show_result = &sh_show_acres;
 	if (opts & RACONF_AC)
