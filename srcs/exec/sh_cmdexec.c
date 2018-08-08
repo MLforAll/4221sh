@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/08 05:58:16 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/08 15:28:10 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,10 @@ static int		exec_setup(t_cmdnode *cmddat,
 		return (exec_core(cmddat, forkdes, env));
 	env_bak = environ;
 	environ = NULL;
-	if ((pid = fork()) == -1)
-		return (sh_err_ret(SH_ERR_FORK, "fork()", NULL, -1));
+	pid = fork();
 	environ = env_bak;
+	if (pid == -1)
+		return (sh_err_ret(SH_ERR_FORK, "fork()", NULL, -1));
 	if (pid == 0)
 	{
 		switch_traps(FALSE);
