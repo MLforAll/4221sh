@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 18:30:04 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 19:37:51 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/08 05:55:22 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ char			*set_env_from_str(char ***env, char *str)
 
 	if (!str || !(eq = ft_strchr(str, '=')))
 		return (NULL);
-	var = ft_strnew((size_t)(eq - str));
+	if (!(var = ft_strnew((size_t)(eq - str))))
+		return (NULL);
 	(void)ft_strncpy(var, str, (size_t)(eq - str));
 	value = eq + 1;
 	ret = set_env_var(env, (const char*)var, value);

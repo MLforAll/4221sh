@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 22:31:45 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/14 05:19:13 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/08 05:55:52 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char			*get_env_var(char **env, const char *var)
 	while (*bw)
 	{
 		if ((ret = ft_strstart(*bw, var)) && *ret == '=')
-			return ((char*)((uintptr_t)ret + 1));
+			return ((char*)((t_uintptr)ret + 1));
 		bw++;
 	}
 	return (NULL);
@@ -49,10 +49,11 @@ char			*chg_env_var(char **env, const char *var, char *new)
 	if (!*bw)
 		return (NULL);
 	ft_strdel(bw);
-	*bw = ft_strnew(ft_strlen(var) + ft_strlen(new) + 1);
-	ft_strcpy(*bw, var);
-	ft_strcat(*bw, "=");
-	ft_strcat(*bw, new);
+	if (!(*bw = ft_strnew(ft_strlen(var) + ft_strlen(new) + 1)))
+		return (NULL);
+	(void)ft_strcpy(*bw, var);
+	(void)ft_strcat(*bw, "=");
+	(void)ft_strcat(*bw, new);
 	return (*bw);
 }
 
@@ -71,10 +72,10 @@ char			*set_env_var(char ***env, const char *var, char *value)
 		return (ret);
 	if (!(entry_str = ft_strnew(ft_strlen(var) + ft_strlen(value) + 1)))
 		return (NULL);
-	ft_strcpy(entry_str, var);
-	ft_strcat(entry_str, "=");
-	ft_strcat(entry_str, value);
-	ft_tabaddstr(tgtenv, entry_str);
+	(void)ft_strcpy(entry_str, var);
+	(void)ft_strcat(entry_str, "=");
+	(void)ft_strcat(entry_str, value);
+	(void)ft_tabaddstr(tgtenv, entry_str);
 	free(entry_str);
 	newlen = ft_tablen(*tgtenv);
 	return ((**tgtenv && newlen > 0) ? (*tgtenv)[newlen - 1] : NULL);

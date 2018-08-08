@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/08 05:51:25 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/08 05:58:16 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,21 +94,21 @@ static int		exec_setup(t_cmdnode *cmddat,
 	t_uint8		forkdes;
 	pid_t		pid;
 	t_list		**jobnode;
+	char		**env_bak;
+	extern char	**environ;
 
 	if (!(forkdes = (async || !cmddat->builtin
 		|| cmddat->stdin_fd != -1 || cmddat->stdout_fd != -1)))
 		return (exec_core(cmddat, forkdes, env));
+	env_bak = environ;
+	environ = NULL;
 	if ((pid = fork()) == -1)
 		return (sh_err_ret(SH_ERR_FORK, "fork()", NULL, -1));
+	environ = env_bak;
 	if (pid == 0)
 	{
 		switch_traps(FALSE);
 		exit(exec_core(cmddat, forkdes, env));
-	}
-	if (cmddat->stdin_fd != -1)
-	{
-		(void)close(cmddat->pfd[0]);
-		(void)close(cmddat->pfd[1]);
 	}
 	(spid) ? *spid = pid : (void)0;
 	jobnode = (spid) ? NULL : sh_job_add(cmddat->c_path, pid,
