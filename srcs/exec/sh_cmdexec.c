@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 20:09:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/07 23:52:01 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/08 05:51:25 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int		cmd_chk(char *path)
 	noent = SH_ERR_NOENT;
 	if (!ft_strchr(path, '/'))
 	{
-		if ((pathenv = getenv("PATH")) && *pathenv)
+		if ((pathenv = get_env_var(NULL, "PATH")) && *pathenv)
 			return ((int)SH_ERR_NOCMD);
 		noent = SH_ERR_NOCMD;
 	}

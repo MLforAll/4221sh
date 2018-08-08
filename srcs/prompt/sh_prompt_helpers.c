@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 21:41:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 19:13:50 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/08 05:51:21 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static char	*build_home(char *pwd)
 	char			*home;
 	const char		*stret;
 
-	if (!pwd || !(home = getenv("HOME")))
+	if (!pwd || !(home = get_env_var(NULL, "HOME")))
 		return (NULL);
 	if ((stret = ft_strstart(pwd, home)))
 		ret = ft_strdup("~");
@@ -68,7 +68,7 @@ int			add_pwd(char **dest, int all)
 	char			*tmp;
 
 	tmp = NULL;
-	if (!(pwd = getenv("PWD")))
+	if (!(pwd = get_env_var(NULL, "PWD")))
 	{
 		if (!(tmp = getcwd(NULL, 0)))
 			return (FALSE);

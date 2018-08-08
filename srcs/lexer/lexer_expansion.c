@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:39:19 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/06 05:10:29 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/08 05:49:35 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_uint8			lexer_expand_getvar(char **s, t_str *vs)
 	if (!(var = ft_strndup(*s + 1, len)))
 		return (FALSE);
 	if (((tmp = get_lvar(var))
-		|| (tmp = getenv(var))) && !ft_tstrcat(vs, tmp))
+		|| (tmp = get_env_var(NULL, var))) && !ft_tstrcat(vs, tmp))
 	{
 		free(var);
 		return (FALSE);
@@ -90,7 +90,7 @@ t_uint8			lexer_expand_tilde(char **s, t_str *vs)
 {
 	char	*tmp;
 
-	if ((*s)[0] == '~' && (tmp = getenv("HOME")))
+	if ((*s)[0] == '~' && (tmp = get_env_var(NULL, "HOME")))
 	{
 		if (!ft_tstrcpy(vs, tmp))
 			return (FALSE);

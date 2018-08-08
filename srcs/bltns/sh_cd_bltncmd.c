@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 21:26:00 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/06 05:59:41 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/08 05:49:53 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ static char			*get_cd_path(int idx, int opts, char **av, char *pwd)
 
 	if (opts & CD_DASH_OPT)
 	{
-		if (!(oldpwd = getenv("OLDPWD")))
+		if (!(oldpwd = get_env_var(NULL, "OLDPWD")))
 			sh_err(SH_ERR_NOSET, av[0], "OLDPWD");
 		return ((oldpwd) ? ft_strdup(oldpwd) : NULL);
 	}
 	if (!av[idx])
 	{
-		if (!(ret = getenv("HOME")))
+		if (!(ret = get_env_var(NULL, "HOME")))
 			sh_err(SH_ERR_NOSET, av[0], "HOME");
 		return ((ret) ? ft_strdup(ret) : NULL);
 	}

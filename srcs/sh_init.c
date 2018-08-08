@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/29 13:40:24 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/31 15:53:13 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/08 05:51:41 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	set_shlvl(void)
 	char	*lvlstr;
 	int		lvln;
 
-	if (!(lvlstr = getenv("SHLVL")))
+	if (!(lvlstr = get_env_var(NULL, "SHLVL")))
 	{
 		(void)set_env_var_n(NULL, "SHLVL", 1);
 		return ;
@@ -67,7 +67,7 @@ t_uint8		shell_init(char **av)
 	set_shlvl();
 	(void)set_lvar_n("?", 0);
 	getset_pwd_env();
-	if (!getenv("PATH"))
+	if (!get_env_var(NULL, "PATH"))
 		(void)set_env_var(NULL, "PATH", SH_DEFAULT_PATH);
 	(void)set_env_var(NULL, "_", g_sh_name);
 	return (TRUE);

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/23 16:15:34 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/06 06:02:28 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/08 05:51:53 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ inline static void	launch_rc(void)
 	char		*home;
 	char		*rcpath;
 
-	if (!(home = getenv("HOME"))
+	if (!(home = get_env_var(NULL, "HOME"))
 		|| !(rcpath = get_elem_path(home, SH_RC)))
 		return ;
 	(void)exec_shell(rcpath);
@@ -32,7 +32,7 @@ inline static char	*ishell_get_prompt(void)
 	char		*mshp_entry;
 	char		*pr;
 
-	if ((mshp_entry = getenv("SH_PROMPT")) && *mshp_entry)
+	if ((mshp_entry = get_env_var(NULL, "SH_PROMPT")) && *mshp_entry)
 		pr = get_prompt_from_str(mshp_entry);
 	else
 		pr = get_prompt_from_str("\033[1;36m\\u:\033[0;33m\\W\033[0;39m$ ");
@@ -57,7 +57,7 @@ inline static void	do_history(t_dlist **hist, char *line)
 inline static void	init_ishell(t_rl_opts *opts, t_dlist **hist)
 {
 	launch_rc();
-	if (!getenv("TERM"))
+	if (!get_env_var(NULL, "TERM"))
 		ft_putstr("-----------------------------------------------------\n"
 					"WARNING: You terminal hasn't been recognized.\n"
 					"ft_readline() will offer a one-line editing instead.\n"

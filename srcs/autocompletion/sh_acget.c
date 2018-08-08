@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 04:23:13 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 19:14:41 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/08 05:51:03 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_list		*get_res_with_path(char *base)
 	t_list	*ret;
 	t_list	*new;
 
-	if (!base || !*base || !(pathenv = getenv("PATH")))
+	if (!base || !*base || !(pathenv = get_env_var(NULL, "PATH")))
 		return (NULL);
 	paths = ft_strsplit(pathenv, ':');
 	bw = paths;
@@ -75,7 +75,7 @@ t_list				*sh_get_acres(char *line, t_cursor *csr)
 	if ((type = get_region(&region, line, csr)) == -1)
 		return (NULL);
 	if (*region == '~'
-		&& (tmp = getenv("HOME"))
+		&& (tmp = get_env_var(NULL, "HOME"))
 		&& (tmp = ft_strjoin(tmp, region + 1)))
 	{
 		free(region);

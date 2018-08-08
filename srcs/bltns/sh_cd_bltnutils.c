@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/30 16:17:07 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/01 19:37:37 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/08 05:50:19 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ char				*getset_pwd_env(void)
 	char			*ret;
 	char			*pwd;
 
-	if ((ret = getenv("PWD")))
+	if ((ret = get_env_var(NULL, "PWD")))
 		return (ret);
 	if (!(pwd = getcwd(NULL, 0)))
 	{
