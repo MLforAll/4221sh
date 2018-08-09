@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 21:41:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/09 18:46:26 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/09 18:51:40 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ int			add_username(char **dest)
 		free(charbuff);
 		return (FALSE);
 	}
+	if (!ppw || !ft_stradd(dest, ppw->pw_name))
+		return (FALSE);
 	free(charbuff);
-	return ((ppw && ft_stradd(dest, ppw->pw_name)));
+	return (TRUE);
 }
 
 int			add_hostname(char **dest)
