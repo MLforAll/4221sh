@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 04:41:14 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/06 19:46:09 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/09 05:40:47 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ static void			insert_job_msg(t_jobctrl *jdat, const char *state_str)
 		ft_tstrdel(&rl_rld_str);
 		return ;
 	}
-	ft_tstrcpy(&rl_rld_str, "[");
-	ft_tstrcat(&rl_rld_str, nbr_s);
+	(void)ft_tstrcpy(&rl_rld_str, "[");
+	(void)ft_tstrcat(&rl_rld_str, nbr_s);
 	free(nbr_s);
-	ft_tstrcat(&rl_rld_str, "]\t");
-	ft_tstrcat(&rl_rld_str, jdat->j_cmd);
-	ft_tstrcat(&rl_rld_str, "\t=>\t");
-	ft_tstrcat(&rl_rld_str, state_str);
+	(void)ft_tstrcat(&rl_rld_str, "]\t");
+	(void)ft_tstrcat(&rl_rld_str, jdat->j_cmd);
+	(void)ft_tstrcat(&rl_rld_str, "\t=>\t");
+	(void)ft_tstrcat(&rl_rld_str, state_str);
 	if (!ftrl_insert_msg(rl_rld_str.s, STDOUT_FILENO, YES))
 	{
 		ft_putendl(rl_rld_str.s);
@@ -69,7 +69,7 @@ void				sh_jb_act_upon(t_jobctrl *jdat, int exval)
 		jdat->j_state = kJobStateExited;
 		jdat->j_exval = WEXITSTATUS(exval);
 		if (!jdat->j_foreground)
-			insert_job_msg(jdat, ft_jobputstate(jdat->j_state, NO));
+			insert_job_msg(jdat, ft_jobputstate(jdat->j_state));
 		return ;
 	}
 	if (jdat->j_state == kJobStateTerminated)
@@ -77,7 +77,7 @@ void				sh_jb_act_upon(t_jobctrl *jdat, int exval)
 	if (WIFSTOPPED(exval))
 	{
 		jdat->j_state = kJobStateStopped;
-		insert_job_msg(jdat, ft_jobputstate(jdat->j_state, NO));
+		insert_job_msg(jdat, ft_jobputstate(jdat->j_state));
 	}
 	if (WIFSIGNALED(exval))
 	{

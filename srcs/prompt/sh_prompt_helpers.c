@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 21:41:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/08 05:51:21 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/09 05:35:30 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,12 @@
 
 int			add_username(char **dest)
 {
-	uid_t			puid;
 	struct passwd	*ppw;
 
-	if (!dest || !(puid = getuid()))
+	if (!dest)
 		return (FALSE);
-	if (!(ppw = getpwuid(puid)))
+	if (!(ppw = getpwuid(getuid())) || !ft_stradd(dest, ppw->pw_name))
 		return (FALSE);
-	ft_stradd(dest, ppw->pw_name);
 	return (TRUE);
 }
 
@@ -33,14 +31,15 @@ int			add_hostname(char **dest)
 {
 	char			hostname[MAXHOSTNAMELEN + 1];
 	char			*dot;
+	int				status;
 
 	if (gethostname(hostname, MAXHOSTNAMELEN) == -1)
 		return (FALSE);
 	if ((dot = ft_strchr(hostname, '.')))
-		ft_strnadd(dest, hostname, (size_t)(dot - hostname));
+		status = ft_strnadd(dest, hostname, (size_t)(dot - hostname));
 	else
-		ft_stradd(dest, hostname);
-	return (TRUE);
+		status = ft_stradd(dest, hostname);
+	return (status);
 }
 
 static char	*build_home(char *pwd)
@@ -57,7 +56,8 @@ static char	*build_home(char *pwd)
 		ret = ft_strnew(0);
 	if (!ret)
 		return (NULL);
-	ft_stradd(&ret, (stret) ? stret : pwd);
+	if (!ft_stradd(&ret, (stret) ? stret : pwd))
+		ft_strdel(&ret);
 	return (ret);
 }
 
@@ -74,18 +74,15 @@ int			add_pwd(char **dest, int all)
 			return (FALSE);
 		path = tmp;
 	}
-	else
-	{
-		if (!(path = build_home(pwd)))
-			return (FALSE);
-	}
+	else if (!(path = build_home(pwd)))
+		return (FALSE);
 	if (!all)
 	{
 		tmp = path;
 		path = get_name_from_path_2(path);
 		ft_strdel(&tmp);
 	}
-	ft_stradd(dest, path);
+	(void)ft_stradd(dest, path);
 	ft_strdel(&path);
 	return (TRUE);
 }

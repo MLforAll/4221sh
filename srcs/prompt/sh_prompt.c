@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 21:41:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/06/14 05:14:29 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/09 05:36:31 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,12 @@ char		*get_prompt_from_str(char *s)
 {
 	char			*ret;
 	const char		*af;
-	int				subr;
 
-	ret = ft_strnew(0);
+	if (!(ret = ft_strnew(0)))
+		return (NULL);
 	while (*s)
 	{
-		subr = check_str(&ret, &af, s);
-		if (!subr)
+		if (!check_str(&ret, &af, s))
 		{
 			ft_strdel(&ret);
 			break ;
