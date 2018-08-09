@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 21:41:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/09 05:35:30 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/09 18:46:26 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,24 @@
 
 int			add_username(char **dest)
 {
+	struct passwd	pwdat;
 	struct passwd	*ppw;
+	char			*charbuff;
+	long			charbufflen;
 
 	if (!dest)
 		return (FALSE);
-	if (!(ppw = getpwuid(getuid())) || !ft_stradd(dest, ppw->pw_name))
+	charbuff = NULL;
+	if ((charbufflen = sysconf(_SC_GETPW_R_SIZE_MAX)) == -1)
+		ppw = getpwuid(getuid());
+	else if (!(charbuff = ft_strnew(charbufflen))
+			|| getpwuid_r(getuid(), &pwdat, charbuff, (size_t)charbufflen, &ppw))
+	{
+		free(charbuff);
 		return (FALSE);
-	return (TRUE);
+	}
+	free(charbuff);
+	return ((ppw && ft_stradd(dest, ppw->pw_name)));
 }
 
 int			add_hostname(char **dest)
