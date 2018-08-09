@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 19:30:28 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/07/31 22:54:16 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/09 21:46:18 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int			main(void)
 	t_dlist		*hist;
 
 	ft_bzero(&opts, sizeof(t_rl_opts));
-	opts.bell = YES;
+	opts.tbell = YES;
 	hist = NULL;
 	read_loop(pr, &opts, &hist);
 	ft_dlstdel(&hist, &ftrl_histdelf);

@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/06 05:24:41 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/09 22:06:48 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,10 @@ static t_uint8		lex_init(t_dlist **lst, t_lexdat *cdat, char **line)
 	if (type >= INCOMPG && type <= INCOMPS)
 	{
 		cdat->curr_state = (t_lexstate)(type + 1);
-		if (!ft_tstrcpy(&cdat->currtoks, ((t_token*)(*lst)->content)->s))
+		if (type != INCOMPG
+			&& !ft_tstrcpy(&cdat->currtoks, type == INCOMPS ? "'" : "\""))
+			return (FALSE);
+		if (!ft_tstrcat(&cdat->currtoks, ((t_token*)(*lst)->content)->s))
 			return (FALSE);
 		ft_dlstdelone(lst, &tokens_lstdel);
 	}

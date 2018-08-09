@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 20:14:40 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/06 05:58:22 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/09 22:01:11 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ typedef enum	e_toktype
 typedef enum	e_quoting
 {
 	kQuoteNone,
-	kSQuote,
 	kDQuote,
+	kSQuote,
 	kEscape
 }				t_quoting;
 
