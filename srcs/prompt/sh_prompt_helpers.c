@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 21:41:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/09 18:51:40 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/09 19:04:45 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,24 @@ int			add_username(char **dest)
 {
 	struct passwd	pwdat;
 	struct passwd	*ppw;
-	char			*charbuff;
+	char			*buff;
 	long			charbufflen;
+	int				status;
 
 	if (!dest)
 		return (FALSE);
-	charbuff = NULL;
-	if ((charbufflen = sysconf(_SC_GETPW_R_SIZE_MAX)) == -1)
-		ppw = getpwuid(getuid());
-	else if (!(charbuff = ft_strnew(charbufflen))
-			|| getpwuid_r(getuid(), &pwdat, charbuff, (size_t)charbufflen, &ppw))
+	buff = NULL;
+	if (!(ppw = getpwuid(getuid()))
+		&& ((charbufflen = sysconf(_SC_GETPW_R_SIZE_MAX)) == -1
+			|| !(buff = ft_strnew(charbufflen))
+			|| getpwuid_r(getuid(), &pwdat, buff, (size_t)charbufflen, &ppw)))
 	{
-		free(charbuff);
+		free(buff);
 		return (FALSE);
 	}
-	if (!ppw || !ft_stradd(dest, ppw->pw_name))
-		return (FALSE);
-	free(charbuff);
-	return (TRUE);
+	status = (ppw && ft_stradd(dest, ppw->pw_name));
+	free(buff);
+	return (status);
 }
 
 int			add_hostname(char **dest)
