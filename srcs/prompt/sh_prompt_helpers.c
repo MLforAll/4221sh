@@ -6,7 +6,7 @@
 /*   By: kdumarai <kdumarai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 21:41:27 by kdumarai          #+#    #+#             */
-/*   Updated: 2018/08/09 19:04:45 by kdumarai         ###   ########.fr       */
+/*   Updated: 2018/08/09 22:19:31 by kdumarai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int			add_username(char **dest)
 
 	if (!dest)
 		return (FALSE);
+	if ((buff = get_env_var(NULL, "USER")))
+		return (ft_stradd(dest, buff));
 	buff = NULL;
 	if (!(ppw = getpwuid(getuid()))
 		&& ((charbufflen = sysconf(_SC_GETPW_R_SIZE_MAX)) == -1
